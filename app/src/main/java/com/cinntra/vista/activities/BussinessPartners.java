@@ -48,8 +48,10 @@ public class BussinessPartners extends MainBaseActivity implements View.OnClickL
         fragments.add(new CustomersFragment());
 //    fragments.add(new LeadsActivity());
         InvoicePagerAdapter pagerAdapter = new InvoicePagerAdapter(getSupportFragmentManager(), fragments, tabs);
-        binding.viewpager.setAdapter(pagerAdapter);
+
         binding.tabLayout.setupWithViewPager(binding.viewpager);
+        binding.viewpager.setAdapter(pagerAdapter);
+
         binding.headerBottomRoundedWithSearchFilter.backPress.setOnClickListener(this);
         binding.headerBottomRoundedWithSearchFilter.newQuatos.setOnClickListener(this);
         binding.headerBottomRoundedWithSearchFilter.search.setOnClickListener(this);

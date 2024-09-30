@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.BottomSheetAdapter;
 import com.cinntra.vista.databinding.AlertDatabseListingBinding;
@@ -15,7 +16,6 @@ import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.interfaces.ChangeTeam;
 import com.cinntra.vista.interfaces.FragmentRefresher;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.pixplicity.easyprefs.library.Prefs;
 
 
 

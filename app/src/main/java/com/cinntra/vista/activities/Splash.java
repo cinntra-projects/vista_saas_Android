@@ -15,9 +15,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.globals.Globals;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.concurrent.Executor;
 

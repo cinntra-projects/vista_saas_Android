@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.EventsAdapter;
 import com.cinntra.vista.databinding.FragmentEventsBinding;
@@ -25,7 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.pixplicity.easyprefs.library.Prefs;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;

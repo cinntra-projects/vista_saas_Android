@@ -180,38 +180,38 @@
 
                     </RelativeLayout>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/divider_color" />
+<!--                    <View-->
+<!--                        android:layout_width="1dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@color/divider_color" />-->
 
-                    <RelativeLayout
-                        android:id="@+id/invoiceView"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_100"
-                        android:layout_weight="1"
-                        android:gravity="center">
+<!--                    <RelativeLayout-->
+<!--                        android:id="@+id/invoiceView"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/size_100"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center">-->
 
-                        <TextView
-                            android:id="@+id/payment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/size_5"
-                            android:gravity="center"
-                            android:text="Invoices"
-                            android:textColor="@color/red"
-                            android:textSize="@dimen/text_size_14"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/payment"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginBottom="@dimen/size_5"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="Invoices"-->
+<!--                            android:textColor="@color/red"-->
+<!--                            android:textSize="@dimen/text_size_14"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_arrow_left_24dp"
-                            android:layout_marginStart="20dp"
-                            app:tint="@color/red"
-                            android:layout_toRightOf="@+id/payment"/>
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:src="@drawable/ic_arrow_left_24dp"-->
+<!--                            android:layout_marginStart="20dp"-->
+<!--                            app:tint="@color/red"-->
+<!--                            android:layout_toRightOf="@+id/payment"/>-->
 
-                    </RelativeLayout>
+<!--                    </RelativeLayout>-->
 
                 </LinearLayout>
 

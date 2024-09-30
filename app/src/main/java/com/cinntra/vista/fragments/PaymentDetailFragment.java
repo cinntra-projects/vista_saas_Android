@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.FileUtils;
 import com.cinntra.vista.activities.MainActivity;
@@ -50,10 +51,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import org.json.JSONObject;
 
@@ -365,16 +362,16 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            Matisse.from(PaymentDetailFragment.this)
-                                    .choose(MimeType.ofAll())
-                                    .countable(true)
-                                    .maxSelectable(5)
-                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                                    .thumbnailScale(0.85f)
-                                    .imageEngine(new GlideEngine())
-                                    .showPreview(false)
-                                    .forResult(RESULT_LOAD_IMAGE);// Default is `true`
+//                            Matisse.from(PaymentDetailFragment.this)
+//                                    .choose(MimeType.ofAll())
+//                                    .countable(true)
+//                                    .maxSelectable(5)
+//                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+//                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+//                                    .thumbnailScale(0.85f)
+//                                    .imageEngine(new GlideEngine())
+//                                    .showPreview(false)
+//                                    .forResult(RESULT_LOAD_IMAGE);// Default is `true`
 
                         } else {
                             Toast.makeText(getActivity(), "Please enable permission", Toast.LENGTH_SHORT).show();
@@ -407,7 +404,7 @@ public class PaymentDetailFragment extends Fragment implements View.OnClickListe
             //mSelected.add(data.getData());
             mArrayList.clear();
             path.clear();
-            mArrayList = Matisse.obtainResult(data);
+//            mArrayList = Matisse.obtainResult(data);
             uriArrayList.addAll(mArrayList);
             mSelected.addAll(uriArrayList);
             for (int i = 0; i < mSelected.size(); i++) {

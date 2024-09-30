@@ -242,7 +242,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:editable="false"
-                                    android:inputType="textEmailAddress"
                                     android:maxLines="1"
                                     android:textSize="12sp" />
 

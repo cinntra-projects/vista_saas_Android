@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOrderAct;
 import com.cinntra.vista.activities.ItemsList;
@@ -48,8 +49,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
-
 
 import static android.app.Activity.RESULT_OK;
 import static com.cinntra.vista.activities.AddOrderAct.fromquotation;
@@ -178,9 +177,6 @@ public class AddOrderForm_One_Fragment extends Fragment implements View.OnClickL
 
         }
     };
-
-
-
 
 
     //todo calculate sum of all edit text ..

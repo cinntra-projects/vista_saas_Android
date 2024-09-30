@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.PaymentAdapter;
 import com.cinntra.vista.adapters.SalesEmployeeAutoAdapter;
@@ -50,7 +51,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -120,7 +120,8 @@ public class AddOrderAct extends MainBaseActivity implements View.OnClickListene
         if (Globals.ISORDER) {
             binding.quotationGeneralContent.linearHidedataFromQuotation.setVisibility(View.VISIBLE);
 
-        } else {
+        }
+        else {
 
         }
 
@@ -300,13 +301,13 @@ public class AddOrderAct extends MainBaseActivity implements View.OnClickListene
 
     @SuppressLint("ResourceType")
     private void setQuotationData(QuotationItem quotationItem) {
-        if (quotationItem.getPaymentGroupCodeDetails().size() > 0) {
+//        if (quotationItem.getPaymentGroupCodeDetails().size() > 0) {
             payment_term = quotationItem.getPaymentGroupCodeDetails().get(0).getGroupNumber();
-        }
+//        }
         branchTypeSelected = quotationItem.getBPLID();
 
 
-        binding.quotationGeneralContent.saerchableSpinnerBranch.setSelection(Globals.getCompanyBranchPo(branchTypeDataList, branchTypeSelected));
+//        binding.quotationGeneralContent.saerchableSpinnerBranch.setSelection(Globals.getCompanyBranchPo(branchTypeDataList, branchTypeSelected));
 
         binding.quotationGeneralContent.edParentProformaValue.setText(quotationItem.getU_QUOTNM());
         QuotName = quotationItem.getU_QUOTNM();
@@ -396,7 +397,9 @@ public class AddOrderAct extends MainBaseActivity implements View.OnClickListene
     ArrayList<ResponseCompanyBranchAllFilter.Datum> branchTypeDataList = new ArrayList<>();
 
     private void setUpBusinessPartnerbranchTypeSpinner() {
-        binding.quotationGeneralContent.saerchableSpinnerBranch.setTitle("Branch");
+
+        binding.quotationGeneralContent.saerchableSpinnerBranch.setHint("Branch");
+
         binding.quotationGeneralContent.saerchableSpinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

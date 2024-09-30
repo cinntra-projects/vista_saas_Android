@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.activities.Login;
 import com.cinntra.vista.model.LogInDetail;
 import com.cinntra.vista.model.NewLogINResponse;
@@ -33,7 +34,6 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.List;

@@ -46,7 +46,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cinntra.vista.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
 import java.util.List;

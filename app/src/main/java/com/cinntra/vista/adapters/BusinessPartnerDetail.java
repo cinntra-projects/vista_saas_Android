@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
+
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOrderAct;
 import com.cinntra.vista.activities.AddQuotationAct;
@@ -29,7 +29,6 @@ import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.interfaces.DatabaseClick;
 import com.cinntra.vista.model.BPModel.BusinessPartnerAllResponse;
 import com.cinntra.vista.model.BPModel.demoListModel;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 
@@ -49,7 +48,6 @@ public class BusinessPartnerDetail extends Fragment implements View.OnClickListe
 
             Bundle b = getArguments();
             customerItem = (BusinessPartnerAllResponse.Datum) b.getSerializable(Globals.BussinessItemData);
-
         }
     }
 
@@ -85,14 +83,14 @@ public class BusinessPartnerDetail extends Fragment implements View.OnClickListe
 
 
         binding.companyName.setText(customerItem.getCardName());
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-        int randomColor = generator.getRandomColor();
-        if (!customerItem.getCardName().isEmpty()) {
-            TextDrawable drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
-                    .buildRound(String.valueOf(customerItem.getCardName().charAt(0)), randomColor);
-
-            binding.nameIcon.setImageDrawable(drawable);
-        }
+//        ColorGenerator generator = ColorGenerator.MATERIAL;
+//        int randomColor = generator.getRandomColor();
+//        if (!customerItem.getCardName().isEmpty()) {
+//            TextDrawable drawable = TextDrawable.builder().beginConfig().withBorder(4).endConfig()
+//                    .buildRound(String.valueOf(customerItem.getCardName().charAt(0)), randomColor);
+//
+//            binding.nameIcon.setImageDrawable(drawable);
+//        }
 
         binding.headerLayout.backPress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,12 +143,12 @@ public class BusinessPartnerDetail extends Fragment implements View.OnClickListe
         });*/
 
 
-        binding.invoiceView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), PaymentDetails.class));
-            }
-        });
+//        binding.invoiceView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getActivity(), PaymentDetails.class));
+//            }
+//        });
 
 
     }

@@ -1,5 +1,6 @@
 package com.cinntra.vista.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOrderAct;
 import com.cinntra.vista.activities.WebViewToPdf;
@@ -37,7 +39,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -88,7 +89,7 @@ public class Quotation_Adapter extends RecyclerView.Adapter<Quotation_Adapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         QuotationItem obj = getItem(position);
         holder.title.setText(obj.getU_QUOTNM());
         holder.name.setText("Quo - " +obj.getId());

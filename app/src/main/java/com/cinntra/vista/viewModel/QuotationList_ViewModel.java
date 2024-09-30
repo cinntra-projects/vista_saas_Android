@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.InvoiceNewData;
 import com.cinntra.vista.model.InvoiceResponse;
@@ -14,7 +15,7 @@ import com.cinntra.vista.model.QuotationItem;
 import com.cinntra.vista.model.QuotationResponse;
 import com.cinntra.vista.webservices.APIsClient;
 import com.cinntra.vista.webservices.NewApiClient;
-import com.pixplicity.easyprefs.library.Prefs;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;

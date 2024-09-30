@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.NotificationAdapter;
 import com.cinntra.vista.databinding.ActivityNotificationsBinding;
@@ -18,7 +19,6 @@ import com.cinntra.vista.model.NotificationResponse;
 import com.cinntra.vista.model.NotificatonValue;
 import com.cinntra.vista.model.SalesEmployeeItem;
 import com.cinntra.vista.webservices.NewApiClient;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 

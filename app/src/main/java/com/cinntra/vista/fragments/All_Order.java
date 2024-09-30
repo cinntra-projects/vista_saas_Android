@@ -19,8 +19,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOrderAct;
 import com.cinntra.vista.activities.OrderActivity;
@@ -122,7 +122,7 @@ public class All_Order extends Fragment {
             callApi(binding.loader.loader);
         }
 
-        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 

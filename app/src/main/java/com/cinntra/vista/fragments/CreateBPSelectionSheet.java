@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.bpActivity.AddBPCustomer;
 import com.cinntra.vista.adapters.BottomSheetAdapter;
@@ -19,7 +20,6 @@ import com.cinntra.vista.interfaces.ChangeTeam;
 import com.cinntra.vista.interfaces.FragmentRefresher;
 import com.cinntra.vista.newapimodel.LeadValue;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.pixplicity.easyprefs.library.Prefs;
 
 
 public class CreateBPSelectionSheet extends BottomSheetDialogFragment implements BottomSheetAdapter.ItemListener {

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -35,6 +36,7 @@ import com.cinntra.vista.adapters.PreviousImageViewAdapter;
 import com.cinntra.vista.adapters.SaleOrderLinesAdapter;
 import com.cinntra.vista.databinding.FragmentQuotationDetailBinding;
 import com.cinntra.vista.globals.Globals;
+import com.cinntra.vista.globals.PermissionUtils;
 import com.cinntra.vista.model.AttachmentResponseModel;
 import com.cinntra.vista.model.PerformaInvoiceModel.QuotationOneAPiModel;
 import com.cinntra.vista.model.QuotationItem;
@@ -498,36 +500,46 @@ public class QuotationDetailFragment extends Fragment implements PreviousImageVi
 
     //todo select attachment ---
     private void intentDispatcher() {
-        checkAndRequestPermissions();
+//        checkAndRequestPermissions();
+
+        // Request permissions
+        PermissionUtils.requestCameraAndPhotoPermissions(requireActivity());
 
         Intent takePictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE);
     }
 
-    private boolean checkAndRequestPermissions() {
-        int camera = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
-        int write = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int read = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        List<String> listPermissionsNeeded = new ArrayList<>();
-
-        if (write != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (camera != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.CAMERA);
-        }
-        if (read != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(getActivity(), listPermissionsNeeded.toArray(new String[0]), REQUEST_ID_MULTIPLE_PERMISSIONS);
-            return false;
-        }
-
-        return true;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtils.handlePermissionResult(requestCode, permissions, grantResults, requireActivity());
     }
+
+//
+//    private boolean checkAndRequestPermissions() {
+//        int camera = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA);
+//        int write = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        int read = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+//
+//        List<String> listPermissionsNeeded = new ArrayList<>();
+//
+//        if (write != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//        }
+//        if (camera != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+//        }
+//        if (read != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+//        }
+//
+//        if (!listPermissionsNeeded.isEmpty()) {
+//            ActivityCompat.requestPermissions(getActivity(), listPermissionsNeeded.toArray(new String[0]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
     File file;
     String picturePath = "";

@@ -83,7 +83,7 @@
         <item name="android:paddingLeft">@dimen/size_15</item>
         <item name="android:paddingRight">@dimen/size_15</item>
         <item name="android:textColor">@color/black</item>
-        <item name="textColorSelected">@color/white</item>
+
         <item name="android:gravity">center</item>
         <item name="maxLines">1</item>
         <item name="elevation">@dimen/text_size_2</item>

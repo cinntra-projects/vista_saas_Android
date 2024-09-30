@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.ActivityLoginBinding;
 import com.cinntra.vista.globals.Globals;
@@ -33,7 +34,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.HashMap;

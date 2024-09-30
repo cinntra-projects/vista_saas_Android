@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.LocationLatLongResponse;
 import com.cinntra.vista.model.QuotationResponse;
@@ -35,7 +36,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;

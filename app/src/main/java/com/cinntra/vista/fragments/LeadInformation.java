@@ -4,6 +4,7 @@ package com.cinntra.vista.fragments;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,6 +30,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.bpActivity.AddBPCustomer;
 import com.cinntra.vista.activities.FileUtils;
@@ -51,10 +54,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,6 +73,7 @@ import retrofit2.Response;
 public class LeadInformation extends Fragment implements View.OnClickListener, PreviousImageViewAdapter.DeleteItemClickListener {
 
     private final int REQUEST_CODE_CHOOSE = 1001;
+    private static final int PERMISSION_CODE = 101;
 
     private ImageSelector imageSelector;
 
@@ -150,6 +150,10 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
     }
 
     private void callAttachmentApi(Integer id) {
+
+        // Request permissions
+        PermissionUtils.requestCameraAndPhotoPermissions(requireActivity());
+
         HashMap<String, Integer> ld = new HashMap<>();
         ld.put("lead_id", id);
         Call<LeadDocumentResponse> call = NewApiClient.getInstance().getApiService(requireContext()).particularleadattachment(ld);
@@ -169,6 +173,12 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
                 Log.e("Api_failure===>", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionUtils.handlePermissionResult(requestCode, permissions, grantResults, requireActivity());
     }
 
     private void setAttachData(List<AttachDocument> data) {
@@ -373,7 +383,7 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
 
 
                 }*/
-               // intentDispatcher();
+                // intentDispatcher();
                 imageSelector = new ImageSelector();
 
                 imageSelector.openImageSelector(getActivity());
@@ -384,6 +394,7 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
 
 
     private static final int RESULT_LOAD_IMAGE = 101;
+
     //todo select attachment ---
     private void intentDispatcher() {
 
@@ -399,16 +410,16 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            Matisse.from(getActivity())
-                                    .choose(MimeType.ofAll())
-                                    .countable(true)
-                                    .maxSelectable(5)
-                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                                    .thumbnailScale(0.85f)
-                                    .imageEngine(new GlideEngine())
-                                    .showPreview(false) // Default is `true`
-                                    .forResult(REQUEST_CODE_CHOOSE);
+//                            Matisse.from(getActivity())
+//                                    .choose(MimeType.ofAll())
+//                                    .countable(true)
+//                                    .maxSelectable(5)
+//                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+//                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+//                                    .thumbnailScale(0.85f)
+//                                    .imageEngine(new GlideEngine())
+//                                    .showPreview(false) // Default is `true`
+//                                    .forResult(REQUEST_CODE_CHOOSE);
                            /* Intent intent = new Intent();
 
                             // setting type to select to be image
@@ -443,6 +454,7 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
         Uri selectedImageUri = imageSelector.getImageUriFromResult(requestCode, resultCode, data);
         if (selectedImageUri != null) {
             // Handle the selected image URI here
+            Log.d("checkImage", selectedImageUri.toString());
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
 
@@ -456,10 +468,9 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
 
             }
 
-
             binding.loader.setVisibility(View.VISIBLE);
             updateattachment();
-        }else {
+        } else {
             // show this if no image is selected
             Toast.makeText(getContext(), "You haven't picked Image", Toast.LENGTH_LONG).show();
         }
@@ -590,21 +601,22 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
         GalleryUtils.openGallery(getActivity(), REQUEST_CODE_CHOOSE);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults, new PermissionUtils.OnPermissionResultListener() {
-            @Override
-            public void onPermissionGranted() {
-                openGallery();
-            }
-
-            @Override
-            public void onPermissionDenied() {
-                // Handle permission denied
-            }
-        });
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        PermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults, new PermissionUtils.OnPermissionResultListener() {
+//            @Override
+//            public void onPermissionGranted() {
+//                openGallery();
+//            }
+//
+//            @Override
+//            public void onPermissionDenied() {
+//                // Handle permission denied
+//            }
+//        });
+//    }
 
 
 }

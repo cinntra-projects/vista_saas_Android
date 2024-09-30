@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.NewContactBinding;
 import com.cinntra.vista.globals.Globals;
@@ -16,7 +17,6 @@ import com.cinntra.vista.model.QuotationResponse;
 import com.cinntra.vista.webservices.APIsClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;

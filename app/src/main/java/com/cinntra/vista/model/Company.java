@@ -1,20 +1,19 @@
 package com.cinntra.vista.model;
 
 import com.cinntra.vista.newapimodel.NewOpportunityRespose;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.List;
 
-public class Company extends ExpandableGroup<NewOpportunityRespose> {
+public class Company {
     String title;
     List<NewOpportunityRespose> items;
     public Company(String title, List<NewOpportunityRespose> items) {
-        super(title, items);
+        super();
         this.title = title;
         this.items = items;
     }
 
-    @Override
+//    @Override
     public String getTitle() {
         return title;
     }
@@ -23,7 +22,7 @@ public class Company extends ExpandableGroup<NewOpportunityRespose> {
         this.title = title;
     }
 
-    @Override
+//    @Override
     public List<NewOpportunityRespose> getItems() {
         return items;
     }

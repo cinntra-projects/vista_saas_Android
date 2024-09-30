@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.FragmentAddTaskBinding;
 import com.cinntra.vista.globals.Globals;
@@ -30,7 +31,7 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.pixplicity.easyprefs.library.Prefs;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;

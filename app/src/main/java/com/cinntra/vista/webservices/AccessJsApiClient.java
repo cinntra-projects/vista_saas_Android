@@ -5,8 +5,8 @@ import android.content.Context;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.globals.Globals;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
 import java.io.IOException;

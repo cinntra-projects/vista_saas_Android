@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.CampaignAdapter;
 import com.cinntra.vista.databinding.FragmentCampaignBinding;
@@ -68,17 +68,19 @@ public class CampaignActivity extends MainBaseActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24);
 
 
-        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                // Check internet connection
                 if (Globals.checkInternet(CampaignActivity.this)) {
-                    callApi();
-                } else
-                   binding.swipeRefreshLayout.setRefreshing(false);
-
+                    callApi(); // Call your API method
+                } else {
+                    // Stop the refreshing animation if no internet
+                    binding.swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
+
 
 
     }

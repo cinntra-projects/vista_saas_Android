@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.model.BPAddress;
 import com.cinntra.vista.model.BPModel.BusinessPartnerAllResponse;
@@ -51,7 +52,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
@@ -129,8 +129,9 @@ public class Globals {
     public static String PDFURL = "http://103.234.187.197:4211/assets/html/";*/
 
     /************Vista LIVE *******************/
-    public static String NewBaseUrl = "http://43.204.160.245:8004/";//http://43.204.160.245:8004/
-    public static String NewBaseUrlSuperAdmin = "http://43.204.160.245:8003/";// http://43.204.160.245:8003
+    public static String NewBaseUrl = "http://103.234.187.197:8111/";//http://43.204.160.245:8004/
+//    public static String NewBaseUrlSuperAdmin = "http://43.204.160.245:8003/";// http://43.204.160.245:8003
+    public static String NewBaseUrlSuperAdmin = "http://103.234.187.197:8084/";// http://43.204.160.245:8003
 
     public static String ImageURl = "http://43.204.160.245:8004";
 

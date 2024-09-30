@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.AssignToAdapter;
 import com.cinntra.vista.adapters.LeadTypeAdapter;
@@ -32,7 +33,6 @@ import com.cinntra.vista.newapimodel.LeadResponse;
 import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -166,6 +166,7 @@ public class AddLead extends MainBaseActivity {
 
                     leadTypeData.clear();
                     leadTypeData.addAll(response.body().getData());
+                    Log.d("leadTypeData",leadTypeData.toString());
                     binding.leadTypeSpinner.setAdapter(new LeadTypeAdapter(AddLead.this, leadTypeData));
                     leadtype = leadTypeData.get(0).getName();
                 } else {
@@ -378,6 +379,7 @@ public class AddLead extends MainBaseActivity {
         binding.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Leadstatus",parent.getSelectedItem().toString());
                 status = parent.getSelectedItem().toString();
 
             }
@@ -391,6 +393,7 @@ public class AddLead extends MainBaseActivity {
         binding.leadTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("leadPriorityData",leadTypeData.get(position).getName());
                 leadtype = leadTypeData.get(position).getName();
             }
 

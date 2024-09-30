@@ -10,8 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddContact;
 import com.cinntra.vista.adapters.ContactAdapter;
@@ -24,7 +25,6 @@ import com.cinntra.vista.model.QuotationResponse;
 import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class BusinessPartnerContact extends Fragment {
 
             }
         });
-      binding. swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+      binding. swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
 

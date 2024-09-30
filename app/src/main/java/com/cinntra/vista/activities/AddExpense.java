@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.ImageViewAdapter;
 import com.cinntra.vista.adapters.SalesEmployeeAutoAdapter;
@@ -33,10 +34,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
 import java.io.IOException;
@@ -274,16 +271,16 @@ public class AddExpense extends MainBaseActivity implements View.OnClickListener
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            Matisse.from(AddExpense.this)
-                                    .choose(MimeType.ofAll())
-                                    .countable(true)
-                                    .maxSelectable(5)
-                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                                    .thumbnailScale(0.85f)
-                                    .imageEngine(new GlideEngine())
-                                    .showPreview(false) // Default is `true`
-                                    .forResult(REQUEST_CODE_CHOOSE);
+//                            Matisse.from(AddExpense.this)
+//                                    .choose(MimeType.ofAll())
+//                                    .countable(true)
+//                                    .maxSelectable(5)
+//                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+//                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+//                                    .thumbnailScale(0.85f)
+//                                    .imageEngine(new GlideEngine())
+//                                    .showPreview(false) // Default is `true`
+//                                    .forResult(REQUEST_CODE_CHOOSE);
                            /* Intent intent = new Intent();
 
                             // setting type to select to be image
@@ -316,7 +313,7 @@ public class AddExpense extends MainBaseActivity implements View.OnClickListener
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK && null != data) {
 
             //mSelected.add(data.getData());
-            mSelected = Matisse.obtainResult(data);
+//            mSelected = Matisse.obtainResult(data);
             for (int i = 0; i < mSelected.size(); i++) {
                 path.add(FileUtils.getPath(AddExpense.this, mSelected.get(i)));
             }

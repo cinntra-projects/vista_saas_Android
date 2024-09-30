@@ -10,17 +10,16 @@
 
 
 
-    <com.baoyz.widget.PullRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:refreshColors="@array/scheme_colors"
-        app:refreshType="smartisan">
+        >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </com.baoyz.widget.PullRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <ImageView
         android:id="@+id/no_datafound"
         android:layout_width="@dimen/size_120"

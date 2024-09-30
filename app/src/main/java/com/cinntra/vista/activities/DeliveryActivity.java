@@ -13,6 +13,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.DeliveryAdapter;
 import com.cinntra.vista.databinding.DeliveryActBinding;
@@ -22,7 +23,6 @@ import com.cinntra.vista.model.QuotationStringItem;
 import com.cinntra.vista.model.QuotationStringResponse;
 import com.cinntra.vista.model.SalesEmployeeItem;
 import com.cinntra.vista.webservices.NewApiClient;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

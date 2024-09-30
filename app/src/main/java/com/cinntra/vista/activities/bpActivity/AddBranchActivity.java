@@ -132,6 +132,9 @@ public class AddBranchActivity extends AppCompatActivity {
         String stateName = binding.acState.getText().toString();
 
         if (validation(branchName, address, zipcode, stateName, countryname)) {
+
+            Log.d("setAddRequestDetails",branchName+" "+address+" "+zipcode+" "+stateName);
+
             AddBranchRequestModel requestModel = new AddBranchRequestModel();
             requestModel.setAddressType("bo_ShipTo");
             requestModel.setBPID(BPLID);
@@ -297,8 +300,6 @@ public class AddBranchActivity extends AppCompatActivity {
                             }
                         });
 
-//                        binding.addContactPartner.addressSection.acCountry.setAdapter(new CountryListAdapter(AddBPCustomer.this, R.layout.drop_down_textview, countyList));//todo comment by me
-
                     }
 
                 }else {
@@ -325,6 +326,7 @@ public class AddBranchActivity extends AppCompatActivity {
     }
 
 
+    String stateName = "";
     //todo calling state api here...
     private void callStateApi(String countryCode) {
         StateData stateData = new StateData();
@@ -336,6 +338,7 @@ public class AddBranchActivity extends AppCompatActivity {
 
                 if (response.body().getStatus() == 200) {
                     stateList.clear();
+
                     if (response.body().getData().size() > 0) {
                         stateList.addAll(response.body().getData());
                     } else {
@@ -343,8 +346,11 @@ public class AddBranchActivity extends AppCompatActivity {
                         sta.setName("Select State");
                         stateList.add(sta);
                     }
+                    Log.d("stateList", stateList.toString());
                     StateAutoAdapter stateAdapter = new StateAutoAdapter(AddBranchActivity.this, R.layout.drop_down_textview, stateList);
                     binding.acState.setAdapter(stateAdapter);
+
+
                     stateAdapter.notifyDataSetChanged();
                   /*  StateName = stateList.get(0).getName();
                     StateCode = stateList.get(0).getCode();*/
@@ -360,6 +366,8 @@ public class AddBranchActivity extends AppCompatActivity {
                         //handle failure to read error
                     }
                 }
+
+
             }
 
             @Override
@@ -370,11 +378,40 @@ public class AddBranchActivity extends AppCompatActivity {
     }
 
 
+//    private boolean validation(String branchName, String address, String zipcode, String stateName, String countryname) {
+//        if (branchName.isEmpty()) {
+//            Globals.showMessage(AddBranchActivity.this, "Enter Branch Name");
+//            return false;
+//        }else if (address.isEmpty()) {
+//            binding.addressValue.requestFocus();
+//            binding.addressValue.setError("Address is Required");
+//            return false;
+//        } else if (zipcode.isEmpty()) {
+//            binding.etZipcode.requestFocus();
+//            binding.etZipcode.setError("Zipcode is Required");
+//            return false;
+//        }
+//        else if (countryname.isEmpty()) {
+//            binding.acCountry.requestFocus();
+//            binding.acCountry.setError("Country is Required");
+//            return false;
+//        }
+//
+//        else if (stateName.isEmpty()) {
+//            binding.acState.requestFocus();
+//            binding.acState.setError("State Name is Required");
+//            return false;
+//        }
+//
+//
+//        return true;
+//    }
+
     private boolean validation(String branchName, String address, String zipcode, String stateName, String countryname) {
         if (branchName.isEmpty()) {
             Globals.showMessage(AddBranchActivity.this, "Enter Branch Name");
             return false;
-        }else if (address.isEmpty()) {
+        } else if (address.isEmpty()) {
             binding.addressValue.requestFocus();
             binding.addressValue.setError("Address is Required");
             return false;
@@ -382,25 +419,31 @@ public class AddBranchActivity extends AppCompatActivity {
             binding.etZipcode.requestFocus();
             binding.etZipcode.setError("Zipcode is Required");
             return false;
-        } else if (!zipcode.isEmpty()){
-            if (zipcode.length() > 0 && zipcode.charAt(0) == '0') {
-                binding.etZipcode.requestFocus();
-                Globals.showMessage(AddBranchActivity.this, "Invalid Bill Address Zip Code");
-            }
+        }
+        else if (countryname.isEmpty()) {
+            Log.d("checkbsdb","coming");
+            binding.acCountry.requestFocus();
+            binding.acCountry.setError("Country is Required");
+            return false;
         } else if (stateName.isEmpty()) {
+            Log.d("checkbsdb","coming");
             binding.acState.requestFocus();
             binding.acState.setError("State Name is Required");
             return false;
         }
-        else if (countryname.isEmpty()) {
-            binding.acCountry.requestFocus();
-            binding.acCountry.setError("Country is Required");
-            return false;
+
+        else if (!zipcode.isEmpty()) {
+            // Check if the zipcode starts with '0'
+            if (zipcode.length() > 0 && zipcode.charAt(0) == '0') {
+                binding.etZipcode.requestFocus();
+                binding.etZipcode.setError("Invalid Bill Address Zip Code");
+                Globals.showMessage(AddBranchActivity.this, "Invalid Bill Address Zip Code");
+                return false;
+            }
         }
 
         return true;
     }
-
 
 
 }

@@ -9,10 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.EmployeeValue;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 

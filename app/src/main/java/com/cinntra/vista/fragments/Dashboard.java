@@ -34,6 +34,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.BussinessPartners;
 import com.cinntra.vista.activities.CampaignActivity;
@@ -70,7 +71,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.cinntra.vista.workManager.ApiSchedular;
 import com.cinntra.vista.workManager.BackgroundLocationService;
 import com.cinntra.vista.workManager.LocationServiceBinder;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -243,23 +243,48 @@ public class Dashboard extends Fragment implements View.OnClickListener, ChangeT
             @Override
             public void onResponse(Call<InventoryResponse> call, Response<InventoryResponse> response) {
                 if (response.code() == 200) {
-                    if (response.body().getData().size() > 0) {
+                    if (response.body() != null && response.body().getData() != null && response.body().getData().size() > 0) {
                         Dashboard.fastInventoryList.clear();
                         Dashboard.mediumInventoryList.clear();
                         Dashboard.nonInventoryList.clear();
                         Dashboard.allInventoryList.clear();
-                        Dashboard.fastInventoryList.addAll(response.body().getData().get(0).getFastMovingItemsList());
-                        Dashboard.mediumInventoryList.addAll(response.body().getData().get(0).getSlowMovingItemsList());
-                        Dashboard.nonInventoryList.addAll(response.body().getData().get(0).getNotMovingItemsList());
+
+                        // Check for null before adding to avoid NullPointerException
+                        List<FastMovingItems> fastMovingItems = response.body().getData().get(0).getFastMovingItemsList();
+                        if (fastMovingItems != null) {
+                            Dashboard.fastInventoryList.addAll(fastMovingItems);
+                        }
+
+                        List<FastMovingItems> slowMovingItems = response.body().getData().get(0).getSlowMovingItemsList();
+                        if (slowMovingItems != null) {
+                            Dashboard.mediumInventoryList.addAll(slowMovingItems);
+                        }
+
+                        List<FastMovingItems> notMovingItems = response.body().getData().get(0).getNotMovingItemsList();
+                        if (notMovingItems != null) {
+                            Dashboard.nonInventoryList.addAll(notMovingItems);
+                        }
+
+                        // Combine all lists into allInventoryList
                         Dashboard.allInventoryList.addAll(Dashboard.fastInventoryList);
                         Dashboard.allInventoryList.addAll(Dashboard.mediumInventoryList);
                         Dashboard.allInventoryList.addAll(Dashboard.nonInventoryList);
+                    } else {
+                        // Handle case where response body or data list is null
+                        Toast.makeText(requireContext(), "No inventory data available.", Toast.LENGTH_SHORT).show();
                     }
+
+                    // Notify the adapter about data changes
                     intAdpt.notifyDataSetChanged();
-
-
+                } else {
+                    Toast.makeText(requireContext(), "Failed to load data: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
+
+
+
+
+
 
             @Override
             public void onFailure(Call<InventoryResponse> call, Throwable t) {

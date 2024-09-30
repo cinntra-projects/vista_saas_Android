@@ -15,10 +15,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.ChatModel;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 

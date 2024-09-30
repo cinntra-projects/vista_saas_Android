@@ -9,12 +9,12 @@ import android.content.Intent;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.activities.Login;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.globals.MyApp;
 import com.cinntra.vista.network.NetworkConnectionInterceptor;
 import com.cinntra.vista.webservices.ApiServices;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
 import java.io.IOException;

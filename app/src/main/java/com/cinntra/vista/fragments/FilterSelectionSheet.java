@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.BottomSheetAdapter;
 import com.cinntra.vista.globals.Globals;
@@ -30,7 +31,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

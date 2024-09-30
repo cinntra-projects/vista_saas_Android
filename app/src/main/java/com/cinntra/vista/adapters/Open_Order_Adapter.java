@@ -1,5 +1,6 @@
 package com.cinntra.vista.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -20,6 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOrderAct;
 import com.cinntra.vista.activities.WebViewToPdf;
@@ -28,7 +30,7 @@ import com.cinntra.vista.fragments.Order_Update_Fragment;
 import com.cinntra.vista.fragments.Quotation_Update_Fragment;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.orderModels.OrderListModel;
-import com.pixplicity.easyprefs.library.Prefs;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,7 +62,7 @@ public class Open_Order_Adapter extends RecyclerView.Adapter<Open_Order_Adapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         OrderListModel.Data obj = getItem(position);
         holder.title.setText(obj.getCardName());
 

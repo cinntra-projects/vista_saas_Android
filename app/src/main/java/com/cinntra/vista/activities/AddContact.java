@@ -84,33 +84,42 @@ public class AddContact extends MainBaseActivity implements View.OnClickListener
 
                 if (validation(fname, lname, position, mobile, email, address)) {
 
-                    CreateContactData obj = new CreateContactData();
-                    obj.setCardCode(BPCode);
-                    obj.setPosition(position);
-                    obj.setAddress(address);
-                    obj.setMobilePhone(mobile);
-                    obj.setFirstName(fname);
-                    obj.setLastName(lname);
-                    obj.setEMail(email);
-                    obj.setUBpid(BPid);
-                    obj.setUBranchid("1");
-                    obj.setUNationalty("Indian");
-                    obj.setUpdateDate(Globals.getTodaysDatervrsfrmt());
-                    obj.setUpdateTime(Globals.getTCurrentTime());
-                    obj.setCreateDate(Globals.getTodaysDatervrsfrmt());
-                    obj.setCreateTime(Globals.getTCurrentTime());
-                    obj.setTitle("");
-                    obj.setProfession("");
-                    obj.setMiddleName("");
-                    obj.setFax("");
-                    obj.setRemarks1("");
-                    obj.setDateOfBirth("");
-                    obj.setGender("");
-
-                    if (Globals.checkInternet(getApplicationContext())) {
-                        binding.loaderLayout.loader.setVisibility(View.VISIBLE);
-                        addContact(obj);
+//                    Check Email is valid or not
+                    if (isvalidateemail()) {
+                        binding.emailValue.setError("This email address is not valid");
                     }
+                    else{
+                        CreateContactData obj = new CreateContactData();
+                        obj.setCardCode(BPCode);
+                        obj.setPosition(position);
+                        obj.setAddress(address);
+                        obj.setMobilePhone(mobile);
+                        obj.setFirstName(fname);
+                        obj.setLastName(lname);
+                        obj.setEMail(email);
+
+                        obj.setUBpid(BPid);
+                        obj.setUBranchid("1");
+                        obj.setUNationalty("Indian");
+                        obj.setUpdateDate(Globals.getTodaysDatervrsfrmt());
+                        obj.setUpdateTime(Globals.getTCurrentTime());
+                        obj.setCreateDate(Globals.getTodaysDatervrsfrmt());
+                        obj.setCreateTime(Globals.getTCurrentTime());
+                        obj.setTitle("");
+                        obj.setProfession("");
+                        obj.setMiddleName("");
+                        obj.setFax("");
+                        obj.setRemarks1("");
+                        obj.setDateOfBirth("");
+                        obj.setGender("");
+
+                        if (Globals.checkInternet(getApplicationContext())) {
+                            binding.loaderLayout.loader.setVisibility(View.VISIBLE);
+                            addContact(obj);
+                        }
+                    }
+
+
                 }
                 break;
 
@@ -133,15 +142,14 @@ public class AddContact extends MainBaseActivity implements View.OnClickListener
         }  else if (mobile.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter Mobile Number");
             return false;
-        } else if (!email.isEmpty()) {
-            if (isvalidateemail()) {
-                binding.emailValue.setError("This email address is not valid");
-                return false;
-            }
+        } else if (email.isEmpty()) {
+            Globals.showMessage(getApplicationContext(), "Enter E-mail");
+            return false;
         } else if (address.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter Address");
             return false;
         }
+
         return true;
     }
 

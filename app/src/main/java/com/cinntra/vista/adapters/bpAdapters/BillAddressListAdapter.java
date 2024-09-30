@@ -51,7 +51,8 @@ public class BillAddressListAdapter extends RecyclerView.Adapter<BillAddressList
 
         holder.binding.branchAddressLayout.setVisibility(View.VISIBLE);
 
-        holder.binding.tvSolID.setText(modelData.getBranchName());
+//        holder.binding.tvSolID.setText(modelData.getBranchName());
+        holder.binding.tvSolID.setText(modelData.AddressName);
         holder.binding.tvLocation.setText(modelData.getCity() + ", " + modelData.getU_STATE() + " , " + modelData.getU_COUNTRY());
 
         holder.binding.cardViewLayout.setOnClickListener(new View.OnClickListener() {

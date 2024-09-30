@@ -210,8 +210,8 @@ public class AddQuotationForm_Fianl_Fragment extends Fragment {
     ArrayList<OppAddressResponseModel.Data> branchTypeDataList = new ArrayList<>();
 
     private void setUpBranchAllSpinner() {
-        binding.quotationPreparedForContent.addressSection.saerchableSpinnerBillingAddress.setTitle("Branch");
-        binding.quotationPreparedForContent.addressSection.saerchableSpinnerShippingAddress.setTitle("Branch");
+        binding.quotationPreparedForContent.addressSection.saerchableSpinnerBillingAddress.setHint("Branch");
+//        binding.quotationPreparedForContent.addressSection.saerchableSpinnerShippingAddress.setHint("Branch");
         binding.quotationPreparedForContent.addressSection.saerchableSpinnerBillingAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

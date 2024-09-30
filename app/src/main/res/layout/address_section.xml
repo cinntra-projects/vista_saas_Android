@@ -155,28 +155,36 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_size_14" />
 
-                        <RelativeLayout
 
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size_10"
-                            android:background="@drawable/rounded_border"
-                            android:gravity="center_vertical"
-                            android:paddingRight="@dimen/size_10">
+                            android:gravity="center_horizontal|center_vertical">
 
-                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                                android:id="@+id/saerchableSpinnerBillingAddress"
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/text_45"
+                                android:layout_height="wrap_content"
+                                app:boxCornerRadiusBottomEnd="10dp"
+                                app:boxCornerRadiusBottomStart="10dp"
+                                app:boxCornerRadiusTopEnd="10dp"
+                                app:boxCornerRadiusTopStart="10dp">
 
-                                android:clickable="true"
-                                android:dropDownWidth="wrap_content"
-                                android:focusable="false"
-                                android:forceHasOverlappingRendering="false"
-                                android:gravity="center_vertical|start"
-                                android:paddingLeft="@dimen/size_5"
-                                android:spinnerMode="dropdown"
-                                android:textSize="@dimen/text_size_14" />
+                                <AutoCompleteTextView
+                                    android:id="@+id/saerchableSpinnerBillingAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:dropDownWidth="wrap_content"
+                                    android:focusable="true"
+                                    android:forceHasOverlappingRendering="false"
+                                    android:gravity="center_vertical|start"
+                                    android:paddingStart="@dimen/size_5"
+                                    android:spinnerMode="dropdown"
+                                    android:textSize="@dimen/text_size_14" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
 
 
                         </RelativeLayout>
@@ -583,7 +591,6 @@
                         android:id="@+id/linearShippingAddressSelectionLayout"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
-
                         android:layout_below="@id/shippinNAmeandZipcode"
                         android:layout_height="wrap_content">
                         <TextView
@@ -596,31 +603,42 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_size_14" />
 
-                        <RelativeLayout
 
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/size_10"
-                            android:background="@drawable/rounded_border"
-                            android:gravity="center_vertical"
-                            android:paddingRight="@dimen/size_10">
+                            android:gravity="center_horizontal|center_vertical">
 
-                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                                android:id="@+id/saerchableSpinnerShippingAddress"
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/text_45"
+                                android:layout_height="wrap_content"
+                                app:boxCornerRadiusBottomEnd="10dp"
+                                app:boxCornerRadiusBottomStart="10dp"
+                                app:boxCornerRadiusTopEnd="10dp"
+                                app:boxCornerRadiusTopStart="10dp">
 
-                                android:clickable="true"
-                                android:dropDownWidth="wrap_content"
-                                android:focusable="false"
-                                android:forceHasOverlappingRendering="false"
-                                android:gravity="center_vertical|start"
-                                android:paddingLeft="@dimen/size_5"
-                                android:spinnerMode="dropdown"
-                                android:textSize="@dimen/text_size_14" />
+                                <AutoCompleteTextView
+                                    android:id="@+id/saerchableSpinnerShippingAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/text_45"
+                                    android:clickable="true"
+                                    android:dropDownWidth="wrap_content"
+                                    android:focusable="true"
+                                    android:forceHasOverlappingRendering="false"
+                                    android:gravity="center_vertical|start"
+                                    android:paddingStart="@dimen/size_5"
+                                    android:spinnerMode="dropdown"
+                                    android:textSize="@dimen/text_size_14"
+                                    tools:ignore="RtlSymmetry" />
+
+
+                            </com.google.android.material.textfield.TextInputLayout>
 
 
                         </RelativeLayout>
+
 
 
                     </LinearLayout>

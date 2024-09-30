@@ -42,7 +42,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.amulyakhare.textdrawable.TextDrawable;
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.LocationListing;
 import com.cinntra.vista.activities.Login;
@@ -102,7 +102,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -204,12 +203,12 @@ public class Settings extends Fragment implements View.OnClickListener {
             }
         });
         client = LocationServices.getFusedLocationProviderClient(getActivity());
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(4) /* thickness in px */
-                .endConfig()
-                .buildRound(Character.toString(Prefs.getString(Globals.Employee_Name, "").charAt(0)).toUpperCase(), getActivity().getResources().getColor(R.color.colorPrimary));
-        binding.profilePic.setImageDrawable(drawable);
+//        TextDrawable drawable = TextDrawable.builder()
+//                .beginConfig()
+//                .withBorder(4) /* thickness in px */
+//                .endConfig()
+//                .buildRound(Character.toString(Prefs.getString(Globals.Employee_Name, "").charAt(0)).toUpperCase(), getActivity().getResources().getColor(R.color.colorPrimary));
+//        binding.profilePic.setImageDrawable(drawable);
         String name = Prefs.getString(Globals.Employee_Name, "");
         String cap = name.substring(0, 1).toUpperCase() + name.substring(1);
         binding.userName.setText(cap);

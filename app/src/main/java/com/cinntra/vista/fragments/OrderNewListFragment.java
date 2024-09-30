@@ -7,12 +7,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baoyz.widget.PullRefreshLayout;
+
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.DemoAdapter;
 import com.cinntra.vista.databinding.OrderNewListFragmentBlankBinding;
@@ -29,7 +30,7 @@ public class OrderNewListFragment extends Fragment {
 //    @BindView(R.id.no_datafound)
 //    ImageView no_datafound;
 //    @BindView(R.id.swipeRefreshLayout)
-    PullRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
     OrderNewListFragmentBlankBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

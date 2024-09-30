@@ -31,8 +31,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.LeadsAdapter;
 import com.cinntra.vista.adapters.SourceAdpater;
@@ -58,8 +59,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -123,7 +122,7 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
 
 //        setAdapter();
 
-        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 isAssignedToPresent=false;
@@ -636,8 +635,8 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         MaterialButton applyBtn = dialog.findViewById(R.id.applyBtn);
         ImageView ivCrossIcon = dialog.findViewById(R.id.ivCrossIcon);
 
-        SearchableSpinner spinnerSource = dialog.findViewById(R.id.spinnerSearchable);
-        spinnerSource.setTitle("Source Type");
+        AutoCompleteTextView spinnerSource = dialog.findViewById(R.id.spinnerSearchable);
+        spinnerSource.setHint("Source Type");
 
 
         spinnerSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -900,7 +899,7 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
     //todo calling source api here..
     String sourceValue = "";
 
-    private void callSourceApi(AutoCompleteTextView acSource, LinearLayout sourceRecyclerViewLayout, RecyclerView rvSourceSearchList, SearchableSpinner searchableSourceSpinner) {
+    private void callSourceApi(AutoCompleteTextView acSource, LinearLayout sourceRecyclerViewLayout, RecyclerView rvSourceSearchList, AutoCompleteTextView searchableSourceSpinner) {
         Call<LeadTypeResponse> call = NewApiClient.getInstance().getApiService(this).getsourceType();
         call.enqueue(new Callback<LeadTypeResponse>() {
             @Override

@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cinntra.vista" >
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- For Photos and Videos on Android 13+ -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission
         android:name="android.permission.INTERNAL_SYSTEM_WINDOW"
@@ -53,7 +60,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CinntraSales"
         android:usesCleartextTraffic="true"
-        tools:replace="android:icon" >
+        tools:replace="android:icon"
+        >
+
         <activity
             android:name=".activities.RegisterNowActivity"
             android:exported="false"

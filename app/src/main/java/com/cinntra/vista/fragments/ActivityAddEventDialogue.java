@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.ActivityAddEventDialogueLayoutBinding;
 import com.cinntra.vista.databinding.FragmentAddEventBinding;
@@ -32,7 +33,6 @@ import com.cinntra.vista.receivers.NotificationPublisher;
 import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -341,7 +341,7 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
         i.putExtra("value", getActivity().getResources().getString(R.string.meeting_notification));
         i.putExtra("title", getActivity().getResources().getString(R.string.meeting));
         final int id = (int) System.currentTimeMillis();
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), id, i, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), id, i, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, myTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }

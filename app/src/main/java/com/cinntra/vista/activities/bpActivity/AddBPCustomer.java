@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.LeadsActivity;
 import com.cinntra.vista.adapters.BPTypeSpinnerAdapter;
@@ -32,6 +33,7 @@ import com.cinntra.vista.adapters.SalesEmployeeAutoAdapter;
 import com.cinntra.vista.adapters.StateAdapter;
 import com.cinntra.vista.adapters.leadAdapter.FilterSourceAdapter;
 import com.cinntra.vista.databinding.FragmentAddPartner2Binding;
+import com.cinntra.vista.fragments.CustomersFragment;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.globals.MainBaseActivity;
 import com.cinntra.vista.model.BPModel.AddBusinessPartnerData;
@@ -71,7 +73,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -314,6 +315,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
         binding.fragmentAddpartnercontact.addressSection.checkbox1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d("checking1", String.valueOf(isChecked));
                 if (isChecked) {
                     IS_CHECKED = true;
                     binding.fragmentAddpartnercontact.addressSection.shipBlock.setVisibility(View.VISIBLE);
@@ -344,7 +346,8 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
     ArrayList<DataBusinessPartnerDropDown> parentAccountDataList = new ArrayList<>();
 
     private void setUpBusinessTypeSpinner() {
-        binding.fragmentAddpartnergeneral.saerchableSpinnerBusinessType.setTitle("Business Type");
+
+        binding.fragmentAddpartnergeneral.saerchableSpinnerBusinessType.setHint("Business Type");
         binding.fragmentAddpartnergeneral.saerchableSpinnerBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -398,7 +401,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
 
 
     private void setUpZoneSpinner() {
-        binding.fragmentAddpartnergeneral.saerchableSpinnerZone.setTitle("Zones");
+        binding.fragmentAddpartnergeneral.saerchableSpinnerZone.setHint("Zones");
 
         binding.fragmentAddpartnergeneral.saerchableSpinnerZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -433,7 +436,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                     if (response.body().getData().size() > 0) {
                         zoneDataList.clear();
                         zoneDataList.addAll(response.body().getData());
-                        zoneSelected = zoneDataList.get(0).getName();
+                        zoneSelected = zoneDataList.get(0).getId();
 
                         ZoneSearchableSpinnerAdapter sourceSearchableSpinnerAdapter = new ZoneSearchableSpinnerAdapter(AddBPCustomer.this, zoneDataList);
 
@@ -463,7 +466,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
     }
 
     private void setUpParentAccountSpinner() {
-        binding.fragmentAddpartnergeneral.saerchableSpinnerParentAccount.setTitle("Parent");
+        binding.fragmentAddpartnergeneral.saerchableSpinnerParentAccount.setHint("Parent");
 
         binding.fragmentAddpartnergeneral.saerchableSpinnerParentAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -699,6 +702,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                 String shipCity = binding.fragmentAddpartnercontact.addressSection.shipcityValue.getText().toString().trim();
                 String shipAddressValue = binding.fragmentAddpartnercontact.addressSection.shippingAddressValue.getText().toString().trim();
 
+                Log.d("checking", String.valueOf(IS_CHECKED));
                 if (IS_CHECKED == true) {
                     if (validation(name, comp_email, comp_no, mobile, email, industryCode, salesEmployeeCode, contactName, billName, billZipcode,
                             billCity, billAddressValue, billtoCountryName, billtoState, shipName, shipZipcode, shipCity, shipAddressValue, shiptoCountryName, shiptoState, parenT_account, zoneSelected)) {
@@ -854,6 +858,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                         contactExtension.setuLong(String.valueOf(Globals.currentlongitude));
                         contactExtension.setUpdateTime(Globals.getTCurrentTime());
 
+                        Log.d("checking", zoneSelected);
                         //todo new keys
                         contactExtension.setZone(zoneSelected);
 
@@ -1339,17 +1344,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                     binding.loader.loader.setVisibility(View.GONE);
                     binding.fragmentAddpartnercontact.createButton.setEnabled(true);
                     Toasty.warning(AddBPCustomer.this, response.body().getMessage(), Toast.LENGTH_LONG).show();
-//                    //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
-//                    Gson gson = new GsonBuilder().create();
-//                    QuotationResponse mError = new QuotationResponse();
-//                    try {
-//                        String s = response.errorBody().string();
-//                        mError = gson.fromJson(s, QuotationResponse.class);
-//                        Toast.makeText(act, mError.getError().getMessage().getValue(), Toast.LENGTH_LONG).show();
-//                    } catch (IOException e) {
-//                        //handle failure to read error
-//                    }
-                    //Toast.makeText(CreateContact.this, msz, Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -1368,6 +1363,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                                String billtoState, String shipName, String shipZipcode, String shipCity,
                                String shipAddressValue, String shiptoCountryName, String shiptoState,String parentAccount, String selectedZone) {
 
+        Log.d("checking","working");
 
         if (cowner.isEmpty()) {
             Globals.showMessage(act, "Enter Company name");
@@ -1440,6 +1436,8 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
     private boolean unCheckShipValidation(String cowner, String comp_email, String comp_no, String mobile, String email, String industryCode, int salesEmployeeCode,
                                           String contactName, String billName, String billZipcode, String billCity, String billAddressValue, String countryname,
                                           String billtoState,String parentAccount, String selectedZone) {
+
+        Log.d("checking","UnCheckShipValidation");
 
 
         if (cowner.isEmpty()) {

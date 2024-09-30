@@ -9,10 +9,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.StaticUiPageTwoBinding;
 import com.cinntra.vista.globals.Globals;
-import com.pixplicity.easyprefs.library.Prefs;
 
 public class ListedDoctor extends AppCompatActivity {
     StaticUiPageTwoBinding binding;

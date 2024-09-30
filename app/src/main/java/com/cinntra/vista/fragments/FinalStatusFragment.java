@@ -20,12 +20,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOpportunityActivity;
 import com.cinntra.vista.activities.Opportunities_Pipeline_Activity;
-import com.cinntra.vista.adapters.FinalStatusAdapter;
+//import com.cinntra.vista.adapters.FinalStatusAdapter;
 
 import com.cinntra.vista.databinding.FragmentOpenOppBinding;
 import com.cinntra.vista.globals.Globals;
@@ -55,7 +55,7 @@ public class FinalStatusFragment extends Fragment
     List<NewOpportunityRespose> quotationlist = new ArrayList<>();
     List<NewOpportunityRespose> negotiationlist = new ArrayList<>();
     ArrayList<Company> companies = new ArrayList<>();
-    FinalStatusAdapter adapter;
+//    FinalStatusAdapter adapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -83,7 +83,7 @@ public class FinalStatusFragment extends Fragment
        binding. loader.setVisibility(View.VISIBLE);
          callApi(binding.loader);
     }
-        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if(Globals.checkInternet(getActivity()))
@@ -135,10 +135,10 @@ public class FinalStatusFragment extends Fragment
         companies.get(3).setItems(negotiationlist);
 
         binding. recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter= new FinalStatusAdapter(companies,allOpplist,getActivity());
+      //  adapter= new FinalStatusAdapter(companies,allOpplist,getActivity());
 
-        binding. recyclerview.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+       // binding. recyclerview.setAdapter(adapter);
+      //  adapter.notifyDataSetChanged();
 
 
     }
@@ -174,8 +174,8 @@ public class FinalStatusFragment extends Fragment
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(adapter!=null&&newText.length()>0)
-                            adapter.filter(newText);
+//                if(adapter!=null&&newText.length()>0)
+//                            adapter.filter(newText);
                 return true;
             }
         });
@@ -197,28 +197,28 @@ public class FinalStatusFragment extends Fragment
                 break;
             case R.id.all:
 
-                if(adapter!=null)
-                    adapter.AllData();
+//                if(adapter!=null)
+//                    adapter.AllData();
 
                 break;
             case R.id.my:
 
                 break;
             case R.id.my_team:
-                if(adapter!=null)
-                    adapter.Favfilter("Y");
+//                if(adapter!=null)
+//                    adapter.Favfilter("Y");
                 break;
             case  R.id.valid:
 
                 break;
             case R.id.newest:
 
-                if(adapter!=null)
-                    adapter.Typefilter("New Business");
+//                if(adapter!=null)
+//                    adapter.Typefilter("New Business");
                 break;
             case R.id.oldest:
-                if(adapter!=null)
-                    adapter.Typefilter("Existing Business");
+//                if(adapter!=null)
+//                    adapter.Typefilter("Existing Business");
                 break;
         }
         return true;

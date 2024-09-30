@@ -17,8 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.MainActivity;
 import com.cinntra.vista.adapters.BranchAdapter;
@@ -92,7 +92,7 @@ public class BusinessPartnerBranch extends Fragment {
             }
         });
 
-        binding. swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding. swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 

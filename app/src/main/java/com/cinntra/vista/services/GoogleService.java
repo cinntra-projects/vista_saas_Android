@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.fragments.Settings;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.MapData;
@@ -39,7 +40,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.SphericalUtil;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.List;
@@ -96,7 +96,7 @@ public class GoogleService extends Service implements LocationListener {
         String stop = "Stop";
 
 
-        PendingIntent broadcastintent = PendingIntent.getBroadcast(this, 0, new Intent(stop), PendingIntent.FLAG_MUTABLE);
+        PendingIntent broadcastintent = PendingIntent.getBroadcast(this, 0, new Intent(stop), PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Location Sharing")
                 .setContentText("Location Sharing is On")

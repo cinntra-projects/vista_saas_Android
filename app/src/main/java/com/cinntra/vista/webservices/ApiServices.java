@@ -573,7 +573,6 @@ public interface ApiServices {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Call<NewOppResponse> createopportunity(@Body AddOpportunityModel opportunityValue);
 
-
     @POST("lead/all_filter_page")
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     Call<LeadResponse> getAllLead(@Body FilterOverAll leadValue);

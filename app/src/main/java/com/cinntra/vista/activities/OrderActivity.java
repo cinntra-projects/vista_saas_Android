@@ -18,8 +18,6 @@ import com.cinntra.vista.globals.MainBaseActivity;
 
 import java.util.ArrayList;
 
-
-
 public class OrderActivity extends MainBaseActivity implements View.OnClickListener {
 
     FragmentOrdersBinding binding;

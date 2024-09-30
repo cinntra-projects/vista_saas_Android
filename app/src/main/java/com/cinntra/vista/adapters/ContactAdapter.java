@@ -14,8 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.cinntra.vista.R;
 import com.cinntra.vista.model.ContactPersonData;
 import com.karumi.dexter.Dexter;
@@ -47,14 +45,14 @@ public class ContactAdapter extends RecyclerView.Adapter <ContactAdapter.Contact
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         ContactPersonData contactPersonData = contactEmployeesList.get(position);
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-        int color1 = generator.getRandomColor();
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(4) /* thickness in px */
-                .endConfig()
-                .buildRound(Character.toString(contactPersonData.getFirstName().charAt(0)).toUpperCase(), color1);
-        holder.profile_pic.setImageDrawable(drawable);
+//        ColorGenerator generator = ColorGenerator.MATERIAL;
+//        int color1 = generator.getRandomColor();
+//        TextDrawable drawable = TextDrawable.builder()
+//                .beginConfig()
+//                .withBorder(4) /* thickness in px */
+//                .endConfig()
+//                .buildRound(Character.toString(contactPersonData.getFirstName().charAt(0)).toUpperCase(), color1);
+//        holder.profile_pic.setImageDrawable(drawable);
         holder.name_value.setText(contactPersonData.getFirstName()+" "+contactPersonData.getLastName());
         holder.role_val.setText(contactPersonData.getMobilePhone());
 

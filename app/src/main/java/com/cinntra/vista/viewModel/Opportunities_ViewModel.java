@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.NewOppResponse;
 import com.cinntra.vista.model.OpportunityModels.OpportunitiesResponse;
@@ -17,7 +18,6 @@ import com.cinntra.vista.newapimodel.NewOpportunityRespose;
 import com.cinntra.vista.newapimodel.OpportunityValue;
 import com.cinntra.vista.webservices.APIsClient;
 import com.cinntra.vista.webservices.NewApiClient;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;

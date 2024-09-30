@@ -1,5 +1,6 @@
 package com.cinntra.vista.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
@@ -25,6 +26,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOpportunityActivity;
 import com.cinntra.vista.adapters.BPTypeSpinnerAdapter;
@@ -42,7 +44,6 @@ import com.cinntra.vista.newapimodel.ResponseQuoteListDropDown;
 import com.cinntra.vista.viewModel.ItemViewModel;
 import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TimelineAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TimelineAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         StagesValue obj = getItem(position);
 

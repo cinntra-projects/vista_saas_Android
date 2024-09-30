@@ -1,6 +1,8 @@
 package com.cinntra.vista.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -232,6 +234,7 @@ public class Add_BussinessPartner_Fragment2 extends Fragment implements View.OnC
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -374,7 +377,9 @@ public class Add_BussinessPartner_Fragment2 extends Fragment implements View.OnC
                     contactExtension.setUpdateTime("");
                     contactExtension.setBPAddresses(postbpAddresses);
                     //    contactExtension.setContactEmployees(postcontactEmployees);
+
                     if (Globals.checkInternet(getActivity()))
+
                         createBP(contactExtension);
                 }
 
@@ -699,6 +704,7 @@ public class Add_BussinessPartner_Fragment2 extends Fragment implements View.OnC
                     getActivity().onBackPressed();
                 } else {
                     //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
+
                     Gson gson = new GsonBuilder().create();
                     QuotationResponse mError = new QuotationResponse();
                     try {

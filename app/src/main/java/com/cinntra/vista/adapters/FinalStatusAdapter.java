@@ -1,3 +1,4 @@
+/*
 package com.cinntra.vista.adapters;
 
 import android.content.Context;
@@ -16,8 +17,6 @@ import com.cinntra.vista.model.Company;
 import com.cinntra.vista.newapimodel.NewOpportunityRespose;
 import com.cinntra.vista.viewModel.CompanyViewHolder;
 import com.cinntra.vista.viewModel.ProductViewholder;
-import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +51,10 @@ public class FinalStatusAdapter extends ExpandableRecyclerViewAdapter<CompanyVie
             openlist.addAll(tempList);
         } else {
             for (NewOpportunityRespose st : tempList) {
-                /*if(st.getOpportunityName()!=null&&!st.getOpportunityName().isEmpty()) {
-                    if (st.getCustomerName().toLowerCase().trim().contains(charText)) {*/
+                */
+/*if(st.getOpportunityName()!=null&&!st.getOpportunityName().isEmpty()) {
+                    if (st.getCustomerName().toLowerCase().trim().contains(charText)) {*//*
+
                 if(st.getCardCode()!=null&&!st.getCardCode().isEmpty()&&st.getOpportunityName()!=null&&!st.getOpportunityName().isEmpty()) {
                     if (st.getCardCode().toLowerCase().trim().contains(charText)||st.getOpportunityName().toLowerCase().trim().contains(charText)) {
                         openlist.add(st);
@@ -146,3 +147,4 @@ public class FinalStatusAdapter extends ExpandableRecyclerViewAdapter<CompanyVie
 
 
 }
+*/

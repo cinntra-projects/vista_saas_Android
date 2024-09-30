@@ -11,12 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -24,6 +26,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.SelectedItems;
@@ -110,6 +113,34 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         //Required empty public constructor
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.quotationGeneralContent.submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validation(binding.quotationGeneralContent.remarkValue.getText().toString().trim(), ContactPersonCode)) {
+                    frameManager(binding.totalFrame, binding.generalFrame, binding.preparedFrame, binding.total, binding.general, binding.address);
+                }
+            }
+        });
+
+        binding.quotationTotalContent.nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frameManager(binding.preparedFrame, binding.generalFrame, binding.totalFrame, binding.address, binding.general, binding.total);
+            }
+        });
+
+//        binding.quotationAddressContent.addressSection.doneButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                frameManager(binding.preparedFrame, binding.generalFrame,binding.totalFrame,binding.address,binding.general,binding.total);
+//            }
+//        });
+    }
 
     // TODO: Rename and change types and number of parameters
     public static Order_Update_Fragment newInstance(String param1, String param2) {
@@ -374,6 +405,31 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         });
 
 
+        //todo bill to state item click..
+        binding.quotationAddressContent.addressSection.acBillToState.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                billtoState = stateList.get(position).getName();
+                billtoStateCode = stateList.get(position).getCode();
+
+                binding.quotationAddressContent.addressSection.acBillToState.setText(stateList.get(position).getName());
+            }
+        });
+
+
+        //todo ship to state item click..
+        binding.quotationAddressContent.addressSection.acShipToState.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                shiptoState = shipstateList.get(position).getName();
+                shiptoStateCode = shipstateList.get(position).getCode();
+
+                binding.quotationAddressContent.addressSection.acShipToState.setText(shipstateList.get(position).getName());
+            }
+        });
+
+
+
 
         return binding.getRoot();
     }
@@ -494,7 +550,7 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
     ArrayList<ResponseCompanyBranchAllFilter.Datum> branchTypeDataList = new ArrayList<>();
 
     private void setUpBusinessPartnerbranchTypeSpinner() {
-        binding.quotationGeneralContent.saerchableSpinnerBranch.setTitle("Branch");
+        binding.quotationGeneralContent.saerchableSpinnerBranch.setHint("Branch");
         binding.quotationGeneralContent.saerchableSpinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -589,8 +645,7 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
     ArrayList<OppAddressResponseModel.Data> branchTypeAddressDataList = new ArrayList<>();
 
     private void setUpBranchAllSpinner() {
-        binding.quotationAddressContent.addressSection.saerchableSpinnerBillingAddress.setTitle("Branch");
-        binding.quotationAddressContent.addressSection.saerchableSpinnerShippingAddress.setTitle("Branch");
+        binding.quotationAddressContent.addressSection.saerchableSpinnerBillingAddress.setHint("Branch");
         binding.quotationAddressContent.addressSection.saerchableSpinnerBillingAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -711,12 +766,15 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", id);
 
+        Log.d("checking", "working");
         Call<BranchOneResponseModel> call = NewApiClient.getInstance().getApiService(requireContext()).getBranchOneApi(jsonObject);
         call.enqueue(new Callback<BranchOneResponseModel>() {
             @Override
             public void onResponse(Call<BranchOneResponseModel> call, Response<BranchOneResponseModel> response) {
                 try {
                     if (response.body().getStatus() == 200) {
+
+                        Log.d("checking", "working");
 
                         //    branchOneResponseModel_gl = response.body().getData().get(0);
 
@@ -732,10 +790,12 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
 
 
                     } else {
+                        Log.d("checking", "not working");
 
                     }
                 } catch (Exception e) {
 
+                    Log.d("checking", "exception");
                     e.printStackTrace();
                 }
             }
@@ -752,14 +812,17 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
 
     //todo set default data...
     private void setDefaultDataByBranchOne(BranchOneResponseModel.Data data) {
-
-
+        Log.d("countryState",data.getCountry());
         callBillToStateApi(data.getCountry());
+
         binding.quotationAddressContent.addressSection.billingNameValue.setText(data.AddressName);
+        Log.d("countryState",data.AddressName);
 
         binding.quotationAddressContent.addressSection.billingAddressValue.setText(data.getStreet());
         binding.quotationAddressContent.addressSection.zipCodeValue.setText(data.getZipCode());
+        Log.d("countryState",data.getU_COUNTRY());
         binding.quotationAddressContent.addressSection.acCountry.setText(data.getU_COUNTRY());
+        Log.d("countryState",data.getU_STATE());
         binding.quotationAddressContent.addressSection.acBillToState.setText(data.getU_STATE());
         binding.quotationAddressContent.addressSection.cityValue.setText(data.getCity());
 
@@ -910,8 +973,8 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         imm.hideSoftInputFromWindow(binding.quotationGeneralContent.opportunityNameValue.getApplicationWindowToken(), 0);
 
 
-        binding.quotationGeneralContent.submit.setClickable(false);
-        binding.quotationGeneralContent.submit.setFocusable(false);
+     /*   binding.quotationGeneralContent.submit.setClickable(false);
+        binding.quotationGeneralContent.submit.setFocusable(false);*/
 
 
         binding.quotationGeneralContent.opportunityNameValue.setFocusableInTouchMode(false);
@@ -961,9 +1024,9 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         binding.quotationTotalContent.discontValue.setFocusable(false);
         binding.quotationTotalContent.discontValue.setClickable(false);
 
-
-        binding.quotationTotalContent.nextButton.setFocusable(false);
-        binding.quotationTotalContent.nextButton.setClickable(false);
+//
+//        binding.quotationTotalContent.nextButton.setFocusable(false);
+//        binding.quotationTotalContent.nextButton.setClickable(false);
 
 
         binding.quotationAddressContent.addressSection.shippingNameValue.setFocusableInTouchMode(false);
@@ -1060,11 +1123,12 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         countryAdapter = new CountryAdapter(getContext(), localData);
 
 
-       /* binding.quotationAddressContent.addressSection.countryValue.setAdapter(countryAdapter);
-        binding.quotationAddressContent.addressSection.shipCountryValue.setAdapter(countryAdapter);
-
+//        binding.quotationAddressContent.addressSection.rvCountryList.setAdapter(countryAdapter);
+//        binding.quotationAddressContent.addressSection.acShipCountry.setAdapter(countryAdapter);
+        /*
         binding.quotationAddressContent.addressSection.countryValue.setSelection(Globals.getCountrypos(localData, billtoCountryName));
         binding.quotationAddressContent.addressSection.shipCountryValue.setSelection(Globals.getCountrypos(localData, shiptoCountryName));*/
+
         QT_ID = quotationItem.getDocEntry();
         if (quotationItem.getContactPersonCodeDetails().size()>0){
             ContactPersonCode = String.valueOf(quotationItem.getContactPersonCodeDetails().get(0).getId());
@@ -1073,8 +1137,6 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         if (quotationItem.getSalesPersonCodeDetails().size()>0){
             salesPersonCode = quotationItem.getSalesPersonCodeDetails().get(0).getSalesEmployeeCode();
         }
-
-
 
 
         if (!quotationItem.getContactPersonCodeDetails().isEmpty()) {
@@ -1337,6 +1399,18 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
         });*/
 
 
+
+        // Add country list
+        ArrayAdapter<String> countryList = new ArrayAdapter<>(
+                requireActivity(), // or getContext() if inside a fragment
+                android.R.layout.simple_dropdown_item_1line, // Layout for the dropdown list items
+                Integer.parseInt(localData.toString()) // The list of countries
+        );
+
+        binding.quotationAddressContent.addressSection.acCountry.setAdapter(countryList);
+
+        binding.quotationAddressContent.addressSection.acShipCountry.setAdapter(countryList);
+
     }
 
     private void callCountryApi() {
@@ -1349,11 +1423,103 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
                     if (response.body().getData().size() > 0) {
                         localData.clear();
                         localData.addAll(response.body().getData());
+                        List<String> itemNames = new ArrayList<>();
+                        List<String> cardCodeName = new ArrayList<>();
+                        for (CountryData item : localData) {
+                            itemNames.add(item.getName());
+                            cardCodeName.add(item.getCode());
+                        }
+
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.drop_down_textview, itemNames);
+                        binding.quotationAddressContent.addressSection.acCountry.setAdapter(adapter);
+
+
+                        //todo bill to and ship to address drop down item select..
+                        binding.quotationAddressContent.addressSection.acCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                try {
+                                    String countryName = (String) parent.getItemAtPosition(position);
+                                    billtoCountryName = countryName;
+
+                                    int pos = Globals.getCountryCodePos(localData, countryName);
+                                    billtoCountrycode = localData.get(pos).getCode();
+
+                                    if (countryName.isEmpty()) {
+                                        binding.quotationAddressContent.addressSection.rlRecyclerViewLayout.setVisibility(View.GONE);
+                                        binding.quotationAddressContent.addressSection.rvCountryList.setVisibility(View.GONE);
+                                    } else {
+                                        binding.quotationAddressContent.addressSection.rlRecyclerViewLayout.setVisibility(View.VISIBLE);
+                                        binding.quotationAddressContent.addressSection.rvCountryList.setVisibility(View.VISIBLE);
+                                    }
+
+                                    if (!countryName.isEmpty()) {
+                                        adapter.notifyDataSetChanged();
+                                        binding.quotationAddressContent.addressSection.acCountry.setText(countryName);
+                                        binding.quotationAddressContent.addressSection.acCountry.setSelection(binding.quotationAddressContent.addressSection.acCountry.length());
+
+                                        callBillToStateApi(billtoCountrycode);
+                                    } else {
+                                        billtoCountryName = "";
+                                        billtoCountrycode = "";
+                                        binding.quotationAddressContent.addressSection.acCountry.setText("");
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("catch", "onItemClick: " + e.getMessage());
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getActivity(), R.layout.drop_down_textview, itemNames);
+                        binding.quotationAddressContent.addressSection.acShipCountry.setAdapter(adapter);
+
+                        //todo set on ship country Item Click
+                        binding.quotationAddressContent.addressSection.acShipCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                try {
+                                    String countryName = (String) parent.getItemAtPosition(position);
+                                    shiptoCountryName = countryName;
+
+                                    int pos = Globals.getCountryCodePos(localData, countryName);
+                                    shiptoCountrycode = localData.get(pos).getCode();
+
+                                    if (countryName.isEmpty()) {
+                                        binding.quotationAddressContent.addressSection.rlShipREcyclerLayout.setVisibility(View.GONE);
+                                        binding.quotationAddressContent.addressSection.rvShipCountryList.setVisibility(View.GONE);
+                                    } else {
+                                        binding.quotationAddressContent.addressSection.rlShipREcyclerLayout.setVisibility(View.VISIBLE);
+                                        binding.quotationAddressContent.addressSection.rvShipCountryList.setVisibility(View.VISIBLE);
+                                    }
+
+                                    if (!countryName.isEmpty()) {
+                                        adapter1.notifyDataSetChanged();
+                                        binding.quotationAddressContent.addressSection.acShipCountry.setText(countryName);
+                                        binding.quotationAddressContent.addressSection.acShipCountry.setSelection(binding.quotationAddressContent.addressSection.acShipCountry.length());
+
+                                        callShipToStateApi(shiptoCountrycode);
+                                    } else {
+                                        shiptoCountryName = "";
+                                        shiptoCountrycode = "";
+                                        binding.quotationAddressContent.addressSection.acShipCountry.setText("");
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("catch", "onItemClick: " + e.getMessage());
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+
                     }
 
 
                 }
             }
+
+
 
             @Override
             public void onFailure(Call<CountryResponse> call, Throwable t) {
@@ -1631,14 +1797,12 @@ public class Order_Update_Fragment extends Fragment implements View.OnClickListe
 
                     Globals.disablePastSelectDate(getContext(), binding.quotationGeneralContent.documentDateValue);
                 break;
-            case R.id.submit:
-                if (validation(binding.quotationGeneralContent.remarkValue.getText().toString().trim(), ContactPersonCode)) {
-                    frameManager(binding.totalFrame, binding.generalFrame, binding.preparedFrame, binding.total, binding.general, binding.address);
-                }
-                break;
-            case R.id.next_button:
-                frameManager(binding.preparedFrame, binding.generalFrame, binding.totalFrame, binding.address, binding.general, binding.total);
-                break;
+//            case R.id.submit:
+//
+//                break;
+//            case R.id.next_button:
+//                frameManager(binding.preparedFrame, binding.generalFrame, binding.totalFrame, binding.address, binding.general, binding.total);
+//                break;
            /* case R.id.done_button:
                 // frameManager(prepared_frame,general_frame,total_frame,address,general,total);
                 binding.headerBottomroundEdit.add.performClick();

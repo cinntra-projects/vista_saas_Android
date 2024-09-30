@@ -1,5 +1,7 @@
 package com.cinntra.vista.adapters;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +16,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.Explode;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOpportunityActivity;
 import com.cinntra.vista.activities.MapsActivity;
@@ -140,15 +144,24 @@ public class CustomersAdapterDetals extends RecyclerView.Adapter<CustomersAdapte
                   transaction.replace(R.id.main_edit_qt_frame, fragment);
                   transaction.addToBackStack(null);
                   transaction.commit();*/
-                    Bundle b = new Bundle();
-                    b.putSerializable(Globals.BussinessItemData, customerList.get(getAdapterPosition()));
-                    // Opportunity_Detail_Fragment fragment = new Opportunity_Detail_Fragment();
-                    BusinessPartnerDetail fragment = new BusinessPartnerDetail();
-                    fragment.setArguments(b);
-                    FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.main_edit_qt_frame, fragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+
+//    if it jump direct from dashboard
+                    if (Prefs.getString(Globals.BussinessPageType,"").equalsIgnoreCase("DashBoard")){
+                        Bundle b = new Bundle();
+                        b.putSerializable(Globals.BussinessItemData, customerList.get(getAdapterPosition()));
+                        // Opportunity_Detail_Fragment fragment = new Opportunity_Detail_Fragment();
+                        BusinessPartnerDetail fragment = new BusinessPartnerDetail();
+                        fragment.setArguments(b);
+                        FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.main_edit_qt_frame, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }else {
+                        Intent intent = new Intent();
+                        intent.putExtra(Globals.CustomerItemData, customerList.get(getAdapterPosition()));
+                        ((AppCompatActivity) context).setResult(RESULT_OK, intent);
+                        ((AppCompatActivity) context).finish();
+                    }
 
                 }
             });

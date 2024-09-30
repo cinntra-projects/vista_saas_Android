@@ -7,8 +7,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.util.Log;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.globals.Globals;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

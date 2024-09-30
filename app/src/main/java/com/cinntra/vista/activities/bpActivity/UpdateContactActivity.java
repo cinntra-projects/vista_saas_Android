@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.ActivityUpdateContactBinding;
 import com.cinntra.vista.globals.Globals;
@@ -20,7 +21,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 
@@ -141,35 +141,44 @@ public class UpdateContactActivity extends MainBaseActivity implements View.OnCl
         String mobile = binding.mobileValue.getText().toString().trim();
         String email = binding.emailValue.getText().toString().trim();
         String address = binding.addressValue.getText().toString().trim();
-        if (validation(fname, lname, position, mobile, email, address)) {
-            UpdateContactDataModel obj = new UpdateContactDataModel();
-            obj.setId(id);
-            obj.setCardCode(BPCode);
-            obj.setPosition(position);
-            obj.setAddress(address);
-            obj.setMobilePhone(mobile);
-            obj.setFirstName(fname);
-            obj.setLastName(lname);
-            obj.seteMail(email);
-            obj.setuBpid(Prefs.getString(Globals.STOREBPLID, ""));
-            obj.setuBranchid("1");
-            obj.setuNationalty("Indian");
-            obj.setUpdateDate(Globals.getTodaysDatervrsfrmt());
-            obj.setUpdateTime(Globals.getTCurrentTime());
-            obj.setCreateDate(Globals.getTodaysDatervrsfrmt());
-            obj.setCreateTime(Globals.getTCurrentTime());
-            obj.setTitle("");
-            obj.setProfession("");
-            obj.setMiddleName("");
-            obj.setFax("");
-            obj.setRemarks1("");
-            obj.setDateOfBirth("");
-            obj.setGender("");
 
-            if (Globals.checkInternet(getApplicationContext())) {
-                binding.loaderLayout.loader.setVisibility(View.VISIBLE);
-                updateContact(obj);
+        if (validation(fname, lname, position, mobile, email, address)) {
+
+//            Check Email is valid or not
+            if (isvalidateemail()) {
+                binding.emailValue.setError("This email address is not valid");
             }
+            else{
+                UpdateContactDataModel obj = new UpdateContactDataModel();
+                obj.setId(id);
+                obj.setCardCode(BPCode);
+                obj.setPosition(position);
+                obj.setAddress(address);
+                obj.setMobilePhone(mobile);
+                obj.setFirstName(fname);
+                obj.setLastName(lname);
+                obj.seteMail(email);
+                obj.setuBpid(Prefs.getString(Globals.STOREBPLID, ""));
+                obj.setuBranchid("1");
+                obj.setuNationalty("Indian");
+                obj.setUpdateDate(Globals.getTodaysDatervrsfrmt());
+                obj.setUpdateTime(Globals.getTCurrentTime());
+                obj.setCreateDate(Globals.getTodaysDatervrsfrmt());
+                obj.setCreateTime(Globals.getTCurrentTime());
+                obj.setTitle("");
+                obj.setProfession("");
+                obj.setMiddleName("");
+                obj.setFax("");
+                obj.setRemarks1("");
+                obj.setDateOfBirth("");
+                obj.setGender("");
+
+                if (Globals.checkInternet(getApplicationContext())) {
+                    binding.loaderLayout.loader.setVisibility(View.VISIBLE);
+                    updateContact(obj);
+                }
+            }
+
         }
     }
 
@@ -226,11 +235,9 @@ public class UpdateContactActivity extends MainBaseActivity implements View.OnCl
         }  else if (mobile.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter Mobile Number");
             return false;
-        } else if (!email.isEmpty()) {
-            if (isvalidateemail()) {
-                binding.emailValue.setError("This email address is not valid");
-                return false;
-            }
+        } else if (email.isEmpty()) {
+            Globals.showMessage(getApplicationContext(), "Enter E-mail");
+            return false;
         } else if (address.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter Address");
             return false;

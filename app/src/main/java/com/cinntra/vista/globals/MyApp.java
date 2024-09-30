@@ -7,12 +7,12 @@ import android.os.CountDownTimer;
 
 import androidx.multidex.MultiDex;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.receivers.ConnectivityReceiver;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.security.ProviderInstaller;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
 

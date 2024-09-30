@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.bpActivity.AddBPCustomer;
 import com.cinntra.vista.adapters.PaymentAdapter;
@@ -59,7 +60,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
 import java.io.IOException;
@@ -341,7 +341,7 @@ public class AddQuotationAct extends MainBaseActivity implements View.OnClickLis
     ArrayList<ResponseCompanyBranchAllFilter.Datum> branchTypeDataList = new ArrayList<>();
 
     private void setUpBusinessPartnerbranchTypeSpinner() {
-        binding.quotationGeneralContent.saerchableSpinnerBranch.setTitle("Branch");
+        binding.quotationGeneralContent.saerchableSpinnerBranch.setHint("Branch");
         binding.quotationGeneralContent.saerchableSpinnerBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

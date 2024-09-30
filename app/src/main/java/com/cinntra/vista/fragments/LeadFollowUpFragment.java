@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.MessageAdapter;
 import com.cinntra.vista.databinding.LeadfollowupfragmentBinding;
@@ -22,7 +23,6 @@ import com.cinntra.vista.model.ChatResponse;
 import com.cinntra.vista.model.FollowUpData;
 import com.cinntra.vista.newapimodel.LeadValue;
 import com.cinntra.vista.webservices.NewApiClient;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 

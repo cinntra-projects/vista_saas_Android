@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.AdressDetail;
 import com.cinntra.vista.model.BPTypeResponse;
@@ -43,7 +44,6 @@ import com.cinntra.vista.newapimodel.ResponseQuoteListDropDown;
 import com.cinntra.vista.webservices.APIsClient;
 import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;

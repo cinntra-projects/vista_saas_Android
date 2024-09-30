@@ -80,18 +80,17 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_14" />
 
-        <com.baoyz.widget.PullRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:refreshColors="@array/scheme_colors"
-            app:refreshType="smartisan">
+            >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/customer_lead_List"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.baoyz.widget.PullRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

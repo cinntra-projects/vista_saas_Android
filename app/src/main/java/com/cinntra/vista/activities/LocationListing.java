@@ -15,8 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.EmployeeHeirarchiDropdownAdapter;
 import com.cinntra.vista.adapters.LocationListingAdapter;
@@ -29,7 +30,6 @@ import com.cinntra.vista.model.MapData;
 import com.cinntra.vista.model.MapResponse;
 import com.cinntra.vista.model.SalesEmployeeItem;
 import com.cinntra.vista.webservices.NewApiClient;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -160,7 +160,7 @@ public class LocationListing extends MainBaseActivity {
 
             }
         });
-        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 

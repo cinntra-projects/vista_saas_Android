@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.bpActivity.AddBPCustomer;
 import com.cinntra.vista.adapters.LeadTypeAutoAdapter;
@@ -81,7 +82,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -725,7 +725,7 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
     ArrayList<DataBusinessPartnerDropDown> parentAccountDataList = new ArrayList<>();
 
     private void setUpBusinessTypeSpinner() {
-        binding.saerchableSpinnerBusinessType.setTitle("Business Type");
+        binding.saerchableSpinnerBusinessType.setHint("Business Type");
         binding.saerchableSpinnerBusinessType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -753,8 +753,18 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
                         BusinessTypeSearchableSpinnerAdapter sourceSearchableSpinnerAdapter = new BusinessTypeSearchableSpinnerAdapter(requireContext(), businessTypeDataList);
 
                         binding.saerchableSpinnerBusinessType.setAdapter(sourceSearchableSpinnerAdapter);
-                        binding.saerchableSpinnerBusinessType.setSelection(Globals.getBusinessTypeDropDownPos(businessTypeDataList, businessTypeSelected));
-                        //todo item click on assign to---
+
+                        // Get the index for the selected business type
+                        int position = Globals.getBusinessTypeDropDownPos(businessTypeDataList, businessTypeSelected);
+
+                        // Validate the index before setting the selection
+                        if (position >= 0 && position < businessTypeDataList.size()) {
+                            binding.saerchableSpinnerBusinessType.setSelection(position);
+                        } else {
+                            // Handle invalid position, e.g., set to default or do nothing
+                            Log.e("Spinner Error", "Invalid position: " + position);
+                        }
+
                     } else {
                         Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
 
@@ -825,22 +835,7 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
 
 
     private void setUpZoneSpinner() {
-        binding.saerchableSpinnerZone.setTitle("Zones");
-
-        binding.saerchableSpinnerZone.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e("SPINNER SEARCH", "onItemSelected: " + zoneDataList.get(i).getName());
-                zoneSelected = zoneDataList.get(i).getId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-
-            }
-        });
-
+        binding.saerchableSpinnerZone.setHint("Zones");
 
         PerformaInvoiceListRequestModel opportunityAllListRequest = new PerformaInvoiceListRequestModel();
         opportunityAllListRequest.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
@@ -863,11 +858,20 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
                         zoneDataList.addAll(response.body().getData());
 
 
-                        ZoneSearchableSpinnerAdapter sourceSearchableSpinnerAdapter = new ZoneSearchableSpinnerAdapter(requireContext(), zoneDataList);
+                        ZoneSearchableSpinnerAdapter sourceSearchableZoneAdapter = new ZoneSearchableSpinnerAdapter(requireContext(), zoneDataList);
 
-                        binding.saerchableSpinnerZone.setAdapter(sourceSearchableSpinnerAdapter);
+                        binding.saerchableSpinnerZone.setAdapter(sourceSearchableZoneAdapter);
 
-                        binding.saerchableSpinnerZone.setSelection(Globals.getZonePos(zoneDataList, zoneSelected));
+//                        // Get the index for the selected business type
+//                        int position = Globals.getZonePos(zoneDataList, zoneSelected);
+//
+////                        // Validate the index before setting the selection
+////                        if (position >= 0 && position < zoneDataList.size()) {
+////                            binding.saerchableSpinnerZone.setSelection(position);
+////                        } else {
+////                            // Handle invalid position, e.g., set to default or do nothing
+////                            Log.e("Spinner Error", "Invalid position: " + position);
+////                        }
 
 
                         //todo item click on assign to---
@@ -895,7 +899,7 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
     }
 
     private void setUpParentAccountSpinner() {
-        binding.saerchableSpinnerParentAccount.setTitle("Parent");
+        binding.saerchableSpinnerParentAccount.setHint("Parent");
 
         binding.saerchableSpinnerParentAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -927,12 +931,19 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
                         parentAccountDataList.addAll(response.body().getData());
 
 
+                        // Set up the adapter for the spinner
                         BusinessPartnerSearchableSpinnerAdapter sourceSearchableSpinnerAdapter = new BusinessPartnerSearchableSpinnerAdapter(requireContext(), parentAccountDataList);
-
                         binding.saerchableSpinnerParentAccount.setAdapter(sourceSearchableSpinnerAdapter);
 
-                        binding.saerchableSpinnerParentAccount.setSelection(Globals.getBusinessDropDownPos(parentAccountDataList, parenT_account));
-                        //todo item click on assign to---
+//                        // Safely get position and set selection
+//                        int position = Globals.getBusinessDropDownPos(parentAccountDataList, parenT_account);
+//                        if (position >= 0 && position < parentAccountDataList.size()) {
+//                            binding.saerchableSpinnerParentAccount.setSelection(position);
+//                        } else {
+//                            Log.e("SpinnerError", "Invalid position: " + position);
+//                            // Optionally handle the case where the parent account is not found
+//                        }
+
                     } else {
                         Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
 
@@ -1059,25 +1070,61 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
     //todo calling industry api for lead type drop down---
     List<IndustryItem> IndustryItemItemList = new ArrayList<>();
 
+//    private void callLeadTypeApi() {
+//        ItemViewModel model = ViewModelProviders.of(this).get(ItemViewModel.class);
+//        model.getIndustryList().observe(this, new Observer<List<IndustryItem>>() {
+//            @Override
+//            public void onChanged(@Nullable List<IndustryItem> itemsList) {
+//                if (itemsList == null || itemsList.size() == 0) {
+//                    Globals.setmessage(dbClick);
+//                } else {
+//                    IndustryItemItemList = itemsList;
+//                    binding.acLeadType.setAdapter(new LeadTypeAutoAdapter(dbClick, R.layout.drop_down_textview, itemsList));
+//
+//                    int pos = Globals.getIndustryPo(IndustryItemItemList, businessPartnerOneData_gl.getIndustry());
+//                    binding.acLeadType.setText(IndustryItemItemList.get(pos).getIndustryName());
+//                    industryCode = businessPartnerOneData_gl.getIndustry();
+//
+//                }
+//            }
+//        });
+//    }
+
     private void callLeadTypeApi() {
         ItemViewModel model = ViewModelProviders.of(this).get(ItemViewModel.class);
         model.getIndustryList().observe(this, new Observer<List<IndustryItem>>() {
             @Override
             public void onChanged(@Nullable List<IndustryItem> itemsList) {
-                if (itemsList == null || itemsList.size() == 0) {
+                // Check if the itemsList is null or empty
+                if (itemsList == null || itemsList.isEmpty()) {
                     Globals.setmessage(dbClick);
                 } else {
+                    // Assign the list to the class variable
                     IndustryItemItemList = itemsList;
+                    // Set the adapter for the AutoCompleteTextView
                     binding.acLeadType.setAdapter(new LeadTypeAutoAdapter(dbClick, R.layout.drop_down_textview, itemsList));
 
+                    // Get the position of the selected industry
                     int pos = Globals.getIndustryPo(IndustryItemItemList, businessPartnerOneData_gl.getIndustry());
-                    binding.acLeadType.setText(IndustryItemItemList.get(pos).getIndustryName());
-                    industryCode = businessPartnerOneData_gl.getIndustry();
 
+                    // Check if the position is valid
+                    if (pos >= 0 && pos < IndustryItemItemList.size()) {
+                        // Set the text in the AutoCompleteTextView
+                        binding.acLeadType.setText(IndustryItemItemList.get(pos).getIndustryName());
+                        // Set the industry code
+                        industryCode = businessPartnerOneData_gl.getIndustry();
+                    } else {
+                        // Handle the case where the industry was not found
+                        Log.e("IndustryError", "Industry not found: " + businessPartnerOneData_gl.getIndustry());
+                        // Optionally set a default value or notify the user
+                        binding.acLeadType.setText(""); // Clear the text or set a default value
+                        industryCode = ""; // Reset the industry code if not found
+                    }
                 }
             }
         });
     }
+
 
 
     //todo calling country api here...
@@ -1407,19 +1454,24 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
                             e.printStackTrace();
                         }
 
-                        String currentAddress1 = addresses.get(0).getAddressLine(0);
-                        Log.e("current_lat", String.valueOf(location.getLatitude()));
-                        Log.e("current_long", String.valueOf(location.getLongitude()));
-                        Log.e("current_address", String.valueOf(currentAddress1));
+                        if (addresses != null && !addresses.isEmpty()) {
+                            String currentAddress1 = addresses.get(0).getAddressLine(0);
+                            // Use currentAddress1 as needed
 
-                        //todo set selected location blank..
-                        selectedAddress = "";
-                        selectedLatitude = "";
-                        selectedLongitude = "";
+//                        String currentAddress1 = addresses.get(0).getAddressLine(0);
+                            Log.e("current_lat", String.valueOf(location.getLatitude()));
+                            Log.e("current_long", String.valueOf(location.getLongitude()));
+                            Log.e("current_address", String.valueOf(currentAddress1));
 
-                        currentAddress = currentAddress1;
-                        currentLatitude = String.valueOf(location.getLatitude());
-                        currentLongitude = String.valueOf(location.getLongitude());
+                            //todo set selected location blank..
+                            selectedAddress = "";
+                            selectedLatitude = "";
+                            selectedLongitude = "";
+
+                            currentAddress = currentAddress1;
+                            currentLatitude = String.valueOf(location.getLatitude());
+                            currentLongitude = String.valueOf(location.getLongitude());
+                        }
 
                     } else {
                         LocationRequest locationRequest;

@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.fragments.ChatterFragment;
 import com.cinntra.vista.fragments.Open_Opprtunity_Fragment;
@@ -39,7 +40,6 @@ import com.cinntra.vista.webservices.NewApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.like.LikeButton;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.time.LocalDate;

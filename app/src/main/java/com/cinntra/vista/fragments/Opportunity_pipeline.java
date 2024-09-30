@@ -22,12 +22,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOpportunityActivity;
 import com.cinntra.vista.activities.Opportunities_Pipeline_Activity;
-import com.cinntra.vista.adapters.ProductAdapter;
+//import com.cinntra.vista.adapters.ProductAdapter;
 import com.cinntra.vista.databinding.FragmentOpenOppBinding;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.Company;
@@ -47,7 +47,7 @@ public class Opportunity_pipeline extends Fragment implements View.OnClickListen
 //    PullRefreshLayout swipeRefreshLayout;
     Context mcontext;
 
-    ProductAdapter adapter;
+//    ProductAdapter adapter;
     
     LinearLayoutManager layoutManager;
     List<Company> allopplist = new ArrayList<>();
@@ -96,7 +96,7 @@ public class Opportunity_pipeline extends Fragment implements View.OnClickListen
             callApi( binding.loader);}
 
 
-        binding.  swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding.  swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if(Globals.checkInternet(getActivity()))
@@ -168,10 +168,10 @@ public class Opportunity_pipeline extends Fragment implements View.OnClickListen
         allopplist.get(4).setItems(orderlist);
 
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter= new ProductAdapter(allopplist,leadlist,needanalysislist,quotationlist,negotiationlist,orderlist,alllistDAta,getActivity());
-        binding. recyclerview.setAdapter(adapter);
+//        adapter= new ProductAdapter(allopplist,leadlist,needanalysislist,quotationlist,negotiationlist,orderlist,alllistDAta,getActivity());
+//        binding. recyclerview.setAdapter(adapter);
 
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
     private List<NewOpportunityRespose> filterlist(List<NewOpportunityRespose> leadlist, String s) {
@@ -206,8 +206,8 @@ public class Opportunity_pipeline extends Fragment implements View.OnClickListen
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(adapter!=null&&newText.length()>0)
-                    adapter.filter(newText);
+//                if(adapter!=null&&newText.length()>0)
+//                    adapter.filter(newText);
 
 
                 return true;
@@ -231,16 +231,16 @@ public class Opportunity_pipeline extends Fragment implements View.OnClickListen
                 break;
             case R.id.all:
 
-                if(adapter!=null)
-                       adapter.AllData();
+//                if(adapter!=null)
+//                       adapter.AllData();
 
                 break;
             case R.id.my:
 
                 break;
             case R.id.my_team:
-                if(adapter!=null)
-                     adapter.Favfilter("Y");
+//                if(adapter!=null)
+//                     adapter.Favfilter("Y");
                 break;
             case  R.id.valid:
 

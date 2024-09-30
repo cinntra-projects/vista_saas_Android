@@ -18,13 +18,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.DataBasesListAdapter;
 import com.cinntra.vista.databinding.ActivitySqlSettingBinding;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.interfaces.DatabaseClick;
 import com.cinntra.vista.model.DataBase;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.sql.*;
 import java.util.ArrayList;

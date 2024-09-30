@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.businesPartner.AddBranchActivity">
+    tools:context=".activities.bpActivity.AddBranchActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -182,7 +182,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:editable="false"
-                                android:inputType="textEmailAddress"
+                                android:inputType="text"
                                 android:maxLines="1"
                                 android:textSize="12sp" />
 

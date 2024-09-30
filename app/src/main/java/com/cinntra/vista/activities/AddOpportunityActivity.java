@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.BPTypeSpinnerAdapter;
 import com.cinntra.vista.adapters.CategoryAdapter;
@@ -57,7 +58,6 @@ import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,10 +114,6 @@ public class AddOpportunityActivity extends MainBaseActivity implements View.OnC
 
         setDefaults();
         eventManager();
-
-
-
-
 
         if (Globals.checkInternet(this)) {
             callSourceApi();

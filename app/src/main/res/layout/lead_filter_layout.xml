@@ -485,7 +485,7 @@
 
                                     android:background="@drawable/rounded_border_edit">
 
-                                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                    <AutoCompleteTextView
                                         android:id="@+id/spinnerSearchable"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/text_45"

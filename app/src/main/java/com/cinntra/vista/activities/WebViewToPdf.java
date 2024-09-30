@@ -27,11 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.cinntra.vista.BuildConfig;
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.TestPdfBinding;
 import com.cinntra.vista.globals.Globals;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.webviewtopdf.PdfView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -171,27 +170,27 @@ binding.progressBar.setVisibility(View.VISIBLE);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait");
         progressDialog.show();
-        PdfView obj = new PdfView();
+//        PdfView obj = new PdfView();
 
         // PdfViewSHubh.createWebPrintJob(getActivity(),webView,f,fileName,new );
 
 
-        PdfView.createWebPrintJob(this, webView, f, fileName, new PdfView.Callback()
-        {
-
-            @Override
-            public void success(String path) {
-                progressDialog.dismiss();
-                whatsappShare(fileName);
-                //PdfView.openPdfFile(Pdf_Test.this,getString(R.string.app_name),"Do you want to open the pdf file?"+fileName,path);
-            }
-
-            @Override
-            public void failure() {
-                progressDialog.dismiss();
-
-            }
-        });
+//        PdfView.createWebPrintJob(this, webView, f, fileName, new PdfView.Callback()
+//        {
+//
+//            @Override
+//            public void success(String path) {
+//                progressDialog.dismiss();
+//                whatsappShare(fileName);
+//                //PdfView.openPdfFile(Pdf_Test.this,getString(R.string.app_name),"Do you want to open the pdf file?"+fileName,path);
+//            }
+//
+//            @Override
+//            public void failure() {
+//                progressDialog.dismiss();
+//
+//            }
+//        });
     }
 
    /* private void whatsappShare(String fName) {

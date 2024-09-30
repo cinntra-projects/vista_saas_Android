@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.cinntra.vista.EasyPrefs.Prefs;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -31,10 +32,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
 import java.io.IOException;
@@ -229,16 +226,16 @@ public class AddPaymentDetails extends MainBaseActivity implements View.OnClickL
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            Matisse.from(AddPaymentDetails.this)
-                                    .choose(MimeType.ofAll())
-                                    .countable(true)
-                                    .maxSelectable(5)
-                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                                    .thumbnailScale(0.85f)
-                                    .imageEngine(new GlideEngine())
-                                    .showPreview(false)
-                                    .forResult(REQUEST_CODE_CHOOSE);// Default is `true`
+//                            Matisse.from(AddPaymentDetails.this)
+//                                    .choose(MimeType.ofAll())
+//                                    .countable(true)
+//                                    .maxSelectable(5)
+//                                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+//                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+//                                    .thumbnailScale(0.85f)
+//                                    .imageEngine(new GlideEngine())
+//                                    .showPreview(false)
+//                                    .forResult(REQUEST_CODE_CHOOSE);// Default is `true`
 
                            /* Intent intent = new Intent();
 
@@ -273,7 +270,7 @@ public class AddPaymentDetails extends MainBaseActivity implements View.OnClickL
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK && null != data) {
 
             //mSelected.add(data.getData());
-            mArrayList = Matisse.obtainResult(data);
+//            mArrayList = Matisse.obtainResult(data);
             mSelected.addAll(mArrayList);
             for (int i = 0; i < mSelected.size(); i++) {
                 path.add(FileUtils.getPath(AddPaymentDetails.this, mSelected.get(i)));

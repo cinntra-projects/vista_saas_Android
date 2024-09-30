@@ -31,8 +31,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.activities.bpActivity.AddBPCustomer;
 import com.cinntra.vista.activities.BussinessPartners;
@@ -51,10 +52,8 @@ import com.cinntra.vista.interfaces.CommentStage;
 import com.cinntra.vista.model.BPModel.BPAllFilterRequestModel;
 import com.cinntra.vista.model.BPModel.BusinessPartnerAllResponse;
 import com.cinntra.vista.model.BPModel.BusinessPartnerData;
-import com.cinntra.vista.model.BPModel.demoListModel;
 import com.cinntra.vista.model.DataBusinessPartnerDropDown;
 import com.cinntra.vista.model.DataBusinessType;
-import com.cinntra.vista.model.DataDropDownZone;
 import com.cinntra.vista.model.EmployeeValue;
 import com.cinntra.vista.model.IndustryItem;
 import com.cinntra.vista.model.IndustryResponse;
@@ -73,8 +72,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -133,7 +130,7 @@ public class CustomersFragment extends Fragment implements CommentStage {
         calltypeapi();
 //        callStateApi(acState);
 
-        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 searchTextValue = "";
@@ -216,7 +213,7 @@ public class CustomersFragment extends Fragment implements CommentStage {
         binding.customerLeadList.setVisibility(View.GONE);
 
         loader.setVisibility(View.VISIBLE);
-        if (Prefs.getString(Globals.BussinessPageType, "").equalsIgnoreCase("DashBoard")) {
+//        if (Prefs.getString(Globals.BussinessPageType, "").equalsIgnoreCase("DashBoard")) {
             BPAllFilterRequestModel requestModel = new BPAllFilterRequestModel();
             requestModel.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
             requestModel.setPageNo(page);
@@ -279,6 +276,7 @@ public class CustomersFragment extends Fragment implements CommentStage {
                                         dadapter.AllData(itemsList);
                                     }
 
+                                    Log.e("CHECKList", "onResponse: "+String.valueOf(itemsList));
                                     binding.swipeRefreshLayout.setRefreshing(false);
                                     dadapter.notifyDataSetChanged();
 
@@ -335,119 +333,120 @@ public class CustomersFragment extends Fragment implements CommentStage {
                 }
             });
 
-        } else {
-            BPAllFilterRequestModel requestModel = new BPAllFilterRequestModel();
-            requestModel.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
-            requestModel.setPageNo(page);
-            requestModel.setMaxItem(maxItem);
-            requestModel.setSearchText(searchTextValue);
-            requestModel.setOrder_by_field(Globals.orderbyField_id);
-            requestModel.setOrder_by_value(Globals.orderbyvalueDesc);
-            BPAllFilterRequestModel.Field field = new BPAllFilterRequestModel.Field();
-            if (isBusinessTypePresent) {
-                field.setU_TYPE(businessTypeSelected);
-            }
-
-            if (isSalesEmployeePresent) {
-                field.setSalesPersonCode(salesEmployeeCode);
-            }
-
-            if (isIndustryTypePresent) {
-                field.setIndustry(industryCode);
-            }
-            if (ispaymentTermTypePresent) {
-                field.setPayTermsGrpCode(payment_term);
-            }
-         /*   field.setCardType("");
-            field.setIndustry(industryCode);
-            field.setSalesPersonPerson(salesEmployeeCode);//solIdName*/
-            requestModel.setField(field);
-
-
-            Call<BusinessPartnerAllResponse> call = NewApiClient.getInstance().getApiService(getActivity()).getBPAllPageList(requestModel);
-            call.enqueue(new Callback<BusinessPartnerAllResponse>() {
-                @Override
-                public void onResponse(Call<BusinessPartnerAllResponse> call, Response<BusinessPartnerAllResponse> response) {
-                    try {
-                        if (response.isSuccessful()) {
-                            binding.shimmerFrameLayout.stopShimmer();
-                            binding.shimmerFrameLayout.setVisibility(View.GONE);
-                            binding.customerLeadList.setVisibility(View.VISIBLE);
-                            if (response.body().getStatus() == 200) {
-                                binding.swipeRefreshLayout.setRefreshing(false);
-                                if (response.body().getData() != null && response.body().getData().size() > 0) {
-                                    loader.setVisibility(View.GONE);
-                                    List<BusinessPartnerAllResponse.Datum> itemsList = response.body().getData();
-                                    binding.noDatafound.setVisibility(View.GONE);
-                                    if (page == 1) {
-                                        allBpList_gl.clear();
-                                        allBpList_gl.addAll(itemsList);
-                                        adapter.AllData(itemsList);
-                                    } else {
-                                        allBpList_gl.clear();
-                                        allBpList_gl.addAll(itemsList);
-                                        adapter.AllData(itemsList);
-                                    }
-
-                                    binding.swipeRefreshLayout.setRefreshing(false);
-                                    adapter.notifyDataSetChanged();
-
-                                    if (itemsList.size() < 10)
-                                        apicall = false;
-
-                                } else {
-                                    binding.customerLeadList.setAdapter(null);
-                                    loader.setVisibility(View.GONE);
-                                    binding.noDatafound.setVisibility(View.VISIBLE);
-                                    Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                binding.noDatafound.setVisibility(View.VISIBLE);
-                                loader.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            binding.shimmerFrameLayout.stopShimmer();
-                            binding.shimmerFrameLayout.setVisibility(View.GONE);
-                            binding.customerLeadList.setVisibility(View.VISIBLE);
-                            loader.setVisibility(View.GONE);
-                            Gson gson = new GsonBuilder().create();
-                            QuotationResponse mError = new QuotationResponse();
-                            try {
-                                String s = response.errorBody().string();
-                                mError = gson.fromJson(s, QuotationResponse.class);
-                                Toast.makeText(getActivity(), mError.getError().getMessage().getValue(), Toast.LENGTH_LONG).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    } catch (Exception e) {
-                        binding.shimmerFrameLayout.stopShimmer();
-                        binding.shimmerFrameLayout.setVisibility(View.GONE);
-                        binding.customerLeadList.setVisibility(View.VISIBLE);
-                        loader.setVisibility(View.GONE);
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<BusinessPartnerAllResponse> call, Throwable t) {
-                    binding.shimmerFrameLayout.stopShimmer();
-                    binding.shimmerFrameLayout.setVisibility(View.GONE);
-                    loader.setVisibility(View.GONE);
-                    Toast.makeText(loader.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
+//        }
+//        else {
+//            BPAllFilterRequestModel requestModel = new BPAllFilterRequestModel();
+//            requestModel.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
+//            requestModel.setPageNo(page);
+//            requestModel.setMaxItem(maxItem);
+//            requestModel.setSearchText(searchTextValue);
+//            requestModel.setOrder_by_field(Globals.orderbyField_id);
+//            requestModel.setOrder_by_value(Globals.orderbyvalueDesc);
+//            BPAllFilterRequestModel.Field field = new BPAllFilterRequestModel.Field();
+//            if (isBusinessTypePresent) {
+//                field.setU_TYPE(businessTypeSelected);
+//            }
+//
+//            if (isSalesEmployeePresent) {
+//                field.setSalesPersonCode(salesEmployeeCode);
+//            }
+//
+//            if (isIndustryTypePresent) {
+//                field.setIndustry(industryCode);
+//            }
+//            if (ispaymentTermTypePresent) {
+//                field.setPayTermsGrpCode(payment_term);
+//            }
+//         /*   field.setCardType("");
+//            field.setIndustry(industryCode);
+//            field.setSalesPersonPerson(salesEmployeeCode);//solIdName*/
+//            requestModel.setField(field);
+//
+//
+//            Call<BusinessPartnerAllResponse> call = NewApiClient.getInstance().getApiService(getActivity()).getBPAllPageList(requestModel);
+//            call.enqueue(new Callback<BusinessPartnerAllResponse>() {
+//                @Override
+//                public void onResponse(Call<BusinessPartnerAllResponse> call, Response<BusinessPartnerAllResponse> response) {
+//                    try {
+//                        if (response.isSuccessful()) {
+//                            binding.shimmerFrameLayout.stopShimmer();
+//                            binding.shimmerFrameLayout.setVisibility(View.GONE);
+//                            binding.customerLeadList.setVisibility(View.VISIBLE);
+//                            if (response.body().getStatus() == 200) {
+//                                binding.swipeRefreshLayout.setRefreshing(false);
+//                                if (response.body().getData() != null && response.body().getData().size() > 0) {
+//                                    loader.setVisibility(View.GONE);
+//                                    List<BusinessPartnerAllResponse.Datum> itemsList = response.body().getData();
+//                                    binding.noDatafound.setVisibility(View.GONE);
+//                                    if (page == 1) {
+//                                        allBpList_gl.clear();
+//                                        allBpList_gl.addAll(itemsList);
+//                                        adapter.AllData(itemsList);
+//                                    } else {
+//                                        allBpList_gl.clear();
+//                                        allBpList_gl.addAll(itemsList);
+//                                        adapter.AllData(itemsList);
+//                                    }
+//
+//                                    binding.swipeRefreshLayout.setRefreshing(false);
+//                                    adapter.notifyDataSetChanged();
+//
+//                                    if (itemsList.size() < 10)
+//                                        apicall = false;
+//
+//                                } else {
+//                                    binding.customerLeadList.setAdapter(null);
+//                                    loader.setVisibility(View.GONE);
+//                                    binding.noDatafound.setVisibility(View.VISIBLE);
+//                                    Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            } else {
+//                                binding.noDatafound.setVisibility(View.VISIBLE);
+//                                loader.setVisibility(View.GONE);
+//                                Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        } else {
+//                            binding.shimmerFrameLayout.stopShimmer();
+//                            binding.shimmerFrameLayout.setVisibility(View.GONE);
+//                            binding.customerLeadList.setVisibility(View.VISIBLE);
+//                            loader.setVisibility(View.GONE);
+//                            Gson gson = new GsonBuilder().create();
+//                            QuotationResponse mError = new QuotationResponse();
+//                            try {
+//                                String s = response.errorBody().string();
+//                                mError = gson.fromJson(s, QuotationResponse.class);
+//                                Toast.makeText(getActivity(), mError.getError().getMessage().getValue(), Toast.LENGTH_LONG).show();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                    } catch (Exception e) {
+//                        binding.shimmerFrameLayout.stopShimmer();
+//                        binding.shimmerFrameLayout.setVisibility(View.GONE);
+//                        binding.customerLeadList.setVisibility(View.VISIBLE);
+//                        loader.setVisibility(View.GONE);
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<BusinessPartnerAllResponse> call, Throwable t) {
+//                    binding.shimmerFrameLayout.stopShimmer();
+//                    binding.shimmerFrameLayout.setVisibility(View.GONE);
+//                    loader.setVisibility(View.GONE);
+//                    Toast.makeText(loader.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//        }
 
     }
 
 
     private void callAllPageApi(ProgressBar loader, int maxItem, int page, String industryCode, String salesEmployeeCode) {
         loader.setVisibility(View.VISIBLE);
-        if (Prefs.getString(Globals.BussinessPageType, "").equalsIgnoreCase("DashBoard")) {
+//        if (Prefs.getString(Globals.BussinessPageType, "").equalsIgnoreCase("DashBoard")) {
             BPAllFilterRequestModel requestModel = new BPAllFilterRequestModel();
             requestModel.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
             requestModel.setPageNo(page);
@@ -543,92 +542,93 @@ public class CustomersFragment extends Fragment implements CommentStage {
                 }
             });
 
-        } else {
-            BPAllFilterRequestModel requestModel = new BPAllFilterRequestModel();
-            requestModel.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
-            requestModel.setPageNo(page);
-            requestModel.setMaxItem(maxItem);
-            requestModel.setSearchText(searchTextValue);
-            requestModel.setOrder_by_field(Globals.orderbyField_id);
-            requestModel.setOrder_by_value(Globals.orderbyvalueDesc);
-            BPAllFilterRequestModel.Field field = new BPAllFilterRequestModel.Field();
-         /*   field.setCardType("");
-            field.setIndustry(industryCode);
-            field.setSalesPersonPerson(salesEmployeeCode);//solIdName*/
-            requestModel.setField(field);
-
-
-            Call<BusinessPartnerAllResponse> call = NewApiClient.getInstance().getApiService(getActivity()).getBPAllPageList(requestModel);
-            call.enqueue(new Callback<BusinessPartnerAllResponse>() {
-                @Override
-                public void onResponse(Call<BusinessPartnerAllResponse> call, Response<BusinessPartnerAllResponse> response) {
-                    try {
-                        if (response.isSuccessful()) {
-                            if (response.body().getStatus() == 200) {
-                                if (response.body().getData() != null && response.body().getData().size() > 0) {
-                                    loader.setVisibility(View.GONE);
-                                    List<BusinessPartnerAllResponse.Datum> itemsList = response.body().getData();
-                                    binding.noDatafound.setVisibility(View.GONE);
-                                    if (page == 1) {
-                                        allBpList_gl.clear();
-                                        allBpList_gl.addAll(itemsList);
-                                        adapter.AllData(itemsList);
-                                    } else {
-                                        allBpList_gl.addAll(itemsList);
-                                        adapter.AllData(itemsList);
-                                    }
-
-                                    binding.swipeRefreshLayout.setRefreshing(false);
-                                    adapter.notifyDataSetChanged();
-
-                                    if (itemsList.size() < 10)
-                                        apicall = false;
-
-                                } else {
-                                    binding.customerLeadList.setAdapter(null);
-                                    loader.setVisibility(View.GONE);
-                                    binding.noDatafound.setVisibility(View.VISIBLE);
-                                    Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                binding.noDatafound.setVisibility(View.VISIBLE);
-                                loader.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            loader.setVisibility(View.GONE);
-                            Gson gson = new GsonBuilder().create();
-                            QuotationResponse mError = new QuotationResponse();
-                            try {
-                                String s = response.errorBody().string();
-                                mError = gson.fromJson(s, QuotationResponse.class);
-                                Toast.makeText(getActivity(), mError.getError().getMessage().getValue(), Toast.LENGTH_LONG).show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    } catch (Exception e) {
-                        loader.setVisibility(View.GONE);
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<BusinessPartnerAllResponse> call, Throwable t) {
-                    loader.setVisibility(View.GONE);
-                    Toast.makeText(loader.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
+//        }
+//        else {
+//            BPAllFilterRequestModel requestModel = new BPAllFilterRequestModel();
+//            requestModel.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
+//            requestModel.setPageNo(page);
+//            requestModel.setMaxItem(maxItem);
+//            requestModel.setSearchText(searchTextValue);
+//            requestModel.setOrder_by_field(Globals.orderbyField_id);
+//            requestModel.setOrder_by_value(Globals.orderbyvalueDesc);
+//            BPAllFilterRequestModel.Field field = new BPAllFilterRequestModel.Field();
+//         /*   field.setCardType("");
+//            field.setIndustry(industryCode);
+//            field.setSalesPersonPerson(salesEmployeeCode);//solIdName*/
+//            requestModel.setField(field);
+//
+//
+//            Call<BusinessPartnerAllResponse> call = NewApiClient.getInstance().getApiService(getActivity()).getBPAllPageList(requestModel);
+//            call.enqueue(new Callback<BusinessPartnerAllResponse>() {
+//                @Override
+//                public void onResponse(Call<BusinessPartnerAllResponse> call, Response<BusinessPartnerAllResponse> response) {
+//                    try {
+//                        if (response.isSuccessful()) {
+//                            if (response.body().getStatus() == 200) {
+//                                if (response.body().getData() != null && response.body().getData().size() > 0) {
+//                                    loader.setVisibility(View.GONE);
+//                                    List<BusinessPartnerAllResponse.Datum> itemsList = response.body().getData();
+//                                    binding.noDatafound.setVisibility(View.GONE);
+//                                    if (page == 1) {
+//                                        allBpList_gl.clear();
+//                                        allBpList_gl.addAll(itemsList);
+//                                        adapter.AllData(itemsList);
+//                                    } else {
+//                                        allBpList_gl.addAll(itemsList);
+//                                        adapter.AllData(itemsList);
+//                                    }
+//
+//                                    binding.swipeRefreshLayout.setRefreshing(false);
+//                                    adapter.notifyDataSetChanged();
+//
+//                                    if (itemsList.size() < 10)
+//                                        apicall = false;
+//
+//                                } else {
+//                                    binding.customerLeadList.setAdapter(null);
+//                                    loader.setVisibility(View.GONE);
+//                                    binding.noDatafound.setVisibility(View.VISIBLE);
+//                                    Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            } else {
+//                                binding.noDatafound.setVisibility(View.VISIBLE);
+//                                loader.setVisibility(View.GONE);
+//                                Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        } else {
+//                            loader.setVisibility(View.GONE);
+//                            Gson gson = new GsonBuilder().create();
+//                            QuotationResponse mError = new QuotationResponse();
+//                            try {
+//                                String s = response.errorBody().string();
+//                                mError = gson.fromJson(s, QuotationResponse.class);
+//                                Toast.makeText(getActivity(), mError.getError().getMessage().getValue(), Toast.LENGTH_LONG).show();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                    } catch (Exception e) {
+//                        loader.setVisibility(View.GONE);
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<BusinessPartnerAllResponse> call, Throwable t) {
+//                    loader.setVisibility(View.GONE);
+//                    Toast.makeText(loader.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//        }
 
     }
 
     private void setAdapter() {
         layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         binding.customerLeadList.setLayoutManager(layoutManager);
-        if (Prefs.getString(Globals.BussinessPageType, "").equalsIgnoreCase("DashBoard")) {
+     /*   if (Prefs.getString(Globals.BussinessPageType, "").equalsIgnoreCase("DashBoard")) {
             dadapter = new CustomersAdapterDetals(getActivity(), businessPartnerList_gl);
             binding.customerLeadList.setAdapter(dadapter);
             dadapter.notifyDataSetChanged();
@@ -636,7 +636,10 @@ public class CustomersFragment extends Fragment implements CommentStage {
             adapter = new CustomersAdapter(getActivity(), allBpList_gl);
             binding.customerLeadList.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-        } //todo comment by me
+        }*/ //todo comment by me
+        dadapter = new CustomersAdapterDetals(getActivity(), businessPartnerList_gl);
+        binding.customerLeadList.setAdapter(dadapter);
+        dadapter.notifyDataSetChanged();
     }
 
 
@@ -1076,8 +1079,8 @@ public class CustomersFragment extends Fragment implements CommentStage {
     String businessTypeSelected = "";
     String payment_term = "";
 
-    private void setUpBusinessTypeSpinner(SearchableSpinner businessTypeSpinner) {
-        businessTypeSpinner.setTitle("Business Type");
+    private void setUpBusinessTypeSpinner(AutoCompleteTextView businessTypeSpinner) {
+        businessTypeSpinner.setHint("Business Type");
         businessTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

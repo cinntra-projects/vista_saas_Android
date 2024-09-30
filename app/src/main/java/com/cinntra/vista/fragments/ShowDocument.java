@@ -22,7 +22,6 @@ import androidx.fragment.app.Fragment;
 
 import com.cinntra.vista.R;
 import com.google.android.material.snackbar.Snackbar;
-import com.webviewtopdf.PdfView;
 
 import java.io.File;
 
@@ -96,29 +95,29 @@ public class ShowDocument extends Fragment implements View.OnClickListener {
                 final ProgressDialog progressDialog=new ProgressDialog(getContext());
                 progressDialog.setMessage("Please wait");
                 progressDialog.show();
-                PdfView.createWebPrintJob(getActivity(), printWeb, directory, fileName, new PdfView.Callback() {
+//                PdfView.createWebPrintJob(getActivity(), printWeb, directory, fileName, new PdfView.Callback() {
 
-                    @Override
-                    public void success(String path) {
-                        progressDialog.dismiss();
-                        Snackbar snackbar = Snackbar
-                                .make(requireView(), "Download successfully", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-
-                        openshareDialog(path);
-                     //   PdfView.openPdfFile(getActivity(),getString(R.string.app_name),"Do you want to open the pdf file?"+fileName,path);
-                    }
-
-                    @Override
-                    public void failure() {
-                        progressDialog.dismiss();
-                        Snackbar snackbar = Snackbar
-                                .make(requireView(), "Download Failed", Snackbar.LENGTH_LONG);
-                        snackbar.show();
-
-                    }
-                });
-                break;
+//                    @Override
+//                    public void success(String path) {
+//                        progressDialog.dismiss();
+//                        Snackbar snackbar = Snackbar
+//                                .make(requireView(), "Download successfully", Snackbar.LENGTH_LONG);
+//                        snackbar.show();
+//
+//                        openshareDialog(path);
+//                     //   PdfView.openPdfFile(getActivity(),getString(R.string.app_name),"Do you want to open the pdf file?"+fileName,path);
+//                    }
+//
+//                    @Override
+//                    public void failure() {
+//                        progressDialog.dismiss();
+//                        Snackbar snackbar = Snackbar
+//                                .make(requireView(), "Download Failed", Snackbar.LENGTH_LONG);
+//                        snackbar.show();
+//
+//                    }
+//                });
+//                break;
         }
     }
 

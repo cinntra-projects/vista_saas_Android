@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.baoyz.widget.PullRefreshLayout;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.PaymentDetailsAdapter;
 import com.cinntra.vista.databinding.FragmentCampaignBinding;
@@ -59,7 +59,8 @@ public class PaymentDetails extends MainBaseActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24);
 
 
-        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -164,9 +165,10 @@ public class PaymentDetails extends MainBaseActivity {
             case R.id.search:
 
                 break;
-            case R.id.plus:
-                startActivity(new Intent(this, AddPaymentDetails.class));
-                break;
+
+//            case R.id.plus:
+//                startActivity(new Intent(this, AddPaymentDetails.class));
+//                break;
 
 
             case android.R.id.home:

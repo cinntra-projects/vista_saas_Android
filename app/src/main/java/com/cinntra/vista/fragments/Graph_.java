@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.customUI.RoundedBarChart;
 import com.cinntra.vista.databinding.GraphBinding;
@@ -34,7 +35,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.pixplicity.easyprefs.library.Prefs;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -286,7 +287,7 @@ public class Graph_ extends Fragment implements View.OnClickListener {
     private void loadTop5Item()
     {
         HashMap<String,String> hd = new HashMap<>();
-        hd.put("SalesPersonCode",Prefs.getString(Globals.SalesEmployeeCode,""));
+        hd.put("SalesPersonCode", Prefs.getString(Globals.SalesEmployeeCode,""));
 
         Call<Top5ItemResponse> call = NewApiClient.getInstance().getApiService(requireActivity()).getTop5Items(hd);
         call.enqueue(new Callback<Top5ItemResponse>() {
