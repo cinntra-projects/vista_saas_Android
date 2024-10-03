@@ -336,7 +336,7 @@ public class Globals {
 
         try {
             Date date = inputFormat.parse(timeString);
-            return outputFormat.format(date);
+            return outputFormat.format(date).toUpperCase();
         } catch (ParseException e) {
             e.printStackTrace();
             return "Invalid time format";

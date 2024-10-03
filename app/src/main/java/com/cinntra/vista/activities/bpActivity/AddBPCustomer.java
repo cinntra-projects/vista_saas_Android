@@ -1001,6 +1001,16 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBPCustomer.this, R.layout.drop_down_textview, itemNames);
                         binding.fragmentAddpartnercontact.addressSection.acCountry.setAdapter(adapter);
 
+                        // Set default to India
+                        String defaultCountry = "India";
+                        int defaultPos = itemNames.indexOf(defaultCountry);
+                        if (defaultPos != -1) {
+                            binding.fragmentAddpartnercontact.addressSection.acCountry.setText(defaultCountry, false);
+                            billtoCountryName = defaultCountry;
+                            billtoCountrycode = countyList.get(defaultPos).getCode();
+
+                            callBillToStateApi(billtoCountrycode);  // Call the API with India's code
+                        }
 
                         //todo bill to and ship to address drop down item select..
                         binding.fragmentAddpartnercontact.addressSection.acCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {

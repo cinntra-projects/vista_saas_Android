@@ -1,4 +1,4 @@
- package com.cinntra.vista.activities;
+package com.cinntra.vista.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.OrderPagerAdapter;
 import com.cinntra.vista.databinding.FragmentOrdersBinding;
+import com.cinntra.vista.fragments.Dashboard;
 import com.cinntra.vista.fragments.Open_Order;
 import com.cinntra.vista.globals.MainBaseActivity;
 
@@ -24,20 +25,22 @@ public class OrderActivity extends MainBaseActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-     super.onCreate(savedInstanceState);
-     binding = FragmentOrdersBinding.inflate(getLayoutInflater());
-     setContentView(binding.getRoot());
-   //  ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
+        binding = FragmentOrdersBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        //  ButterKnife.bind(this);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24);
         actionBar.setDisplayHomeAsUpEnabled(true);
-     setDefaults();
+        setDefaults();
 
-        }
+    }
+
     //private String []tabs = {"Open","All","Approval Status"};
-    private String []tabs = {"Open","All"};
-    private ArrayList<Fragment> fragments =new ArrayList<Fragment>();
+    private String[] tabs = {"Open", "All"};
+    private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
+
     private void setDefaults() {
         binding.headerBottomRoundedWithSearchFilter.headTitle.setText(getString(R.string.sales_order));
         fragments.add(new Open_Order()); //Open_order()
@@ -48,7 +51,7 @@ public class OrderActivity extends MainBaseActivity implements View.OnClickListe
         binding.headerBottomRoundedWithSearchFilter.search.setOnClickListener(this);
         binding.headerBottomRoundedWithSearchFilter.filter.setOnClickListener(this);
 
-        OrderPagerAdapter pagerAdapter = new OrderPagerAdapter(getSupportFragmentManager(),fragments,tabs);
+        OrderPagerAdapter pagerAdapter = new OrderPagerAdapter(getSupportFragmentManager(), fragments, tabs);
         binding.viewpager.setAdapter(pagerAdapter);
         binding.tabLayout.setupWithViewPager(binding.viewpager);
 
@@ -58,41 +61,40 @@ public class OrderActivity extends MainBaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-     switch (v.getId())
-             {
-     case R.id.back_press :
-          finish();
-          break;
-      case R.id.new_quatos:
+        switch (v.getId()) {
+            case R.id.back_press:
+                finish();
+                break;
+            case R.id.new_quatos:
 
-          startActivity(new Intent(OrderActivity.this,AddOrderAct.class));
+                startActivity(new Intent(OrderActivity.this, AddOrderAct.class));
           /* New_Order fragment = new New_Order();
            FragmentManager fm       = getSupportFragmentManager();
            FragmentTransaction transaction  = fm.beginTransaction();
            transaction.replace(R.id.main_container, fragment);
            transaction.addToBackStack(null);
            transaction.commit();*/
-           break;
+                break;
 
-       case R.id.search:
-          binding.headerBottomRoundedWithSearchFilter.mainHeaderLay.setVisibility(View.GONE);
-          binding.headerBottomRoundedWithSearchFilter.searchLay.setVisibility(View.VISIBLE);
+            case R.id.search:
+                binding.headerBottomRoundedWithSearchFilter.mainHeaderLay.setVisibility(View.GONE);
+                binding.headerBottomRoundedWithSearchFilter.searchLay.setVisibility(View.VISIBLE);
 
-          binding.headerBottomRoundedWithSearchFilter.searchView.setIconifiedByDefault(true);
-           binding.headerBottomRoundedWithSearchFilter.searchView.setFocusable(true);
-           binding.headerBottomRoundedWithSearchFilter.searchView.setIconified(false);
-           binding.headerBottomRoundedWithSearchFilter.searchView.requestFocusFromTouch();
-           break;
+                binding.headerBottomRoundedWithSearchFilter.searchView.setIconifiedByDefault(true);
+                binding.headerBottomRoundedWithSearchFilter.searchView.setFocusable(true);
+                binding.headerBottomRoundedWithSearchFilter.searchView.setIconified(false);
+                binding.headerBottomRoundedWithSearchFilter.searchView.requestFocusFromTouch();
+                break;
 
-          case R.id.filter:
+            case R.id.filter:
 
-             PopupMenu popupMenu = new PopupMenu(OrderActivity.this,binding.headerBottomRoundedWithSearchFilter.filter);
-             popupMenu.getMenuInflater().inflate(R.menu.order_filter,popupMenu.getMenu());
-             popupMenu.show();
+                PopupMenu popupMenu = new PopupMenu(OrderActivity.this, binding.headerBottomRoundedWithSearchFilter.filter);
+                popupMenu.getMenuInflater().inflate(R.menu.order_filter, popupMenu.getMenu());
+                popupMenu.show();
 
-             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-              @Override
-              public boolean onMenuItemClick(MenuItem item) {
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
                 /* switch (item.getItemId()){
                                  case R.id.all:
                                      item.isChecked();
@@ -106,26 +108,23 @@ public class OrderActivity extends MainBaseActivity implements View.OnClickListe
                                  case R.id.oldest:
                                      break;
                              }*/
-               return true;
-                         }
-                     });
-                     break;
+                        return true;
+                    }
+                });
+                break;
 
-              }
+        }
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if(binding.headerBottomRoundedWithSearchFilter.newQuatos!=null) {
+    public void onBackPressed() {
+        if (binding.headerBottomRoundedWithSearchFilter.newQuatos != null) {
             binding.headerBottomRoundedWithSearchFilter.newQuatos.setClickable(true);
             getSupportActionBar().show();
-            if(binding.headerBottomRoundedWithSearchFilter.mainHeaderLay.getVisibility()==View.GONE)
-            {
+            if (binding.headerBottomRoundedWithSearchFilter.mainHeaderLay.getVisibility() == View.GONE) {
                 binding.headerBottomRoundedWithSearchFilter.searchLay.setVisibility(View.GONE);
                 binding.headerBottomRoundedWithSearchFilter.mainHeaderLay.setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 super.onBackPressed();
             }
         }
@@ -134,7 +133,7 @@ public class OrderActivity extends MainBaseActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
                 return true;

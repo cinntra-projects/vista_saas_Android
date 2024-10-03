@@ -277,7 +277,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_15"
                     android:fontFamily="@font/muli_regular"
-                    android:text="@string/position_mand"
+                    android:text="Position"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_14" />
 
@@ -408,7 +408,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_15"
                     android:fontFamily="@font/muli_regular"
-                    android:text="@string/address_mand"
+                    android:text="Address"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_14" />
 

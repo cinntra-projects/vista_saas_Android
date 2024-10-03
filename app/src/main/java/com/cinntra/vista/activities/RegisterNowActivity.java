@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -85,6 +86,7 @@ public class RegisterNowActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
              //   pickPdfFile();
+                Toast.makeText(act, "", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -93,7 +95,12 @@ public class RegisterNowActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (validation()) {
-                    callRegisterApi();
+
+                    if(!Globals.isvalidateemail(binding.companyEmailValue)){
+                        callRegisterApi();
+                        Toast.makeText(RegisterNowActivity.this, "Register Successfully", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
             }
         });
@@ -119,6 +126,12 @@ public class RegisterNowActivity extends AppCompatActivity {
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
+        otpVerifyDialogBinding.ivCrossIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         otpVerifyDialogBinding.otpView.setOtpListener(new OTPListener() {
             @Override
@@ -138,9 +151,9 @@ public class RegisterNowActivity extends AppCompatActivity {
                         binding.loader.loader.setVisibility(View.GONE);
                         if (response.body().getStatus().equals("200")) {
                             binding.loginButton.setEnabled(true);
-                            finish();
                             Globals.showMessage(act, "SuccessFully Created");
                             dialog.dismiss();
+                            finish();
 
                         } else if (response.body().getStatus().equals("201")) {
                             Globals.showMessage(act, response.body().getMessage());
@@ -257,7 +270,7 @@ public class RegisterNowActivity extends AppCompatActivity {
                 if (response.body().getStatus().equals("200")) {
                     binding.loginButton.setEnabled(true);
 
-                    Globals.showMessage(act, "SuccessFully Sent Otp");
+                    Globals.showMessage(act, "OTP Send to "+binding.companyEmailValue.getText().toString().trim());
                     showOTPDialog(binding.companyEmailValue.getText().toString().trim());
 
                 } else if (response.body().getStatus().equals("201")) {
@@ -278,27 +291,43 @@ public class RegisterNowActivity extends AppCompatActivity {
     }
 
     private Boolean validation() {
-        if (!binding.companyEmailValue.getText().toString().trim().isEmpty() && Globals.isvalidateemail(binding.companyEmailValue)) {
-            binding.companyEmailValue.requestFocus();
-            Globals.showMessage(act, "Enter Valid Email");
-            return false;
-        } else if (binding.companyNoValue.getText().toString().trim().isEmpty()) {
+        String email = binding.companyEmailValue.getText().toString().trim();
+        String companyNo = binding.companyNoValue.getText().toString().trim();
+        String password = binding.edtPassword.getText().toString().trim();
+        String companyName = binding.nameValue.getText().toString().trim();
+
+        // Company Contact No validation
+        if (companyNo.isEmpty()) {
             Globals.showMessage(act, "Enter Company Contact No.");
             return false;
-        } else if (industryCode.isEmpty()) {
+        }
+        // Industry code validation
+        else if (industryCode.isEmpty()) {
             Globals.showMessage(act, "Select Industry Code");
             return false;
-        } else if (binding.edtPassword.getText().toString().trim().isEmpty()) {
+        }
+        // Password validation
+        else if (password.isEmpty()) {
             Globals.showMessage(act, "Enter Password");
             return false;
-        } else if (binding.nameValue.getText().toString().trim().isEmpty()) {
+        }
+        // Company Name validation
+        else if (companyName.isEmpty()) {
             Globals.showMessage(act, "Enter Company Name");
-
             return false;
-        } else {
+        }
+        // Email validation
+        else if (email.isEmpty()) {
+            binding.companyEmailValue.requestFocus();
+            Globals.showMessage(act, "Enter Email");
+            return false;
+        }
+        // If all validations pass
+        else {
             return true;
         }
     }
+
 
     private void eventManager() {
         binding.industrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

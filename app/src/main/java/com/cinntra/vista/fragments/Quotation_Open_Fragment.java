@@ -804,9 +804,9 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
                 isCardCodePresent=false;
                 isCreateDatePresent=false;
 
-                acCustomer.setText("");
-                edtFromDate.setText("");
-                edtToDate.setText("");
+                acCustomer.getText().clear();
+                edtFromDate.getText().clear();
+                edtToDate.getText().clear();
 
                 CardName = "";
                 fromDate = "";
@@ -834,10 +834,18 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
                 }
                 BPCardCode=cardCode;
 
+                if(acCustomer.getText().toString().isEmpty()){
+                    Toast.makeText(mContext, "Select Customer", Toast.LENGTH_SHORT).show();
+                }
+                else if(edtFromDate.getText().toString().isEmpty()){
+                    Toast.makeText(mContext, "Select Create Date", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    getQuotationListApi(binding.loaderLayout.loader, maxItem, page, cardCode, edtFromDate.getText().toString(), edtToDate.getText().toString());
 
-                getQuotationListApi(binding.loaderLayout.loader, maxItem, page, cardCode, edtFromDate.getText().toString(), edtToDate.getText().toString());
+                    dialog.dismiss();
+                }
 
-                dialog.dismiss();
             }
         });
 

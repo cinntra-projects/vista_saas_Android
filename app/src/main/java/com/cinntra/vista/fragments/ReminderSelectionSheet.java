@@ -20,6 +20,7 @@ import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.BottomSheetAdapter;
 import com.cinntra.vista.databinding.CustomBottomSheetBinding;
+import com.cinntra.vista.globals.DateTimeUtils;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.interfaces.ChangeTeam;
 import com.cinntra.vista.interfaces.FragmentRefresher;
@@ -240,6 +241,12 @@ public class ReminderSelectionSheet extends BottomSheetDialogFragment implements
         TextView title = dialog.findViewById(R.id.title);
         title.setText("Follow Up");
 
+        // Fetch the current date and time using the global functions
+        String todayDate = DateTimeUtils.getCurrentDate();
+        String currentTime = DateTimeUtils.getCurrentTime();
+
+        date_value.setText(todayDate);
+        time_value.setText(currentTime);
 
         communication_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -253,21 +260,21 @@ public class ReminderSelectionSheet extends BottomSheetDialogFragment implements
             }
         });
 
-        date_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Globals.disablePastSelectDate(dialog.getContext(), date_value);
-
-            }
-        });
-
-
-        time_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Globals.selectTime(context, time_value);
-            }
-        });
+//        date_value.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Globals.disablePastSelectDate(dialog.getContext(), date_value);
+//
+//            }
+//        });
+//
+//
+//        time_value.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Globals.selectTime(context, time_value);
+//            }
+//        });
 
 
         add.setOnClickListener(new View.OnClickListener() {

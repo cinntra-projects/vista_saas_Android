@@ -733,9 +733,9 @@ public class Open_Order extends Fragment implements CommentStage, FragmentRefres
             public void onClick(View v) {
                 isCardCodePresent=false;
                 isCreateDatePresent=false;
-                acCustomer.setText("");
-                edtFromDate.setText("");
-                edtToDate.setText("");
+                acCustomer.getText().clear();
+                edtFromDate.getText().clear();
+                edtToDate.getText().clear();
 
                 CardName = "";
                 fromDate = "";
@@ -762,10 +762,20 @@ public class Open_Order extends Fragment implements CommentStage, FragmentRefres
                 } else {
                     isCardCodePresent = true;
                 }
-                BPCardCode=cardCode;
-                callApi(binding.loader.loader, maxItem, page, cardCode, edtFromDate.getText().toString(), edtToDate.getText().toString());
 
-                dialog.dismiss();
+                BPCardCode=cardCode;
+
+                if(acCustomer.getText().toString().isEmpty()){
+                    Toast.makeText(requireContext(), "Select Customer", Toast.LENGTH_SHORT).show();
+                }
+                else if(edtFromDate.getText().toString().isEmpty()){
+                    Toast.makeText(requireContext(), "Select Create Date", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    callApi(binding.loader.loader, maxItem, page, cardCode, edtFromDate.getText().toString(), edtToDate.getText().toString());
+                    dialog.dismiss();
+                }
+
             }
         });
 

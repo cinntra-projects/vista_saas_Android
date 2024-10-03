@@ -704,37 +704,37 @@
 
 
 
-             <!--       <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/size_10"
-                        android:layout_marginRight="@dimen/size_10"
-                        android:orientation="horizontal">
+<!--                  <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="@dimen/size_10"-->
+<!--                        android:layout_marginRight="@dimen/size_10"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/size_45"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text="Shipping Name"
-                            android:textColor="@color/grey"
-                            android:textSize="@dimen/text_size_14" />
-
-
-                        <TextView
-                            android:id="@+id/tvShippingName"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/size_45"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text=""
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_14" />
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/size_45"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:text="Shipping Address"-->
+<!--                            android:textColor="@color/grey"-->
+<!--                            android:textSize="@dimen/text_size_14" />-->
 
 
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/tvShippingAddress"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/size_45"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:text=""-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_size_14" />-->
 
 
+<!--                    </LinearLayout>-->
+
+<!--
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

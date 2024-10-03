@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.cinntra.vista" >
+    package="com.cinntra.vista">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!-- For Photos and Videos on Android 13+ -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- For Photos and Videos on Android 13+ -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission
         android:name="android.permission.INTERNAL_SYSTEM_WINDOW"
@@ -26,6 +23,8 @@
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -49,7 +48,7 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.cinntra.vista.globals.MyApp"
+        android:name=".globals.MyApp"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo"
@@ -60,17 +59,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CinntraSales"
         android:usesCleartextTraffic="true"
-        tools:replace="android:icon"
-        >
-
+        tools:replace="android:icon">
+        <activity
+            android:name=".activities.SetNewPassword"
+            android:exported="false"
+            android:theme="@style/FullScreenMateial"/>
+        <activity
+            android:name=".activities.ForgotPassword"
+            android:exported="false"
+            android:theme="@style/FullScreenMateial" />
         <activity
             android:name=".activities.RegisterNowActivity"
             android:exported="false"
             android:label="@string/title_activity_register_now"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-        />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".test.TestBlankActivity"
             android:exported="false" />
@@ -111,7 +115,7 @@
             android:name=".activities.Splash"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreen" >
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -201,7 +205,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" /> <!--  -->
         <activity
-            android:name="com.cinntra.vista.globals.MainBaseActivity"
+            android:name=".globals.MainBaseActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" />
@@ -273,9 +277,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/FullScreen" /> <!-- Receivers -->
         <receiver
-            android:name="com.cinntra.vista.receivers.ConnectivityReceiver"
+            android:name=".receivers.ConnectivityReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -306,14 +310,14 @@
             android:label="@string/title_activity_invoice"
             android:screenOrientation="portrait" />
 
-        <receiver android:name="com.cinntra.vista.receivers.NotificationPublisher" />
+        <receiver android:name=".receivers.NotificationPublisher" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.cinntra.vista.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true"
-            tools:replace="android:authorities" >
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"
@@ -356,21 +360,21 @@
             </intent-filter>
         </receiver>
         -->
-        <service android:name="com.cinntra.vista.services.GoogleService" />
+        <service android:name=".services.GoogleService" />
         <service
-            android:name="com.cinntra.vista.FirebaseMessageReceiver"
+            android:name=".FirebaseMessageReceiver"
             android:exported="false"
-            android:foregroundServiceType="location" >
+            android:foregroundServiceType="location">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name="com.cinntra.vista.workManager.WorkManagerApplication"
+            android:name=".workManager.WorkManagerApplication"
             android:foregroundServiceType="location"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name="com.cinntra.vista.workManager.BackgroundLocationService"
+            android:name=".workManager.BackgroundLocationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />

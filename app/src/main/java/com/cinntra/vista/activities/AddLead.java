@@ -120,6 +120,9 @@ public class AddLead extends MainBaseActivity {
                         AssignToAdapter stateAdapter = new AssignToAdapter(AddLead.this, R.layout.drop_down_textview, assignToList_gl);
 
                         //todo set state..
+                        int size = assignToList_gl.size()-1;
+                        String defaultUsername = assignToList_gl.get(size).getFirstName();
+                        binding.acAssignTo.setText(defaultUsername);
                         binding.acAssignTo.setAdapter(stateAdapter);
                         stateAdapter.notifyDataSetChanged();
 //                        billtoState = billStateList.get(0).getName();
@@ -549,7 +552,7 @@ public class AddLead extends MainBaseActivity {
             return false;
         } else if (contact_no.getText().toString().isEmpty()) {
             contact_no.requestFocus();
-            contact_no.setError("Enter Phone Number");
+            contact_no.setError("Phone no. is Required");
             Toasty.warning(this, "Select Phone Number", Toast.LENGTH_SHORT).show();
             return false;
         } else if (contact_no.getText().toString().isEmpty() || contact_no.length() != 10) {

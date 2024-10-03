@@ -5,11 +5,11 @@
 
     <item
         android:id="@+id/quotation"
-        android:title="@string/quotation" />
+        android:title="Add Quotation" />
 
     <item
         android:id="@+id/order"
-        android:title="Order" />
+        android:title="Add Order" />
 
 
     <!--  <item

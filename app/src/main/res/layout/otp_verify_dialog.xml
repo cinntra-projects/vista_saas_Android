@@ -43,7 +43,7 @@
                         android:layout_weight="70"
                         android:fontFamily="@font/muli_regular"
                         android:gravity="center_horizontal"
-                        android:text="Enter OTP Code"
+                        android:text="Enter OTP"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_16"
                         android:textStyle="bold" />

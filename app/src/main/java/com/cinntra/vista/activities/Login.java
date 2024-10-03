@@ -24,10 +24,8 @@ import com.cinntra.vista.model.LogInRequest;
 import com.cinntra.vista.model.LogInResponse;
 import com.cinntra.vista.model.NewLogINResponse;
 import com.cinntra.vista.model.QuotationResponse;
-import com.cinntra.vista.model.TokenResponseModel;
 import com.cinntra.vista.superadmin.ApiClientSuperAdmin;
 import com.cinntra.vista.superadmin.response.ResponseSuperAdmin;
-import com.cinntra.vista.test.TestBlankActivity;
 import com.cinntra.vista.webservices.APIsClient;
 import com.cinntra.vista.webservices.NewApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -143,6 +141,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Da
             }
         });
 
+        binding.forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentObj = new Intent(Login.this, ForgotPassword.class);
+                startActivity(intentObj);
+
+            }
+        });
+
 
     }
 
@@ -151,9 +158,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Da
         switch (v.getId()) {
             case R.id.login_button:
 
-
                 if (Globals.checkInternet(this)) {
-
                     if (validation(binding.loginUsername.getText().toString().trim(), binding.loginPassword.getText().toString().trim())) {
 
                         Globals.APILog = "APILog";
@@ -175,16 +180,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Da
 
 
                     }
-
-
                 }
-
                 break;
+
             case R.id.register_here:
               //  startActivity(new Intent(this, SignUp.class));
-                Intent intentnew=new Intent(Login.this,RegisterNowActivity.class);
+                Intent intentnew = new Intent(Login.this,RegisterNowActivity.class);
                 startActivity(intentnew);
                 break;
+
 
        /* case R.id.goto_reg:
             startActivity(new Intent(this,SignUp.class));

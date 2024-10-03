@@ -459,6 +459,7 @@
                         android:layout_height="44dp"
                         android:background="@drawable/admin_border"
                         android:hint="@string/num_of_employee"
+                        android:inputType="number"
                         android:imeOptions="actionNext"
                         android:textColor="@color/black"
                         android:textColorHint="#ABABAB"

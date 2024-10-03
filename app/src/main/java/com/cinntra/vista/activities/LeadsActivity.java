@@ -738,10 +738,10 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
             public void onClick(View v) {
                 isAssignedToPresent=false;
                 isSourcePresent=false;
-                acSource.setText("");
+                acSource.getText().clear();
                 acStatus.setText("");
                 acLeadPriority.setText("");
-                acAssignedTo.setText("");
+                acAssignedTo.getText().clear();
                 edtFromDate.setText("");
                 edtToDate.setText("");
 
@@ -773,9 +773,19 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
                     isAssignedToPresent=true;
                 }
 
-                callApi(value, binding.loaderLayout.loader, maxItem, pageNo);
+                if(acAssignedTo.getText().toString().isEmpty()){
+                    Toast.makeText(mContext, "Select Assigned To", Toast.LENGTH_SHORT).show();
+                }
+                else if(acSource.getText().toString().isEmpty()){
+                    Toast.makeText(mContext, "Select Source", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    callApi(value, binding.loaderLayout.loader, maxItem, pageNo);
+                    dialog.dismiss();
+                }
 
-                dialog.dismiss();
+
+
 
                 if (priorityType.equalsIgnoreCase("High")) {
                     binding.leadTypeSpinner.setSelection(1);

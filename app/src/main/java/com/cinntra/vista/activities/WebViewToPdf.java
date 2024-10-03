@@ -57,7 +57,7 @@ public class WebViewToPdf extends AppCompatActivity {
         String PDfFrom = getIntent().getExtras().getString("PDfFrom");
         String PdfID = getIntent().getExtras().getString("PdfID");
 
-binding.progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         if (PDfFrom.equalsIgnoreCase("Invoice")) {
 
             //  http://103.234.187.197:4250/assets/html/invoice.html?id=24&token=20a5228e90bd2cff7b744aa325bf5ec44893a971
@@ -118,7 +118,7 @@ binding.progressBar.setVisibility(View.VISIBLE);
             case R.id.share:
                 String f_name = String.format("%s.pdf", new SimpleDateFormat("dd_MM_yyyyHH_mm_ss", Locale.US).format(new Date()));
                 lab_pdf(printWeb, f_name);
-            // convertAndShareWebViewContent(url);
+                convertAndShareWebViewContent(url);
 
                 return true;
         }
@@ -153,7 +153,6 @@ binding.progressBar.setVisibility(View.VISIBLE);
         File f = new File(path);
 
         // if (f.exists()) f.delete();
-
 
 
         //        try {
@@ -222,9 +221,7 @@ binding.progressBar.setVisibility(View.VISIBLE);
     }*/
 
 
-
-    private void whatsappShare(String fName)
-    {
+    private void whatsappShare(String fName) {
         String stringFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/hana/" + "/" + fName;
         File file = new File(stringFile);
         Uri apkURI = null;
@@ -256,7 +253,8 @@ binding.progressBar.setVisibility(View.VISIBLE);
                 Toast.makeText(this, " WhatsApp is not currently installed on your phone.", Toast.LENGTH_LONG).show();
             }*/
 
-        }else {
+        }
+        else {
             try {
                 Intent share = new Intent();
                 share.setAction(Intent.ACTION_SEND);
@@ -278,7 +276,6 @@ binding.progressBar.setVisibility(View.VISIBLE);
         //  Log.e("Path==>", path.toString());
 
 
-
 //        if (share.resolveActivity(getActivity().getPackageManager()) != null) {
 //            //startActivity(Intent.createChooser(intent, "Share PDF using"));
 //            startActivity(share);
@@ -289,8 +286,7 @@ binding.progressBar.setVisibility(View.VISIBLE);
     }
 
 
-    private boolean isAppInstalled(String packageName)
-    {
+    private boolean isAppInstalled(String packageName) {
         try {
             getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             return true;
@@ -360,7 +356,6 @@ binding.progressBar.setVisibility(View.VISIBLE);
             intent.setPackage("com.whatsapp.w4b");
         startActivity(Intent.createChooser(intent, "Share PDF via"));
     }
-
 
 
 }

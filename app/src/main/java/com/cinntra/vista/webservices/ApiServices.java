@@ -54,6 +54,7 @@ import com.cinntra.vista.model.ExpenseNewModelResponse;
 import com.cinntra.vista.model.ExpenseResponse;
 import com.cinntra.vista.model.FollowUpData;
 import com.cinntra.vista.model.FollowUpResponse;
+import com.cinntra.vista.model.ForgotPasswordModel;
 import com.cinntra.vista.model.HeirarchiResponse;
 import com.cinntra.vista.model.IndustryResponse;
 import com.cinntra.vista.model.InventoryResponse;

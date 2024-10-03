@@ -136,19 +136,23 @@ public class AddContact extends MainBaseActivity implements View.OnClickListener
         } else if (lname.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter Last Name");
             return false;
-        }else if (rtvalue.isEmpty()) {
-            Globals.showMessage(getApplicationContext(), "Enter Position");
-            return false;
-        }  else if (mobile.isEmpty()) {
+        }
+//        else if (rtvalue.isEmpty()) {
+//            Globals.showMessage(getApplicationContext(), "Enter Position");
+//            return false;
+//        }
+        else if (mobile.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter Mobile Number");
             return false;
-        } else if (email.isEmpty()) {
+        }
+        else if (email.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter E-mail");
             return false;
-        } else if (address.isEmpty()) {
-            Globals.showMessage(getApplicationContext(), "Enter Address");
-            return false;
         }
+//        else if (address.isEmpty()) {
+//            Globals.showMessage(getApplicationContext(), "Enter Address");
+//            return false;
+//        }
 
         return true;
     }

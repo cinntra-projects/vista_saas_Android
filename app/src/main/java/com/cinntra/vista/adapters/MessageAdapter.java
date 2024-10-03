@@ -20,7 +20,11 @@ import com.cinntra.vista.R;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.ChatModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class MessageAdapter extends RecyclerView.Adapter<com.cinntra.vista.adapters.MessageAdapter.ViewHolder> {
 
@@ -47,28 +51,32 @@ public class MessageAdapter extends RecyclerView.Adapter<com.cinntra.vista.adapt
 
         holder.message.setText(chatModel.getMessage());
         //  if(chatModel.getSourceType().equalsIgnoreCase("Followup"))
+
+        String date = chatModel.getUpdateDate();
+        String convertedDate = convertDateFormat(date); // convert date format YYYY-MM-DD TO DD-MM-YYYY
+
         if (chatModel.getComm_mode().trim().equalsIgnoreCase("Call")) {
-            holder.title.setText("Call - " + chatModel.getUpdateDate()+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
+            holder.title.setText("Call - " + convertedDate+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
             holder.priority_dot.setImageResource(R.drawable.ic_call);
         } else if (chatModel.getComm_mode().trim().equalsIgnoreCase("Whatsapp")) {
-            holder.title.setText("Whatsapp - " + chatModel.getUpdateDate()+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
+            holder.title.setText("Whatsapp - " + convertedDate+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
             holder.priority_dot.setImageResource(R.drawable.ic_whatsapp);
         } else if (chatModel.getComm_mode().trim().equalsIgnoreCase("SMS")) {
-            holder.title.setText("SMS - " + chatModel.getUpdateDate()+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
+            holder.title.setText("SMS - " + convertedDate+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
             holder.priority_dot.setImageResource(R.drawable.ic_sms);
         } else if (chatModel.getComm_mode().trim().equalsIgnoreCase("E-Mail")) {
-            holder.title.setText("E-Mail - " + chatModel.getUpdateDate()+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
+            holder.title.setText("E-Mail - " + convertedDate+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
             holder.priority_dot.setImageResource(R.drawable.ic_email_latest);
         } else if (chatModel.getComm_mode().trim().equalsIgnoreCase("Visit")) {
-            holder.title.setText("Visit - " + chatModel.getUpdateDate()+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
+            holder.title.setText("Visit - " + convertedDate+ ", " + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
             holder.priority_dot.setImageResource(R.drawable.ic_baseline_directions_run_24);
         } else {
-            holder.title.setText("SMS - " + chatModel.getUpdateDate()+ "," + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
+            holder.title.setText("SMS - " + convertedDate+ "," + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
             holder.priority_dot.setImageResource(R.drawable.ic_sms);
         }
 
         holder.receivertext.setText(chatModel.getMessage());
-        holder.receiverdatetime.setText(chatModel.getUpdateDate() + "," + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
+        holder.receiverdatetime.setText(convertedDate + "," + Globals.convertTimeInHHMMSSA(chatModel.getUpdateTime()));
 
         if (!chatModel.getEmpName().isEmpty()){
             holder.textimage.setText("" + chatModel.getEmpName().trim().charAt(0));
@@ -114,5 +122,21 @@ public class MessageAdapter extends RecyclerView.Adapter<com.cinntra.vista.adapt
 
 
         }
+    }
+
+    public static String convertDateFormat(String dateStr) {
+        // Define the input and output date formats
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
+        String formattedDate = "";
+        try {
+            Date date = inputFormat.parse(dateStr);
+            formattedDate = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return formattedDate;
     }
 }

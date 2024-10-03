@@ -22,4 +22,6 @@
     <style name="SwitchTheme" parent="">
         <item name="android:colorControlActivated" tools:ignore="NewApi">@color/colorPrimary</item>
     </style>
+  <!-- Base application theme. -->
+
 </resources>

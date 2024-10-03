@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.cinntra.vista.fragments.LeadBottomsheetFragment;
 import com.cinntra.vista.fragments.LeadDetail;
 import com.cinntra.vista.fragments.LeadInformation;
 import com.cinntra.vista.fragments.ReminderSelectionSheet;
+import com.cinntra.vista.globals.DateTimeUtils;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.model.ChatModel;
 import com.cinntra.vista.model.ChatResponse;
@@ -50,9 +52,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -87,7 +92,10 @@ public class LeadsAdapter extends RecyclerView.Adapter<LeadsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LeadValue lv = leadValueList.get(position);
         holder.customerName.setText(lv.getCompanyName());
-        holder.date.setText(lv.getDate());
+
+        String convertedDate = convertDateFormat(lv.getDate()); // convert date format YYYY-MM-DD TO DD-MM-YYYY
+
+        holder.date.setText(convertedDate);
         holder.cardNumber.setText(lv.getStatus());
         holder.assigned_view.setVisibility(View.VISIBLE);
         holder.assigned.setText(lv.getAssignedTo().getSalesEmployeeName());
@@ -124,6 +132,22 @@ public class LeadsAdapter extends RecyclerView.Adapter<LeadsAdapter.ViewHolder> 
         }
     }
 
+
+    public static String convertDateFormat(String dateStr) {
+        // Define the input and output date formats
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+
+        String formattedDate = "";
+        try {
+            Date date = inputFormat.parse(dateStr);
+            formattedDate = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return formattedDate;
+    }
 
     private void showBottomSheet(int id, String name) {
 
@@ -435,6 +459,13 @@ public class LeadsAdapter extends RecyclerView.Adapter<LeadsAdapter.ViewHolder> 
         TextView title = dialog.findViewById(R.id.title);
         title.setText("Follow Up");
 
+        // Fetch the current date and time using the global functions
+        String todayDate = DateTimeUtils.getCurrentDate();
+        String currentTime = DateTimeUtils.getCurrentTime();
+
+        date_value.setText(todayDate);
+        time_value.setText(currentTime);
+
 
         communication_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -448,21 +479,21 @@ public class LeadsAdapter extends RecyclerView.Adapter<LeadsAdapter.ViewHolder> 
             }
         });
 
-        date_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Globals.disablePastSelectDate(dialog.getContext(), date_value);
-
-            }
-        });
-
-
-        time_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Globals.selectTime(context, time_value);
-            }
-        });
+//        date_value.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Globals.disablePastSelectDate(dialog.getContext(), date_value);
+//
+//            }
+//        });
+//
+//
+//        time_value.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Globals.selectTime(context, time_value);
+//            }
+//        });
 
 
         add.setOnClickListener(new View.OnClickListener() {

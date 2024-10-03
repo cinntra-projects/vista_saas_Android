@@ -28,6 +28,7 @@ import com.cinntra.vista.fragments.ChatterFragment;
 import com.cinntra.vista.fragments.Open_Opprtunity_Fragment;
 import com.cinntra.vista.fragments.Opportunity_Detail_NewFragment;
 import com.cinntra.vista.fragments.PastGeneral;
+import com.cinntra.vista.globals.DateTimeUtils;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.interfaces.FragmentRefresher;
 import com.cinntra.vista.model.FollowUpData;
@@ -172,19 +173,26 @@ public class OpenOpportunities_Adapter extends RecyclerView.Adapter<OpenOpportun
         Button add = dialog.findViewById(R.id.add);
         EditText comment_value = dialog.findViewById(R.id.comment_value);
 
-        date_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Globals.selectDate(dialog.getContext(), date_value);
+        // Fetch the current date and time using the global functions
+        String todayDate = DateTimeUtils.getCurrentDate();
+        String currentTime = DateTimeUtils.getCurrentTime();
 
-            }
-        });
-        time_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Globals.selectTime(context, time_value);
-            }
-        });
+        date_value.setText(todayDate);
+        time_value.setText(currentTime);
+
+//        date_value.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Globals.selectDate(dialog.getContext(), date_value);
+//
+//            }
+//        });
+//        time_value.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Globals.selectTime(context, time_value);
+//            }
+//        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

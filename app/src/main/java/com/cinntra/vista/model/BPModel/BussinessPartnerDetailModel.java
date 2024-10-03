@@ -49,6 +49,7 @@ public class BussinessPartnerDetailModel implements Serializable {
         public String CardCode;
         public String CardName;
         public String Industry;
+
         public String IndustryName;
         public String CardType;
         public String Website;

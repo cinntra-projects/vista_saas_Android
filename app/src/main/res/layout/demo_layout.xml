@@ -124,12 +124,48 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/billAddressLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/billNameAndZipCodeLayout"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/billing_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/size_15"
+                            android:fontFamily="@font/muli_regular"
+                            android:text="@string/billing_address_mand"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <EditText
+                            android:id="@+id/billing_address_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/size_70"
+                            android:layout_marginTop="@dimen/size_10"
+                            android:background="@drawable/rounded_border"
+                            android:fontFamily="@font/muli_regular"
+                            android:gravity="start"
+                            android:hint="@string/address"
+                            android:imeOptions="actionDone"
+                            android:inputType="textPostalAddress|textMultiLine"
+                            android:maxLines="2"
+                            android:paddingLeft="@dimen/size_10"
+                            android:paddingTop="@dimen/size_5"
+                            android:textColorHint="@color/light_grey_box"
+                            android:textSize="@dimen/text_size_14" />
+
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:id="@+id/countryLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/billNameAndZipCodeLayout"
+                        android:layout_below="@+id/billAddressLayout"
                         android:layout_weight="0.5"
                         android:orientation="vertical">
 
@@ -346,41 +382,7 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/billAddressLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/billShippingTypeLayout"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/billing_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/size_15"
-                            android:fontFamily="@font/muli_regular"
-                            android:text="@string/billing_address_mand"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_14" />
-
-                        <EditText
-                            android:id="@+id/billing_address_value"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/size_70"
-                            android:layout_marginTop="@dimen/size_10"
-                            android:background="@drawable/rounded_border"
-                            android:fontFamily="@font/muli_regular"
-                            android:gravity="start"
-                            android:hint="@string/address"
-                            android:imeOptions="actionDone"
-                            android:inputType="textPostalAddress|textMultiLine"
-                            android:maxLines="2"
-                            android:paddingLeft="@dimen/size_10"
-                            android:paddingTop="@dimen/size_5"
-                            android:textColorHint="@color/light_grey_box"
-                            android:textSize="@dimen/text_size_14" />
-
-                    </LinearLayout>
 
                 </RelativeLayout>
 
