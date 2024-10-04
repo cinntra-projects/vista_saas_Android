@@ -105,6 +105,7 @@ public class Open_Order_Adapter extends RecyclerView.Adapter<Open_Order_Adapter.
                 Intent i = new Intent(context, WebViewToPdf.class);
                 i.putExtra("PDfFrom", "Order");
                 i.putExtra("PdfID", obj.getId());
+
                 context.startActivity(i);
             }
         });

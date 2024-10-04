@@ -50,6 +50,7 @@ public class WebViewToPdf extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = TestPdfBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24);
@@ -58,10 +59,12 @@ public class WebViewToPdf extends AppCompatActivity {
         String PdfID = getIntent().getExtras().getString("PdfID");
 
         binding.progressBar.setVisibility(View.VISIBLE);
+
         if (PDfFrom.equalsIgnoreCase("Invoice")) {
 
             //  http://103.234.187.197:4250/assets/html/invoice.html?id=24&token=20a5228e90bd2cff7b744aa325bf5ec44893a971
             url = Globals.PDFURL + "invoice.html?id=" + PdfID + "&token=" + Prefs.getString(Globals.token, "");
+
             Log.e("pdfurl", url);
 //              url = Globals.PDFURL+"invoice.html?id="+PdfID;
         } else if (PDfFrom.equalsIgnoreCase("Quotation")) {
@@ -118,7 +121,7 @@ public class WebViewToPdf extends AppCompatActivity {
             case R.id.share:
                 String f_name = String.format("%s.pdf", new SimpleDateFormat("dd_MM_yyyyHH_mm_ss", Locale.US).format(new Date()));
                 lab_pdf(printWeb, f_name);
-                convertAndShareWebViewContent(url);
+//                convertAndShareWebViewContent(url);
 
                 return true;
         }
@@ -145,52 +148,123 @@ public class WebViewToPdf extends AppCompatActivity {
         return null;
     }
 
+//
+//    private void lab_pdf(WebView webView, String f_name) {
+//        String path = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/hana/";
+////        File f = new File(path);
+//
+//        File f = new File(path);
+//
+//        // if (f.exists()) f.delete();
+//
+//
+//        //        try {
+//        //            if (!f.getParentFile().exists())
+//        //                f.getParentFile().mkdirs();
+//        //            if (!f.exists())
+//        //                f.createNewFile();
+//        //        } catch (IOException e) {
+//        //            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//        //        }
+//
+//        final String fileName = f_name;
+//
+//        final ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setMessage("Please wait");
+//        progressDialog.show();
+////        PdfView obj = new PdfView();
+//
+//        // PdfViewSHubh.createWebPrintJob(getActivity(),webView,f,fileName,new );
+//
+//
+////        PdfView.createWebPrintJob(this, webView, f, fileName, new PdfView.Callback()
+////        {
+////
+////            @Override
+////            public void success(String path) {
+////                progressDialog.dismiss();
+////                whatsappShare(fileName);
+////                //PdfView.openPdfFile(Pdf_Test.this,getString(R.string.app_name),"Do you want to open the pdf file?"+fileName,path);
+////            }
+////
+////            @Override
+////            public void failure() {
+////                progressDialog.dismiss();
+////
+////            }
+////        });
+//    }
 
     private void lab_pdf(WebView webView, String f_name) {
-        String path = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/hana/";
-//        File f = new File(path);
+        // Define the path where the PDF will be stored
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/hana/";
 
-        File f = new File(path);
+        // Create the directory if it doesn't exist
+        File dir = new File(path);
+        if (!dir.exists()) {
+            dir.mkdirs(); // Create the directory if it doesn't exist
+        }
 
-        // if (f.exists()) f.delete();
+        // Define the file to store the PDF
+        File pdfFile = new File(dir, f_name + ".pdf");
 
-
-        //        try {
-        //            if (!f.getParentFile().exists())
-        //                f.getParentFile().mkdirs();
-        //            if (!f.exists())
-        //                f.createNewFile();
-        //        } catch (IOException e) {
-        //            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        //        }
-
-        final String fileName = f_name;
-
+        // Show a progress dialog while the PDF is being created
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait");
+        progressDialog.setMessage("Please wait, generating PDF...");
         progressDialog.show();
-//        PdfView obj = new PdfView();
 
-        // PdfViewSHubh.createWebPrintJob(getActivity(),webView,f,fileName,new );
+        // Create a PdfDocument and write the WebView content to it
+        PdfDocument document = new PdfDocument();
 
+        // Define the size of the page based on the WebView's dimensions
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(webView.getWidth(), webView.getHeight(), 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
 
-//        PdfView.createWebPrintJob(this, webView, f, fileName, new PdfView.Callback()
-//        {
-//
-//            @Override
-//            public void success(String path) {
-//                progressDialog.dismiss();
-//                whatsappShare(fileName);
-//                //PdfView.openPdfFile(Pdf_Test.this,getString(R.string.app_name),"Do you want to open the pdf file?"+fileName,path);
-//            }
-//
-//            @Override
-//            public void failure() {
-//                progressDialog.dismiss();
-//
-//            }
-//        });
+        // Render the WebView content onto the PDF page
+        webView.draw(page.getCanvas());
+
+        // Finish the page
+        document.finishPage(page);
+
+        // Write the document to the file
+        try {
+            document.writeTo(new FileOutputStream(pdfFile));
+            progressDialog.dismiss();
+            Toast.makeText(this, "PDF Created Successfully", Toast.LENGTH_SHORT).show();
+
+            // After creating the PDF, share it via WhatsApp or other platforms
+            sharePdf(pdfFile);
+        } catch (IOException e) {
+            progressDialog.dismiss();
+            e.printStackTrace();
+            Toast.makeText(this, "Error creating PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            document.close(); // Close the PdfDocument
+        }
     }
+
+    private void sharePdf(File pdfFile) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("application/pdf");
+
+        Uri pdfUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", pdfFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sharing PDF...");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Here is the PDF file.");
+
+        // Grant temporary read permission
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        // Start the sharing intent
+        startActivity(Intent.createChooser(shareIntent, "Share PDF via"));
+    }
+
+
+
+
+
+
+
 
    /* private void whatsappShare(String fName) {
         String stringFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/hana/" + "/" + fName;
@@ -302,8 +376,8 @@ public class WebViewToPdf extends AppCompatActivity {
 
         return true;
     }
-
-
+//
+//
     private void convertAndShareWebViewContent(String url) {
         WebView webView = new WebView(this);
         webView.setWebViewClient(new WebViewClient() {
@@ -333,6 +407,9 @@ public class WebViewToPdf extends AppCompatActivity {
         document.finishPage(page);
 
         String filePath = Environment.getExternalStorageDirectory().getPath() + "/webview_content.pdf";
+//        String filePath = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) + "/webview_content.pdf";
+
+
         File file = new File(filePath);
         try {
             document.writeTo(new FileOutputStream(file));
@@ -343,6 +420,8 @@ public class WebViewToPdf extends AppCompatActivity {
 
         sharePdfViaWhatsApp(file);
     }
+
+
 
     private void sharePdfViaWhatsApp(File file) {
         Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", file);
