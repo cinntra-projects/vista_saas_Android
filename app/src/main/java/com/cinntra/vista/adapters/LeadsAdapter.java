@@ -457,7 +457,7 @@ public class LeadsAdapter extends RecyclerView.Adapter<LeadsAdapter.ViewHolder> 
         communication_spinner.setVisibility(View.VISIBLE);
         communication_txt.setVisibility(View.VISIBLE);
         TextView title = dialog.findViewById(R.id.title);
-        title.setText("Follow Up");
+        title.setText("Remainder");
 
         // Fetch the current date and time using the global functions
         String todayDate = DateTimeUtils.getCurrentDate();

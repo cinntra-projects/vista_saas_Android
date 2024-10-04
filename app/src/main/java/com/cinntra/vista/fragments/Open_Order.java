@@ -570,6 +570,9 @@ public class Open_Order extends Fragment implements CommentStage, FragmentRefres
                 searchTextValue = newText;
                 if (!searchTextValue.isEmpty())
                     callApi(binding.loader.loader, maxItem, page, "", "", "");
+                else if(searchTextValue.isEmpty()){
+                    callApi(binding.loader.loader, maxItem, page, "", "", "");
+                }
                 return false;
             }
         });

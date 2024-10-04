@@ -40,6 +40,7 @@ import com.cinntra.vista.adapters.SourceAdpater;
 import com.cinntra.vista.adapters.leadAdapter.FilterSourceAdapter;
 import com.cinntra.vista.adapters.leadAdapter.LeadPriorityAdapter;
 import com.cinntra.vista.databinding.FragmentLeadBinding;
+import com.cinntra.vista.fragments.LeadDetail;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.globals.MainBaseActivity;
 import com.cinntra.vista.model.EmployeeValue;
@@ -74,7 +75,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LeadsActivity extends MainBaseActivity implements View.OnClickListener, com.borax12.materialdaterangepicker.date.DatePickerDialog.OnDateSetListener {
+public class LeadsActivity extends MainBaseActivity implements View.OnClickListener, com.borax12.materialdaterangepicker.date.DatePickerDialog.OnDateSetListener , LeadDetail.OnLeadUpdatedListener {
 
     public Context mContext;
     List<LeadValue> leadValueList = new ArrayList<>();
@@ -250,10 +251,49 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
 
     }
 
+    @Override
+    public void onLeadUpdated() {
+        // Logic to refresh the listing data
+        refreshListingData();
+    }
+
+    private void refreshListingData() {
+        isAssignedToPresent=false;
+        isSourcePresent=false;
+
+        searchTextValue = "";
+        SourceFilter = "";
+        StatusFilter = "";
+        assignToNameValue = "";
+        assignToCode = "";
+        priorityType = "";
+        fromDate = "";
+        toDate = "";
+        Globals.sourcechecklist.clear();
+        if (Globals.checkInternet(LeadsActivity.this)) {
+            pageno = 1;
+            apicall = true;
+            isAssignedTo=false;
+            isSourceTo=false;
+            if (Prefs.getString(Globals.BussinessPageType, "AddBPLead").equalsIgnoreCase("AddBPLead") || Prefs.getString(Globals.BussinessPageType, "AddProposal").equalsIgnoreCase("AddProposal")) {
+                StatusFilter = "Qualified";
+
+                callApi(value, binding.loaderLayout.loader, maxItem, pageno);
+            } else {
+                callApi(value, binding.loaderLayout.loader, maxItem, pageno);
+            }
+            binding.dateText.setVisibility(View.GONE);
+            binding.leadTypeSpinner.setSelection(0);
+        } else {
+            binding.swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
 
     @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.customer_lead);
         fragment.onActivityResult(requestCode, resultCode, data);
     }
@@ -261,6 +301,8 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+
+        Log.d("checking","onResume");
         mContext = LeadsActivity.this;
         if (Globals.checkInternet(mContext)) {
             binding.loaderLayout.loader.setVisibility(View.VISIBLE);

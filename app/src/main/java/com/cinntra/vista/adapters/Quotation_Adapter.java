@@ -208,6 +208,7 @@ public class Quotation_Adapter extends RecyclerView.Adapter<Quotation_Adapter.Vi
 
                         }
                     });
+
                     popup.show();
 //                }
             }

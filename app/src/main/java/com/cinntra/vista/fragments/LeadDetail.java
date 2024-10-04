@@ -1,5 +1,6 @@
 package com.cinntra.vista.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
+import com.cinntra.vista.activities.LeadsActivity;
 import com.cinntra.vista.adapters.AssignToAdapter;
 import com.cinntra.vista.adapters.LeadTypeAdapter;
 import com.cinntra.vista.adapters.StateAutoAdapter;
@@ -72,6 +74,13 @@ public class LeadDetail extends Fragment implements View.OnClickListener {
     String ProductInterestName = "";
     String sourcetype = "";
 
+    // Define the interface for callback
+    public interface OnLeadUpdatedListener {
+        void onLeadUpdated();
+    }
+
+    private OnLeadUpdatedListener listener;
+
 
     List<String> productInterestList_gl = Arrays.asList(Globals.productInterestList_gl);
 
@@ -97,6 +106,11 @@ public class LeadDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        if (context instanceof OnLeadUpdatedListener) {
+            listener = (OnLeadUpdatedListener) context;
+        } else {
+            throw new ClassCastException(context.toString() + " must implement OnLeadUpdatedListener");
+        }
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
     }
@@ -582,6 +596,55 @@ public class LeadDetail extends Fragment implements View.OnClickListener {
         return false;
     }
 
+//    private void callUpdateApi(UpdateLeadModel lv) {
+//        Gson gson = new Gson();
+//        String jsonTut = gson.toJson(lv);
+//        Log.e("data", jsonTut);
+//        Call<GlobalResponse> call = NewApiClient.getInstance().getApiService(requireContext()).updateLead(lv);
+//        call.enqueue(new Callback<GlobalResponse>() {
+//            @Override
+//            public void onResponse(Call<GlobalResponse> call, Response<GlobalResponse> response) {
+//
+//                if (response.body().getStatus() == 200) {
+//                    binding.update.setEnabled(true);
+//                    if (response.body().getMessage().equalsIgnoreCase("successful")) {
+//                        Toasty.success(getContext(), "Updated Successfully", Toast.LENGTH_LONG).show();
+//
+//                        // Set a result to indicate success before finishing the activity
+//                        getActivity().setResult(Activity.RESULT_OK);
+//
+//                        getActivity().onBackPressed();
+//
+//                    } else {
+//                        Toasty.warning(getContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
+//                    }
+//
+//                } else {
+//                    binding.update.setEnabled(true);
+//                    //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
+//                    Gson gson = new GsonBuilder().create();
+//                    LeadResponse mError = new LeadResponse();
+//                    try {
+//                        String s = response.errorBody().string();
+//                        mError = gson.fromJson(s, LeadResponse.class);
+//                        Toast.makeText(getActivity(), mError.getMessage(), Toast.LENGTH_LONG).show();
+//                    } catch (IOException e) {
+//                        //handle failure to read error
+//                    }
+//                }
+//                binding.loader.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GlobalResponse> call, Throwable t) {
+//                binding.loader.setVisibility(View.GONE);
+//                binding.update.setEnabled(true);
+//                Toasty.error(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+    // Your existing method for API call
     private void callUpdateApi(UpdateLeadModel lv) {
         Gson gson = new Gson();
         String jsonTut = gson.toJson(lv);
@@ -590,19 +653,26 @@ public class LeadDetail extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<GlobalResponse>() {
             @Override
             public void onResponse(Call<GlobalResponse> call, Response<GlobalResponse> response) {
+                binding.loader.setVisibility(View.GONE);
+                binding.update.setEnabled(true);
 
-                if (response.body().getStatus() == 200) {
-                    binding.update.setEnabled(true);
+                if (response.body() != null && response.body().getStatus() == 200) {
                     if (response.body().getMessage().equalsIgnoreCase("successful")) {
                         Toasty.success(getContext(), "Updated Successfully", Toast.LENGTH_LONG).show();
+
+                        // Notify the activity about the update success
+                        if (listener != null) {
+                            listener.onLeadUpdated();
+                        }
+
+                        getActivity().setResult(Activity.RESULT_OK);
                         getActivity().onBackPressed();
                     } else {
                         Toasty.warning(getContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();
                     }
-
                 } else {
+                    // Handle error response
                     binding.update.setEnabled(true);
-                    //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
                     Gson gson = new GsonBuilder().create();
                     LeadResponse mError = new LeadResponse();
                     try {
@@ -610,10 +680,9 @@ public class LeadDetail extends Fragment implements View.OnClickListener {
                         mError = gson.fromJson(s, LeadResponse.class);
                         Toast.makeText(getActivity(), mError.getMessage(), Toast.LENGTH_LONG).show();
                     } catch (IOException e) {
-                        //handle failure to read error
+                        e.printStackTrace();
                     }
                 }
-                binding.loader.setVisibility(View.GONE);
             }
 
             @Override

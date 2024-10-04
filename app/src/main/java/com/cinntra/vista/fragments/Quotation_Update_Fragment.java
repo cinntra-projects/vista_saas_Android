@@ -2,6 +2,7 @@ package com.cinntra.vista.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -23,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -47,6 +49,7 @@ import com.cinntra.vista.adapters.StateAdapter;
 import com.cinntra.vista.adapters.bpAdapters.ContactPersonAutoAdapter;
 import com.cinntra.vista.databinding.EditQuotationBinding;
 import com.cinntra.vista.globals.Globals;
+import com.cinntra.vista.interfaces.OnQuotationUpdatedListener;
 import com.cinntra.vista.model.AddressExtensions;
 import com.cinntra.vista.model.AttachmentResponseModel;
 import com.cinntra.vista.model.BPModel.BPAllFilterRequestModel;
@@ -149,10 +152,16 @@ public class Quotation_Update_Fragment extends Fragment implements View.OnClickL
     String picturePath = "";
 
 
+    private OnQuotationUpdatedListener listener;
+
+    public void setQuotationUpdatedListener(OnQuotationUpdatedListener listener) {
+        this.listener = listener;
+    }
+
+
     public Quotation_Update_Fragment() {
         //Required empty public constructor
     }
-
 
     // TODO: Rename and change types and number of parameters
     public static Quotation_Update_Fragment newInstance(String param1, String param2) {
@@ -162,7 +171,11 @@ public class Quotation_Update_Fragment extends Fragment implements View.OnClickL
         return fragment;
     }
 
+
     QuotationItem quotationItem1;
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -174,10 +187,10 @@ public class Quotation_Update_Fragment extends Fragment implements View.OnClickL
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
+
         act = getActivity();
         binding = EditQuotationBinding.inflate(inflater, container, false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
@@ -296,7 +309,6 @@ public class Quotation_Update_Fragment extends Fragment implements View.OnClickL
 
         return binding.getRoot();
     }
-
 
     //todo calculate sum of all edit text ..
     private TextWatcher NumberTextWatcher = new TextWatcher() {
@@ -2102,6 +2114,7 @@ public class Quotation_Update_Fragment extends Fragment implements View.OnClickL
         return true;
     }
 
+
     private void updateQuotation(String QT_ID, UpdateProformaInvoiceRequestModel in) {
         Gson gson = new Gson();
         String jsonTut = gson.toJson(in);
@@ -2117,7 +2130,20 @@ public class Quotation_Update_Fragment extends Fragment implements View.OnClickL
                     if (response.body().getStatus() == 200) {
                         Globals.SelectedItems.clear();
                         Toasty.success(act, "Updated Successfully.", Toast.LENGTH_SHORT).show();
-                        getActivity().onBackPressed();
+
+                        // Get the ListingFragment instance
+                        Fragment quotationDetailFragment = getFragmentManager().findFragmentById(R.id.mainPdfFrame);
+
+                        // If the ListingFragment is an instance of your listing fragment class
+                        if (quotationDetailFragment instanceof QuotationDetailFragment) {
+                            ((QuotationDetailFragment) quotationDetailFragment).refreshData(); // Call refresh method
+                        }
+
+                        // Navigate back to QuotationFragment
+                        if (getActivity() != null) {
+                            getActivity().onBackPressed();
+                        }
+
                     } else {
                         Toasty.warning(act, response.message(), Toast.LENGTH_SHORT).show();
                     }

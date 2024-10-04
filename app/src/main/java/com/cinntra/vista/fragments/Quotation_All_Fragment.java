@@ -28,8 +28,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-
-public class Quotation_All_Fragment extends Fragment implements View.OnClickListener {
+public class Quotation_All_Fragment extends Fragment implements View.OnClickListener{
 
     private int currentPage = 0;
     private boolean isLastPage = false;
@@ -37,7 +36,7 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
     private boolean isLoading = false;
 
 
-//  @BindView(R.id.recyclerview)
+    //  @BindView(R.id.recyclerview)
 //  RecyclerView recyclerview;
 //    @BindView(R.id.swipeRefreshLayout)
 //    PullRefreshLayout swipeRefreshLayout;
@@ -55,32 +54,34 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
 
 
     public Quotation_All_Fragment() {
-    //Required empty public constructor
-       }
+        //Required empty public constructor
+    }
+
+
 
 
     // TODO: Rename and change types and number of parameters
     public static Quotation_All_Fragment newInstance(String param1, String param2) {
-      Quotation_All_Fragment fragment = new Quotation_All_Fragment();
-      Bundle args = new Bundle();
+        Quotation_All_Fragment fragment = new Quotation_All_Fragment();
+        Bundle args = new Bundle();
 
-      fragment.setArguments(args);
-      return fragment;
-        }
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-    Bundle savedInstanceState) {
-     //Inflate the layout for this fragment
-    View v = inflater.inflate(R.layout.fragment_quotes_list, container, false);
-   // ButterKnife.bind(this,v);
+                             Bundle savedInstanceState) {
+        //Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_quotes_list, container, false);
+        // ButterKnife.bind(this,v);
         mContext = getActivity();
-       AllItemList = new ArrayList<>();
+        AllItemList = new ArrayList<>();
 
 
- //   loader.setVisibility(View.VISIBLE);
-        if(Globals.checkInternet(getActivity()))
+        //   loader.setVisibility(View.VISIBLE);
+        if (Globals.checkInternet(getActivity()))
             callApi();
 
 
@@ -119,13 +120,12 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
 //        });
 
         return v;
-     }
+    }
 
     @Override
     public void onClick(View v) {
-     Fragment   fragment = null;
-    switch(v.getId())
-           {
+        Fragment fragment = null;
+        switch (v.getId()) {
         /*  case R.id.new_quatos:
           fragment = new New_Quotation();
         FragmentManager fm       = getFragmentManager();
@@ -137,8 +137,7 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
            break;*/
 
 
-
-              }
+        }
 
 
     }
@@ -146,22 +145,20 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
 
     /***********  API Calling ************/
 
-    private void callApi()
-             {
+    private void callApi() {
 
     }
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-      {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-       {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
 
         //menu.clear();
@@ -179,10 +176,11 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                if(adapter!=null)
+                if (adapter != null)
                     adapter.filter(newText);
                 return false;
             }
@@ -200,15 +198,13 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-     {
-        switch(item.getItemId())
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.plus:
                 startActivity(new Intent(getContext(), AddQuotationAct.class));
                 break;
             case R.id.all:
-                if(adapter!=null)
+                if (adapter != null)
                     adapter.AllData();
                 break;
             case R.id.newest:
@@ -217,15 +213,15 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
                 adapter.PostingDate(dateafter, date);
                 break;
             case R.id.oldest:
-             //Date date1 = sdf.parse(date);
-            //String curntDate = Globals.getTodaysDate();
+                //Date date1 = sdf.parse(date);
+                //String curntDate = Globals.getTodaysDate();
                 break;
             case R.id.my:
-                if(adapter!=null)
+                if (adapter != null)
                     adapter.Favfilter("Y");
                 break;
-            case  R.id.valid:
-                if(adapter!=null)
+            case R.id.valid:
+                if (adapter != null)
                     adapter.Customerfilter();
                 break;
             case R.id.posting:
@@ -234,7 +230,6 @@ public class Quotation_All_Fragment extends Fragment implements View.OnClickList
         }
         return true;
     }
-
 
 
 }

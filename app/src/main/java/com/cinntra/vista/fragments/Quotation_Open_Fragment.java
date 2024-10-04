@@ -43,6 +43,7 @@ import com.cinntra.vista.databinding.FragmentQuotesListBinding;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.interfaces.CommentStage;
 import com.cinntra.vista.interfaces.FragmentRefresher;
+import com.cinntra.vista.interfaces.OnQuotationUpdatedListener;
 import com.cinntra.vista.model.BPModel.BusinessPartnerAllResponse;
 import com.cinntra.vista.model.DataBusinessPartnerDropDown;
 import com.cinntra.vista.model.OpportunityModels.OppAddressResponseModel;
@@ -109,6 +110,8 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
         quotationItemArrayList_gl = new ArrayList<>();
 
 
+        Log.d("QuotationFragment", "onCreateView called");
+
         //todo pagination for list..
         binding.recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -136,29 +139,6 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
             }
         });
 
-
-//        binding.swipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                CardName = "";
-//                solIdName = "";
-//                fromDate = "";
-//                toDate = "";
-//                searchTextValue = "";
-//                filterTextValue = "";
-//                if (Globals.checkInternet(getActivity())) {
-//                    page = 1;
-//                    apicall = true;
-//                    callApi(binding.loaderLayout.loader, maxItem, page, "", "", "", "");
-//                } else{
-//                    Toast.makeText(mContext, "No Internet", Toast.LENGTH_SHORT).show();
-//                //    binding.swipeRefreshLayout.setRefreshing(false);
-//                }
-//
-//            }
-//        });
-
-
         return binding.getRoot();
     }
 
@@ -166,6 +146,7 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Log.d("QuotationFragment", "onViewCreated called");
 
         if (getActivity().getIntent() != null) {
             BPCardCode  = getActivity().getIntent().getStringExtra("BPCardCodeShortCut");
@@ -174,6 +155,7 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d("QuotationFragment", "Refreshing list...");
                 isCardCodePresent=false;
                 isCreateDatePresent=false;
                 CardName = "";
@@ -197,22 +179,35 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
 
     }
 
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("QuotationFragment", "onStart called");
+    }
+
+
     //todo count items..
     int totalskipCount(int current) {
         int total = maxItem * page;
         return total;
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("QuotationFragment", "onResume called");
         if (Globals.checkInternet(getActivity())) {
             binding.loaderLayout.loader.setVisibility(View.VISIBLE);
             if (BPCardCode == null){
                 isCardCodePresent=false;
+
                 getQuotationListApi(binding.loaderLayout.loader, maxItem, page, "", "", "");
             }else {
                 isCardCodePresent=true;
+
                 getQuotationListApi(binding.loaderLayout.loader, maxItem, page, BPCardCode, "", "");
             }
         }
@@ -683,6 +678,9 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
                 if (!searchTextValue.isEmpty()){
                     getQuotationListApi(binding.loaderLayout.loader, maxItem, page, "", "", "");
                 }
+                else if(searchTextValue.isEmpty()){
+                    getQuotationListApi(binding.loaderLayout.loader, maxItem, page, "", "", "");
+                }
                 return false;
             }
         });
@@ -1010,6 +1008,7 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
     @Override
     public void onRefresh() {
         if (Globals.checkInternet(getActivity())) {
+
             binding.loaderLayout.loader.setVisibility(View.VISIBLE);
             getQuotationListApi(binding.loaderLayout.loader, maxItem, page, "", "", "");
         }

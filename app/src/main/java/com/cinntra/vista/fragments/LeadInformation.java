@@ -377,6 +377,7 @@ public class LeadInformation extends Fragment implements View.OnClickListener, P
                 chattransaction.add(R.id.customer_lead, chatterFragment).addToBackStack(null);
                 chattransaction.commit();
                 break;
+
             case R.id.attachment:
               /*  if (PermissionUtils.checkPermission(getActivity())) {
                     //    openGallery();

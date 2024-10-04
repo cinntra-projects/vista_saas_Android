@@ -142,6 +142,17 @@ public class QuotationDetailFragment extends Fragment implements PreviousImageVi
 
     String fileName = "";
 
+
+    public void refreshData() {
+        // Reload your data here
+        loadData(); // Call your data loading function
+    }
+
+    private void loadData() {
+        Log.d("Checking","Refreshed");
+    }
+
+
     private void showAllFilterDialog() {
         Dialog dialog = new Dialog(getContext());
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
