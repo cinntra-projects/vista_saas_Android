@@ -1,5 +1,6 @@
 package com.cinntra.vista.fragments;
 
+import static com.google.firebase.crashlytics.internal.Logger.TAG;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -94,7 +96,6 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
 
     public Quotation_Open_Fragment() {
         //Required empty public constructor
-
     }
 
     FragmentQuotesListBinding binding;
@@ -109,8 +110,11 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
         mContext = getActivity();
         quotationItemArrayList_gl = new ArrayList<>();
 
-
-        Log.d("QuotationFragment", "onCreateView called");
+        // Set FragmentResultListener to listen for results from Fragment2
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().show(); // Show the toolbar
+            refreshListing();
+        });
 
         //todo pagination for list..
         binding.recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -140,6 +144,14 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
         });
 
         return binding.getRoot();
+    }
+
+    private void refreshListing() {
+        if (Globals.checkInternet(getActivity())) {
+
+            binding.loaderLayout.loader.setVisibility(View.VISIBLE);
+            getQuotationListApi(binding.loaderLayout.loader, maxItem, page, "", "", "");
+        }
     }
 
     @Override
@@ -186,7 +198,6 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
         super.onStart();
         Log.d("QuotationFragment", "onStart called");
     }
-
 
     //todo count items..
     int totalskipCount(int current) {
@@ -346,7 +357,6 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
         });
 
     }
-
 
 
     //todo quotaion all list api with pagination..
@@ -634,7 +644,6 @@ public class Quotation_Open_Fragment extends Fragment implements View.OnClickLis
         });
 
     }
-
 
 
     @Override

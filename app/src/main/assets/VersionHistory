@@ -1,0 +1,55 @@
+
+--> Change in text.v 2024/10/07 by Tarun Sharma
+
+- **LOGIN:**
+  - Added "Forgot Password" functionality.
+  - Included country code selection in the registration mobile number field.
+  - Standardized button labels (e.g., "Register" to "Submit").
+  - Updated OTP prompts and improved OTP verification feedback.
+  - Fixed non-functional close button on OTP pop-up.
+  - Enabled self-registration by resolving multiple login-related issues.
+
+- **LEAD MANAGEMENT:**
+  - Updated field titles to "No. of Employee".
+  - Implemented searchable dropdowns for better user experience.
+  - Set default "Assigned To" value to the user's name with the option to change.
+  - Added country code support for mobile numbers on both web and Android.
+  - Standardized date formats to DD-MM-YYYY across listing and history screens.
+  - Enhanced follow-up pop-up with "Enter Comment" placeholder and reminder options.
+  - Improved validation messages and attachment handling.
+  - Fixed filter functionality and currency display issues.
+  - Ensured automatic status updates without manual refresh.
+
+- **BUSINESS PARTNER:**
+  - Restricted GST field to alphanumeric input.
+  - Rearranged "Billing Address" placement in forms.
+  - Auto-selected "India" as the default country in the Add BP form.
+  - Resolved issues with changing country selections without exiting the form.
+  - Fixed BP creation errors and prevented app crashes during BP updates.
+  - Improved contact person details display and made position/address fields mandatory as per web standards.
+  - Enhanced attachment handling and renamed buttons for consistency.
+
+- **OPPORTUNITY:**
+  - Made "Type" dropdown mandatory on mobile.
+  - Ensured all input fields are mandatory in the "Need Analysis" stage on mobile.
+  - Fixed UI issues in quotation and order forms, including dropdown placeholders and arrows.
+  - Corrected total amount calculations and BP dropdown values.
+  - Prevented app crashes during opportunity updates.
+
+- **QUOTATION:**
+  - Enabled automatic listing refresh post-quotation updates.
+  - Fixed app crashes during quotation updates and BP selection.
+  - Resolved navigation issues after order searches and improved filter reset functionality.
+  - Addressed endless loader issue when sharing quotations.
+
+- **SALE ORDER:**
+  - Fixed app crashes when creating orders from the quotation screen.
+  - Resolved edit order button functionality.
+  - Improved navigation post-order searches and enhanced filter reset.
+  - Fixed endless loader issue when sharing orders.
+
+- **INVOICE:**
+  - Corrected invoice listing display to show present invoices without unnecessary loading messages.
+  - Resolved endless loader issue when sharing invoices.
+
+Overall, these changes enhance UI consistency, improve form validations, ensure feature parity between web and mobile platforms, and significantly boost application stability and user experience.

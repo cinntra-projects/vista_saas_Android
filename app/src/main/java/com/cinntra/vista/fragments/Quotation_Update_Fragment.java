@@ -2131,18 +2131,13 @@ public class Quotation_Update_Fragment extends Fragment implements View.OnClickL
                         Globals.SelectedItems.clear();
                         Toasty.success(act, "Updated Successfully.", Toast.LENGTH_SHORT).show();
 
-                        // Get the ListingFragment instance
-                        Fragment quotationDetailFragment = getFragmentManager().findFragmentById(R.id.mainPdfFrame);
+                        // Send result to Fragment1 before navigating back
+                        Bundle result = new Bundle();
+                        getParentFragmentManager().setFragmentResult("requestKey", result);
 
-                        // If the ListingFragment is an instance of your listing fragment class
-                        if (quotationDetailFragment instanceof QuotationDetailFragment) {
-                            ((QuotationDetailFragment) quotationDetailFragment).refreshData(); // Call refresh method
-                        }
+                        // Navigate back to Fragment1
+                        getParentFragmentManager().popBackStack();
 
-                        // Navigate back to QuotationFragment
-                        if (getActivity() != null) {
-                            getActivity().onBackPressed();
-                        }
 
                     } else {
                         Toasty.warning(act, response.message(), Toast.LENGTH_SHORT).show();

@@ -158,12 +158,12 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Globals.COMMENT = comment.getText().toString();
-                if(!comment.getText().toString().trim().isEmpty()){
+                if(!comment.getText().toString().trim().isEmpty() && !startDate.getText().toString().trim().isEmpty() && !endDate.getText().toString().trim().isEmpty()){
 
                 callUpdatestageapi(stageno,oppId,id,name,startDate,endDate,selectedQuote);
                 dialog.cancel();
                 }else{
-                    Toast.makeText(context,"Please write some Comment",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Please fill all fields",Toast.LENGTH_LONG).show();
                 }
             }
         });

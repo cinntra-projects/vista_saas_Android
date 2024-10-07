@@ -911,6 +911,10 @@ public class AddOpportunityActivity extends MainBaseActivity implements View.OnC
         } else if (binding.closeDateValue.getText().toString().trim().length() == 0) {
             Globals.showMessage(act, "Enter closing date");
             return false;
+        } else if (binding.typeSpinner.getAdapter() == null || binding.typeSpinner.getAdapter().getCount() == 0) {
+            Globals.showMessage(act, "Select Type");
+            return false;
+            
         } else if (TYPE.equalsIgnoreCase("-None-")) {
             Globals.showMessage(act, getString(R.string.enter_tye));
             return false;

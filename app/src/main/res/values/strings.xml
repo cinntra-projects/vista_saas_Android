@@ -258,7 +258,7 @@
     <string name="add_bussiness"> Add Business Partner </string>
     <string name="update_bussiness"> Update Business Partner </string>
     <string name="update"> Update </string>
-    <string name="type"> Type </string>
+    <string name="type"> Type <font color='#FF0000'>*</font></string>
     <string name="lead_source"> Lead Source </string>
     <string name="probability"> Probability </string>
 

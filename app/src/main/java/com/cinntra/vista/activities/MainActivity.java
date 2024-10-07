@@ -150,7 +150,6 @@ public class MainActivity extends MainBaseActivity implements FragmentRefresher 
                         break;
                     case R.id.settings:
                         fragment = new Settings();
-
                         break;
                     case R.id.add_contact:
                         break;
