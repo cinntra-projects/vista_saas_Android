@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size_8"
+
+    app:cardElevation="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/size_8">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivProductImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/size_8"
+            android:src="@drawable/item_new_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearItemDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/ivProductImage"
+            app:layout_constraintEnd_toStartOf="@id/add_new_item"
+            app:layout_constraintStart_toEndOf="@id/ivProductImage"
+            app:layout_constraintTop_toTopOf="@id/ivProductImage">
+
+            <TextView
+                android:id="@+id/tvItemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/size_2"
+                android:text="HP-14’’ jet black"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_14" />
+
+            <TextView
+                android:id="@+id/tvItemCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AOOOO1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_14" />
+
+            <TextView
+                android:id="@+id/stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="InStock"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_new_item"
+            android:layout_width="@dimen/size_100"
+            android:layout_height="@dimen/size_30"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/rounded_orange_background"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/ivProductImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/linearItemDetails"
+            app:layout_constraintTop_toTopOf="@id/ivProductImage">
+
+            <TextView
+                android:id="@+id/weight"
+                android:layout_width="@dimen/size_40"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/muli_semibold"
+                android:gravity="center"
+                android:textColor="#F37A20"
+                android:textSize="@dimen/text_size_10" />
+
+            <TextView
+                android:id="@+id/add"
+                android:layout_width="@dimen/size_40"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F37A20"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/muli_semibold"
+                android:gravity="center"
+                android:text="@string/add"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_10" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/add_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_30"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="@dimen/size_4"
+            app:layout_constraintBottom_toBottomOf="@id/ivProductImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/linearItemDetails"
+            app:layout_constraintTop_toTopOf="@id/ivProductImage"
+            android:background="@drawable/rounded_orange_background"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
+
+            <TextView
+                android:id="@+id/minus"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F37A20"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/muli_semibold"
+                android:gravity="center"
+                android:text="@string/minus"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_10" />
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="@dimen/size_30"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/muli_semibold"
+
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_10" />
+
+            <TextView
+                android:id="@+id/plus"
+                android:layout_width="@dimen/size_25"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F37A20"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/muli_semibold"
+                android:gravity="center"
+                android:text="@string/plus"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_10" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

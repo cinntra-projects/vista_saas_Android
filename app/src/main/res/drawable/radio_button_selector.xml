@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <!-- Circle when the radio button is checked (blue color) -->
+        <shape android:shape="oval">
+            <solid android:color="@color/colour_text_color" />
+            <size android:width="24dp" android:height="24dp" />
+        </shape>
+    </item>
+    <item android:state_checked="false">
+        <!-- Circle when the radio button is unchecked (grey color) -->
+        <shape android:shape="oval">
+            <solid android:color="@color/grey" />
+            <size android:width="24dp" android:height="24dp" />
+        </shape>
+    </item>
+</selector>
