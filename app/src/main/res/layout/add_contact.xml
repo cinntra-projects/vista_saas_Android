@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/size_15"
                     android:fontFamily="@font/muli_regular"
-                    android:text="@string/last_name_mand"
+                    android:text="@string/last_name"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_14" />
 

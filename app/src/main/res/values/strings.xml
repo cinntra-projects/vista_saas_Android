@@ -180,6 +180,9 @@
     <string name="add_comment_mand">Add Comment <font color='#FF0000'>*</font></string>
     <string name="stage_End_date_mand">Stage End Date <font color='#FF0000'>*</font></string>
     <string name="start_date_mand">Start Date<font color='#FF0000'>*</font></string>
+    <string name="order_mand">    Order <font color='#FF0000'>*</font> </string>
+    <string name="quotation_mand">Quotation <font color='#FF0000'>*</font></string>
+    <string name="stage_start_date_mand">Stage Start Date <font color='#FF0000'>*</font></string>
 
     <string name="location"> Location </string>
     <string name="all_day"> All Day </string>

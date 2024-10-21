@@ -262,6 +262,17 @@ public class AddBranchActivity extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(AddBranchActivity.this, R.layout.drop_down_textview, itemNames);
                         binding.acCountry.setAdapter(adapter);
 
+                        // Set default to India
+                        String defaultCountry = "India";
+                        int defaultPos = itemNames.indexOf(defaultCountry);
+                        if (defaultPos != -1) {
+                            binding.acCountry.setText(defaultCountry, false);
+                            countryname = defaultCountry;
+                            countryCode = countyList.get(defaultPos).getCode();
+
+                            callStateApi(countryCode);  // Call the API with India's code
+                        }
+
 
                         //todo bill to and ship to address drop down item select..
                         binding.acCountry.setOnItemClickListener(new AdapterView.OnItemClickListener() {

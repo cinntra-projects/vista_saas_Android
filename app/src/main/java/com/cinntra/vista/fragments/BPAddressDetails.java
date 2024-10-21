@@ -111,6 +111,8 @@ public class BPAddressDetails extends Fragment implements BPAttachmentAdapter.On
             }
         });
 
+
+
         binding.addShipBranch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

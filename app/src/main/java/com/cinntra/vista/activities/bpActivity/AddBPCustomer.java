@@ -163,13 +163,13 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
         binding.fragmentAddpartnergeneral.parentAccountValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (getPaymenterm.size() > 0)
-                    parenT_account = addDatatoCategoryList(AllitemsList).get(position);
+//                if (getPaymenterm.size() > 0)
+//                    parenT_account = addDatatoCategoryList(AllitemsList).get(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                parenT_account = addDatatoCategoryList(AllitemsList).get(0);
+//                parenT_account = addDatatoCategoryList(AllitemsList).get(0);
             }
         });
 
@@ -328,13 +328,13 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
         binding.fragmentAddpartnergeneral.paymentTermValue.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (getPaymenterm.size() > 0)
-                    payment_term = getPaymenterm.get(position).getGroupNumber();
+//                if (getPaymenterm.size() > 0)
+//                    payment_term = getPaymenterm.get(position).getGroupNumber();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                payment_term = getPaymenterm.get(0).getGroupNumber();
+//                payment_term = getPaymenterm.get(0).getGroupNumber();
 
             }
         });
@@ -432,7 +432,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                     if (response.body().getData().size() > 0) {
                         zoneDataList.clear();
                         zoneDataList.addAll(response.body().getData());
-                        zoneSelected = zoneDataList.get(0).getId();
+//                        zoneSelected = zoneDataList.get(0).getId();
 
                         ZoneSearchableSpinnerAdapter sourceSearchableSpinnerAdapter = new ZoneSearchableSpinnerAdapter(AddBPCustomer.this, zoneDataList);
 
@@ -468,7 +468,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("SPINNER SEARCH", "onItemSelected: " + parentAccountDataList.get(i).getCardCode());
-                parenT_account = parentAccountDataList.get(i).getCardName();
+//                parenT_account = parentAccountDataList.get(i).getCardName();
             }
 
             @Override
@@ -492,7 +492,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                     if (response.body().getData().size() > 0) {
                         parentAccountDataList.clear();
                         parentAccountDataList.addAll(response.body().getData());
-                        parenT_account = parentAccountDataList.get(0).getCardName();
+//                        parenT_account = parentAccountDataList.get(0).getCardName();
 
                         BusinessPartnerSearchableSpinnerAdapter sourceSearchableSpinnerAdapter = new BusinessPartnerSearchableSpinnerAdapter(AddBPCustomer.this, parentAccountDataList);
 
@@ -635,8 +635,8 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
             AllitemsList.addAll(businessPartnerDataFromLocal);
 
 //                    parent_account_value.setAdapter(new ParentAccAdapter(act,filter(AllitemsList)));
-            binding.fragmentAddpartnergeneral.parentAccountValue.setAdapter(new ArrayAdapter(act, android.R.layout.simple_list_item_1, addDatatoCategoryList(AllitemsList)));
-            parenT_account = addDatatoCategoryList(AllitemsList).get(0);
+//            binding.fragmentAddpartnergeneral.parentAccountValue.setAdapter(new ArrayAdapter(act, android.R.layout.simple_list_item_1, addDatatoCategoryList(AllitemsList)));
+//            parenT_account = addDatatoCategoryList(AllitemsList).get(0);
 
 
         }
@@ -697,6 +697,8 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                 String shipZipcode = binding.fragmentAddpartnercontact.addressSection.zipcodeValue2.getText().toString().trim();
                 String shipCity = binding.fragmentAddpartnercontact.addressSection.shipcityValue.getText().toString().trim();
                 String shipAddressValue = binding.fragmentAddpartnercontact.addressSection.shippingAddressValue.getText().toString().trim();
+
+                parenT_account = binding.fragmentAddpartnergeneral.saerchableSpinnerParentAccount.getText().toString().trim();
 
                 Log.d("checking", String.valueOf(IS_CHECKED));
                 if (IS_CHECKED == true) {
@@ -842,7 +844,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                         contactExtension.setUContownr(contactName);
                         contactExtension.setURating("");
                         contactExtension.setUType(TYPE);
-                        contactExtension.setUAnlrvn("");
+                        contactExtension.setUAnlrvn(binding.fragmentAddpartnergeneral.etTurnover.getText().toString());
                         contactExtension.setUCurbal("");
                         contactExtension.setUAccnt("");
                         contactExtension.setUInvno(binding.fragmentAddpartnergeneral.invoiceNoValue.getText().toString().trim());
@@ -1251,7 +1253,7 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
 
                     binding.fragmentAddpartnergeneral.paymentTermValue.setAdapter(new PaymentAdapter(act, getPaymenterm));
 
-                    payment_term = getPaymenterm.get(0).getGroupNumber();
+//                    payment_term = getPaymenterm.get(0).getGroupNumber();
 
                 }
 
@@ -1369,8 +1371,6 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
                                String billtoState, String shipName, String shipZipcode, String shipCity,
                                String shipAddressValue, String shiptoCountryName, String shiptoState,String parentAccount, String selectedZone) {
 
-        Log.d("checking","working");
-
         if (cowner.isEmpty()) {
             Globals.showMessage(act, "Enter Company name");
             return false;
@@ -1428,10 +1428,12 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
         } else if (shipAddressValue.isEmpty()) {
             Globals.showMessage(act, "Enter Ship Address");
             return false;
-        }  else if (parentAccount.equalsIgnoreCase("Select Parent")) {
-            Globals.showMessage(act, "Select Parent");
-            return false;
-        } else if (selectedZone.equalsIgnoreCase("Select Zone")) {
+        }
+//        else if (parentAccount.equalsIgnoreCase("Select Parent")) {
+//            Globals.showMessage(act, "Select Parent");
+//            return false;
+//        }
+        else if (selectedZone.isEmpty() || selectedZone.equalsIgnoreCase("Zones")) {
             Globals.showMessage(act, "Select Zone");
             return false;
         }
@@ -1486,10 +1488,11 @@ public class AddBPCustomer extends MainBaseActivity implements View.OnClickListe
             Globals.showMessage(act, "Enter Billing Address");
             return false;
         }
-        else if (parentAccount.equalsIgnoreCase("Select Parent")) {
-            Globals.showMessage(act, "Select Parent");
-            return false;
-        } else if (selectedZone.equalsIgnoreCase("Select Zone")) {
+        //        else if (parentAccount.equalsIgnoreCase("Select Parent")) {
+//            Globals.showMessage(act, "Select Parent");
+//            return false;
+//        }
+        else if (selectedZone.isEmpty() || selectedZone.equalsIgnoreCase("Zones")) {
             Globals.showMessage(act, "Select Zone");
             return false;
         }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,7 +32,9 @@ import com.cinntra.vista.R;
 import com.cinntra.vista.activities.AddOpportunityActivity;
 import com.cinntra.vista.adapters.BPTypeSpinnerAdapter;
 import com.cinntra.vista.adapters.OrderDropDownSpinnerAdapter;
+import com.cinntra.vista.adapters.OrderSelectionAutoCompleteAdapter;
 import com.cinntra.vista.adapters.QuotationDropDownSpinnerAdapter;
+import com.cinntra.vista.adapters.QuotationSelectionAutoCompleteAdapter;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.interfaces.CommentStage;
 import com.cinntra.vista.interfaces.FragmentRefresher;
@@ -128,11 +131,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
         LinearLayout linearDateSelector = dialog.findViewById(R.id.linearDateSelector);
 
-
-        Spinner spinnerQuotation = dialog.findViewById(R.id.spinnerSelectQuote);
+        AutoCompleteTextView spinnerQuotation = dialog.findViewById(R.id.acQuotationItemList);
         LinearLayout linearSelectQuotation = dialog.findViewById(R.id.linearSelectQuotation);
 
-        Spinner spinnerorder = dialog.findViewById(R.id.spinnerSelectOrder);
+        AutoCompleteTextView spinnerorder = dialog.findViewById(R.id.acSelectOrder);
         LinearLayout linearSelectOrder = dialog.findViewById(R.id.linearSelectOrder);
 
 
@@ -141,6 +143,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
 
 
         linearDateSelector.setVisibility(View.VISIBLE);
+
 
         if (stageno.equals("3.0")||stageno.equals("4.0")){
             linearSelectQuotation.setVisibility(View.VISIBLE);
@@ -191,7 +194,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
     List<ResponseOrderListDropDown.Datum> orderDropDowntypelist = new ArrayList<>();
 
 
-    private void loadQuotDropDownlist(Spinner quotaion) {
+    private void loadQuotDropDownlist(AutoCompleteTextView quotaion) {
         /*{
             "departement": 2,
                 "SalesPersonCode": "64"
@@ -209,10 +212,20 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                             if (response.body().getData().size()>0){
                                 quoteDropDowntypelist.clear();
                                 quoteDropDowntypelist.addAll(response.body().getData());
-                                quotaion.setAdapter(new QuotationDropDownSpinnerAdapter(context, quoteDropDowntypelist));
-                                selectedQuote = quoteDropDowntypelist.get(0).getId().toString();
+                                quotaion.setAdapter(new QuotationSelectionAutoCompleteAdapter(context,R.layout.drop_down_textview, (ArrayList<ResponseQuoteListDropDown.Datum>) quoteDropDowntypelist));
 
-                                quotaion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                quotaion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        quotaion.setText(quoteDropDowntypelist.get(position).getU_QUOTNM());
+                                        quotaion.setAdapter(new QuotationSelectionAutoCompleteAdapter(context,R.layout.drop_down_textview, (ArrayList<ResponseQuoteListDropDown.Datum>) quoteDropDowntypelist));
+
+                                    }
+                                });
+
+                                //   selectedQuote = quoteDropDowntypelist.get(0).getId().toString();
+
+                               /* quotaion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     @Override
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                         if (quoteDropDowntypelist.size() > 0)
@@ -222,7 +235,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                                     @Override
                                     public void onNothingSelected(AdapterView<?> parent) {
                                     }
-                                });
+                                });*/
                             }
                         }
                     }
@@ -238,7 +251,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         });
     }
 
-    private void loadOrderDropDownlist(Spinner order) {
+    private void loadOrderDropDownlist(AutoCompleteTextView order) {
         /*{
             "departement": 2,
                 "SalesPersonCode": "64"
@@ -256,20 +269,31 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
                             if (response.body().getData().size()>0){
                                 orderDropDowntypelist.clear();
                                 orderDropDowntypelist.addAll(response.body().getData());
-                                order.setAdapter(new OrderDropDownSpinnerAdapter(context, orderDropDowntypelist));
+                                order.setAdapter(new OrderSelectionAutoCompleteAdapter(context,R.layout.drop_down_textview, (ArrayList<ResponseOrderListDropDown.Datum>) orderDropDowntypelist));
                                 selectedQuote = orderDropDowntypelist.get(0).getId().toString();
 
-                                order.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        if (orderDropDowntypelist.size() > 0)
-                                            selectedQuote = orderDropDowntypelist.get(position).getId().toString();
-                                    }
+                                order.setAdapter(new OrderSelectionAutoCompleteAdapter(context,R.layout.drop_down_textview, (ArrayList<ResponseOrderListDropDown.Datum>) orderDropDowntypelist));
 
+                                order.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        order.setText(orderDropDowntypelist.get(position).getCardName());
+                                        order.setAdapter(new OrderSelectionAutoCompleteAdapter(context,R.layout.drop_down_textview, (ArrayList<ResponseOrderListDropDown.Datum>) orderDropDowntypelist));
+
                                     }
                                 });
+
+//                                order.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                                    @Override
+//                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                                        if (orderDropDowntypelist.size() > 0)
+//                                            selectedQuote = orderDropDowntypelist.get(position).getId().toString();
+//                                    }
+//
+//                                    @Override
+//                                    public void onNothingSelected(AdapterView<?> parent) {
+//                                    }
+//                                });
                             }
                         }
                     }
@@ -338,10 +362,10 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
         dialog.setContentView(R.layout.completestage_dialog);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT);
         Button done = dialog.findViewById(R.id.save);
-        TextView tvStageName = dialog.findViewById(R.id.tvStageName);
+//        TextView tvStageName = dialog.findViewById(R.id.tvStageName);
         Spinner previous_stage = dialog.findViewById(R.id.previous_stage);
         EditText comments_val = dialog.findViewById(R.id.comments_val);
-        tvStageName.setText(stage_name);
+//        tvStageName.setText(stage_name);
         previous_stage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

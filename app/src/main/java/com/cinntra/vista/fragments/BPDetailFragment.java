@@ -111,6 +111,12 @@ public class BPDetailFragment extends Fragment {
             binding.tvWebsite.setText(dataModel_gl.getWebsite());
         }
 
+        if(dataModel_gl.getU_ANLRVN().isEmpty()){
+            binding.tvTurnOver.setText("\u20B9 0");
+        }else{
+            binding.tvTurnOver.setText("\u20B9 "+dataModel_gl.getU_ANLRVN());
+        }
+
         if (dataModel_gl.getU_PARENTACC().isEmpty()) {
             binding.tvParrentAcc.setText("NA");
         } else {

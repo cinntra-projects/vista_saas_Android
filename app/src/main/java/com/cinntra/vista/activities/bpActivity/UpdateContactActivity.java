@@ -226,22 +226,25 @@ public class UpdateContactActivity extends MainBaseActivity implements View.OnCl
         if (fname.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter First Name");
             return false;
-        } else if (lname.isEmpty()) {
-            Globals.showMessage(getApplicationContext(), "Enter Last Name");
-            return false;
-        }else if (rtvalue.isEmpty()) {
-            Globals.showMessage(getApplicationContext(), "Enter Position");
-            return false;
-        }  else if (mobile.isEmpty()) {
+        }
+//        else if (lname.isEmpty()) {
+//            Globals.showMessage(getApplicationContext(), "Enter Last Name");
+//            return false;
+//        }else if (rtvalue.isEmpty()) {
+//            Globals.showMessage(getApplicationContext(), "Enter Position");
+//            return false;
+//        }
+        else if (mobile.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter Mobile Number");
             return false;
         } else if (email.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter E-mail");
             return false;
-        } else if (address.isEmpty()) {
-            Globals.showMessage(getApplicationContext(), "Enter Address");
-            return false;
         }
+//        else if (address.isEmpty()) {
+//            Globals.showMessage(getApplicationContext(), "Enter Address");
+//            return false;
+//        }
         return true;
     }
 

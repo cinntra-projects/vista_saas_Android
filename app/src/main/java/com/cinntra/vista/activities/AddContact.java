@@ -133,10 +133,11 @@ public class AddContact extends MainBaseActivity implements View.OnClickListener
         if (fname.isEmpty()) {
             Globals.showMessage(getApplicationContext(), "Enter First Name");
             return false;
-        } else if (lname.isEmpty()) {
-            Globals.showMessage(getApplicationContext(), "Enter Last Name");
-            return false;
         }
+//        else if (lname.isEmpty()) {
+//            Globals.showMessage(getApplicationContext(), "Enter Last Name");
+//            return false;
+//        }
 //        else if (rtvalue.isEmpty()) {
 //            Globals.showMessage(getApplicationContext(), "Enter Position");
 //            return false;
