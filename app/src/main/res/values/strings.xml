@@ -33,7 +33,7 @@
     <string name="won">Won</string>
     <string name="lost">Lost</string>
     <string name="pipeline">Pipeline</string>
-    <string name="opportunities">Opportunities</string>
+    <string name="opportunities">Opportunity</string>
     <string name="notification">Notification</string>
     <string name="quotation">Quotation</string>
     <string name="quotation_update">Update Quotation</string>
@@ -87,7 +87,7 @@
     <string name="payment_term">Payment Terms </string>
     <string name="payment_method">Payment Methods </string>
     <string name="bp_project">BP Project </string>
-    <string name="title_activity_invoice">Opportunities </string>
+    <string name="title_activity_invoice">Opportunity </string>
     <string name="order_label">Sales Orders </string>
     <string name="invoice">Invoice </string>
     <string name="invoices">Invoice </string>

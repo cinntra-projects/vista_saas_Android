@@ -27,8 +27,10 @@ import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.BPTypeSpinnerAdapter;
 import com.cinntra.vista.adapters.CategoryAdapter;
+import com.cinntra.vista.adapters.LeadDropDownAdapter;
 import com.cinntra.vista.adapters.LeadTypeAdapter;
 import com.cinntra.vista.adapters.SalesEmployeeAutoAdapter;
+import com.cinntra.vista.adapters.TypeDropDownAdapter;
 import com.cinntra.vista.adapters.bpAdapters.ContactPersonAutoAdapter;
 import com.cinntra.vista.databinding.AddOpportunityBinding;
 import com.cinntra.vista.databinding.TaxesAlertBinding;
@@ -186,31 +188,56 @@ public class AddOpportunityActivity extends MainBaseActivity implements View.OnC
         });
 
 
-        binding.typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.acTypeSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (utypelist.size() > 0)
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (utypelist.size() > 0) {
                     TYPE = utypelist.get(position).getId().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        binding.leadSourceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (sourceData.size() > 0) {
-                    LEAD_SOURCE = sourceData.get(position).getName().toString();
+                    binding.acTypeSpinner.setText(utypelist.get(position).getType());
                 }
             }
+        });
 
+
+//        binding.acTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (utypelist.size() > 0)
+//                    TYPE = utypelist.get(position).getId().toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+
+//        binding.acLeadSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (sourceData.size() > 0) {
+//                    LEAD_SOURCE = sourceData.get(position).getName().toString();
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                LEAD_SOURCE = sourceData.get(0).getName().toString();
+//            }
+//        });
+
+        binding.acLeadSource.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                LEAD_SOURCE = sourceData.get(0).getName().toString();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item
+                if (sourceData.size() > 0) {
+
+                    LEAD_SOURCE = String.valueOf(sourceData.get(position).getName()); // Assuming sourceData is a List<String>
+                    binding.acLeadSource.setText(LEAD_SOURCE);
+                }
             }
         });
+
+
 
 
         //todo item click of contact person---
@@ -694,7 +721,7 @@ public class AddOpportunityActivity extends MainBaseActivity implements View.OnC
 
                         if (!leadValue.getSource().isEmpty()){
                             LEAD_SOURCE = leadValue.getSource();
-                            binding.leadSourceSpinner.setSelection(Globals.getLeadSourcePos(sourceData, leadValue.getSource()));
+                            binding.acLeadSource.setSelection(Globals.getLeadSourcePos(sourceData, leadValue.getSource()));
                         }
                     }
 
@@ -792,7 +819,7 @@ public class AddOpportunityActivity extends MainBaseActivity implements View.OnC
                     Globals.setmessage(act);
                 } else {
                     utypelist = itemsList;
-                    binding.typeSpinner.setAdapter(new BPTypeSpinnerAdapter(act, itemsList));
+                    binding.acTypeSpinner.setAdapter(new TypeDropDownAdapter(act, R.layout.drop_down_textview, itemsList));
                     TYPE = utypelist.get(0).getId().toString();
 
                 }
@@ -814,7 +841,7 @@ public class AddOpportunityActivity extends MainBaseActivity implements View.OnC
                     sourceData.clear();
 //                    sourceData.addAll(MainActivity.leadSourceListFromLocal);
                     sourceData.addAll(response.body().getData());
-                    binding.leadSourceSpinner.setAdapter(new LeadTypeAdapter(AddOpportunityActivity.this, sourceData));
+                    binding.acLeadSource.setAdapter(new LeadDropDownAdapter(AddOpportunityActivity.this,R.layout.drop_down_textview,sourceData));
                     LEAD_SOURCE = sourceData.get(0).getName();
                 } else {
                     //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
@@ -911,10 +938,10 @@ public class AddOpportunityActivity extends MainBaseActivity implements View.OnC
         } else if (binding.closeDateValue.getText().toString().trim().length() == 0) {
             Globals.showMessage(act, "Enter closing date");
             return false;
-        } else if (binding.typeSpinner.getAdapter() == null || binding.typeSpinner.getAdapter().getCount() == 0) {
+        } else if (binding.acTypeSpinner.getAdapter() == null || binding.acTypeSpinner.getAdapter().getCount() == 0) {
             Globals.showMessage(act, "Select Type");
             return false;
-            
+
         } else if (TYPE.equalsIgnoreCase("-None-")) {
             Globals.showMessage(act, getString(R.string.enter_tye));
             return false;

@@ -90,7 +90,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, ChangeT
     String userTyep;
     /*String []mainItems = {"Lead Generation/Opportunities","Inventory","Sales Quotation",
     "Sales Order","Delivery","Invoice "};*/
-    String[] mainItems = {"Opportunities", "Quotations", "Orders", "Invoice "};
+    String[] mainItems = {"Opportunity", "Quotation", "Order", "Invoice "};
     String[] inventoryItem = {"Fast Moving", "Slow Moving", "Non Moving"};
     int[] inventoryIcons = {R.drawable.ic_inventory, R.drawable.ic_inventory, R.drawable.ic_inventory};
 

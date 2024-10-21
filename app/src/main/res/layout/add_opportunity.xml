@@ -477,29 +477,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-
-                    <!-- <Spinner
-                         android:id="@+id/sales_employee_spinner"
-                         android:layout_width="match_parent"
-                         android:layout_height="@dimen/text_45"
-                         android:layout_toLeftOf="@id/drov_arrow"
-                         android:background="@null"
-                         android:dropDownWidth="wrap_content"
-                         android:dropDownVerticalOffset="@dimen/text_45"
-                         android:forceHasOverlappingRendering="false"
-                         android:gravity="center_vertical|start"
-                         android:paddingLeft="@dimen/size_5"
-                         android:spinnerMode="dropdown"
-                         android:textSize="@dimen/text_size_14" />
-
-                     <ImageView
-                         android:id="@+id/drov_arrow"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_alignParentRight="true"
-                         android:layout_centerVertical="true"
-                         android:src="@drawable/ic_bottom_arrow_black" />-->
-
                 </RelativeLayout>
 
 
@@ -516,33 +493,60 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_10"
-                    android:background="@drawable/rounded_border_edit"
-                    android:paddingRight="@dimen/size_10">
+                    android:layout_marginTop="@dimen/size_10">
 
-                    <Spinner
-                        android:id="@+id/type_spinner"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/text_45"
-                        android:layout_toLeftOf="@id/drov_arrow1"
-                        android:background="@null"
-                        android:dropDownWidth="wrap_content"
-                        android:dropDownVerticalOffset="@dimen/text_45"
-                        android:forceHasOverlappingRendering="false"
-                        android:gravity="center_vertical|start"
-                        android:paddingLeft="@dimen/size_5"
-                        android:spinnerMode="dropdown"
-                        android:textSize="@dimen/text_size_14" />
-
-                    <ImageView
-                        android:id="@+id/drov_arrow1"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_bottom_arrow_black" />
+                        android:hint="Select Type"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/acType_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:maxLines="1"
+                            android:textSize="12sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </RelativeLayout>
+
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/size_10"-->
+                <!--                    android:background="@drawable/rounded_border_edit"-->
+                <!--                    android:paddingRight="@dimen/size_10">-->
+
+                <!--                    <Spinner-->
+                <!--                        android:id="@+id/type_spinner"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="@dimen/text_45"-->
+                <!--                        android:layout_toLeftOf="@id/drov_arrow1"-->
+                <!--                        android:background="@null"-->
+                <!--                        android:dropDownWidth="wrap_content"-->
+                <!--                        android:dropDownVerticalOffset="@dimen/text_45"-->
+                <!--                        android:forceHasOverlappingRendering="false"-->
+                <!--                        android:gravity="center_vertical|start"-->
+                <!--                        android:paddingLeft="@dimen/size_5"-->
+                <!--                        android:spinnerMode="dropdown"-->
+                <!--                        android:textSize="@dimen/text_size_14" />-->
+
+                <!--                    <ImageView-->
+                <!--                        android:id="@+id/drov_arrow1"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_alignParentRight="true"-->
+                <!--                        android:layout_centerVertical="true"-->
+                <!--                        android:src="@drawable/ic_bottom_arrow_black" />-->
+
+                <!--                </RelativeLayout>-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -629,36 +633,63 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_14" />
 
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/size_10"-->
+                <!--                    android:background="@drawable/rounded_border_edit"-->
+                <!--                    android:paddingRight="@dimen/size_10">-->
+
+                <!--                    <Spinner-->
+                <!--                        android:id="@+id/lead_source_spinner"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="@dimen/text_45"-->
+                <!--                        android:layout_toLeftOf="@id/drov_arrow2"-->
+                <!--                        android:background="@null"-->
+                <!--                        android:dropDownWidth="wrap_content"-->
+                <!--                        android:dropDownVerticalOffset="@dimen/text_45"-->
+                <!--                        android:forceHasOverlappingRendering="false"-->
+                <!--                        android:gravity="center_vertical|start"-->
+                <!--                        android:paddingLeft="@dimen/size_5"-->
+                <!--                        android:spinnerMode="dropdown"-->
+                <!--                        android:textSize="@dimen/text_size_14" />-->
+
+                <!--                    &lt;!&ndash;                        android:entries="@array/lead_source"-->
+                <!--&ndash;&gt;-->
+                <!--                    <ImageView-->
+                <!--                        android:id="@+id/drov_arrow2"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_alignParentRight="true"-->
+                <!--                        android:layout_centerVertical="true"-->
+                <!--                        android:src="@drawable/ic_bottom_arrow_black" />-->
+
+                <!--                </RelativeLayout>-->
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/size_10"
-                    android:background="@drawable/rounded_border_edit"
-                    android:paddingRight="@dimen/size_10">
+                    android:layout_marginTop="@dimen/size_10">
 
-                    <Spinner
-                        android:id="@+id/lead_source_spinner"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/text_45"
-                        android:layout_toLeftOf="@id/drov_arrow2"
-                        android:background="@null"
-                        android:dropDownWidth="wrap_content"
-                        android:dropDownVerticalOffset="@dimen/text_45"
-                        android:forceHasOverlappingRendering="false"
-                        android:gravity="center_vertical|start"
-                        android:paddingLeft="@dimen/size_5"
-                        android:spinnerMode="dropdown"
-                        android:textSize="@dimen/text_size_14" />
-
-                    <!--                        android:entries="@array/lead_source"
--->
-                    <ImageView
-                        android:id="@+id/drov_arrow2"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_bottom_arrow_black" />
+                        android:hint="Select Lead Source"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/acLeadSource"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:maxLines="1"
+                            android:textSize="12sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </RelativeLayout>
 
