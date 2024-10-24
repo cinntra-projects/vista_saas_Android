@@ -334,6 +334,8 @@ public class OpenOpportunities_Adapter extends RecyclerView.Adapter<OpenOpportun
                         b.putParcelable(Globals.OpportunityItem, itemsList.get(getAdapterPosition()));
 //          Opportunity_Update_Fragment fragment = new Opportunity_Update_Fragment();
                         Opportunity_Detail_NewFragment fragment = new Opportunity_Detail_NewFragment();
+                        b.putString("opportunity_card_Code", itemsList.get(getAdapterPosition()).getCardCode());
+                        b.putString("opportunity_sourceId",itemsList.get(getAdapterPosition()).getId());
                         fragment.setArguments(b);
                         FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.quatoes_main_container, fragment);

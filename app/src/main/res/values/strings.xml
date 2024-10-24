@@ -33,6 +33,14 @@
     <string name="won">Won</string>
     <string name="lost">Lost</string>
     <string name="pipeline">Pipeline</string>
+    <string name="name_of_event_mand">Name of Event <font color='#FF0000'>*</font></string>
+    <string name="name_of_task_mand">Name of Task <font color='#FF0000'>*</font></string>
+    <string name="due_date_mand">Due Date <font color='#FF0000'>*</font></string>
+    <string name="assign_to">Assign To </string>
+    <string name="start_time_mand">Start Time<font color='#FF0000'>*</font></string>
+    <string name="end_date_mand">End Date<font color='#FF0000'>*</font></string>
+    <string name="end_time_mand">End Time<font color='#FF0000'>*</font></string>
+
     <string name="opportunities">Opportunity</string>
     <string name="notification">Notification</string>
     <string name="quotation">Quotation</string>
@@ -203,7 +211,8 @@
     <string name="status">Status </string>
     <string name="status_mand">Status <font color='#FF0000'>*</font></string>
     <string name="priority"> Priority </string>
-    <string name="submit"> Submit </string>
+    <string name="submit"> Save </string>
+    <string name="duedate_error">Enter Due date</string>
     <string name="performance"> Performance </string>
     <string name="days"> Days </string>
     <string name="average"> Average </string>

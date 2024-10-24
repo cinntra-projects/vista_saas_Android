@@ -127,34 +127,34 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
 
     private void setData() {
         binding.titleText.setText(newEvent.getTitle());
-        binding.fromValue.setText(newEvent.getFrom());
-        binding.timeValue.setText(newEvent.getTime());
-        binding.addLocationText.setText(newEvent.getLocation());
-        binding.hostText.setText(newEvent.getHost());
+        binding.dateValue.setText(newEvent.getFrom());
+//        binding.timeValue.setText(newEvent.getTime());
+//        binding.addLocationText.setText(newEvent.getLocation());
+//        binding.hostText.setText(newEvent.getHost());
         binding.descriptionText.setText(newEvent.getDescription());
 
 
-        if (newEvent.getRepeated().equals(""))
-            binding.simpleSwitch.setChecked(true);
-        else
-            binding.simpleSwitch.setChecked(false);
-
-        binding.spinner.setSelection(getposition(categories, newEvent.getRepeated()));
-
-        binding.progressSpinner.setSelection(getposition(progress_status, newEvent.getProgressStatus()));
-
-        binding.simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    repeated = "";
-                    binding.spinnerview.setVisibility(View.INVISIBLE);
-                } else {
-                    binding.spinnerview.setVisibility(View.VISIBLE);
-//                    repeated = "Repeated";
-                }
-            }
-        });
+//        if (newEvent.getRepeated().equals(""))
+//            binding.simpleSwitch.setChecked(true);
+//        else
+//            binding.simpleSwitch.setChecked(false);
+//
+//        binding.spinner.setSelection(getposition(categories, newEvent.getRepeated()));
+//
+//        binding.progressSpinner.setSelection(getposition(progress_status, newEvent.getProgressStatus()));
+//
+//        binding.simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    repeated = "";
+//                    binding.spinnerview.setVisibility(View.INVISIBLE);
+//                } else {
+//                    binding.spinnerview.setVisibility(View.VISIBLE);
+////                    repeated = "Repeated";
+//                }
+//            }
+//        });
 
 
     }
@@ -232,77 +232,77 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, month);
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            updateLabel(binding.fromValue, myCalendar);
+            updateLabel(binding.dateValue, myCalendar);
         };
 
 
-        eventTextSpinner = new EventTextSpinner(getActivity(), categories);
-        binding.spinner.setAdapter(eventTextSpinner);
-        binding.spinner.setDropDownVerticalOffset(60);
+//        eventTextSpinner = new EventTextSpinner(getActivity(), categories);
+//        binding.spinner.setAdapter(eventTextSpinner);
+//        binding.spinner.setDropDownVerticalOffset(60);
+//
+//        binding.spinner.setSelection(categories.indexOf(newEvent.getRepeated()));
+//
+//        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                repeated = binding.spinner.getSelectedItem().toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                repeated = categories.get(0);
+//            }
+//        });
+//
+//        taskProgressSpinner = new TaskProgressSpinner(getActivity(), progress_status);
+//        binding.progressSpinner.setAdapter(taskProgressSpinner);
+//        binding.progressSpinner.setDropDownVerticalOffset(60);
+//
+//        binding.progressSpinner.setSelection(progress_status.indexOf(newEvent.getProgressStatus()));
+//
+//        binding.progressSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                progresstatus = binding.spinner.getSelectedItem().toString();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                progresstatus = progress_status.get(0);
+//            }
+//        });
 
-        binding.spinner.setSelection(categories.indexOf(newEvent.getRepeated()));
 
-        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                repeated = binding.spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                repeated = categories.get(0);
-            }
-        });
-
-        taskProgressSpinner = new TaskProgressSpinner(getActivity(), progress_status);
-        binding.progressSpinner.setAdapter(taskProgressSpinner);
-        binding.progressSpinner.setDropDownVerticalOffset(60);
-
-        binding.progressSpinner.setSelection(progress_status.indexOf(newEvent.getProgressStatus()));
-
-        binding.progressSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                progresstatus = binding.spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                progresstatus = progress_status.get(0);
-            }
-        });
-
-
-        binding.fromValue.setOnClickListener(v -> {
-            Globals.enableAllCalenderDateSelect(getContext(), binding.fromValue);
-
-        });
-
-        binding.timeValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        t1hr = hourOfDay;
-                        t1min = minute;
-                        myTime = Calendar.getInstance();
-//                        myTime.set(0,0,0,t1hr,t1min);
-                        myTime.set(Calendar.HOUR_OF_DAY, t1hr);
-                        myTime.set(Calendar.MINUTE, t1min);
-                        myTime.set(Calendar.SECOND, 0);
-                        myTime.set(Calendar.MILLISECOND, 0);
-                        binding.timeValue.setText(DateFormat.format("hh:mm aa", myTime));
-                        //setAlarm();
-                    }
-                }, 12, 0, false
-                );
-                timePickerDialog.updateTime(t1hr, t1min);
-                timePickerDialog.show();
-
-            }
+        binding.dateValue.setOnClickListener(v -> {
+            Globals.enableAllCalenderDateSelect(getContext(), binding.dateValue);
 
         });
+
+//        binding.timeValue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+//                    @Override
+//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                        t1hr = hourOfDay;
+//                        t1min = minute;
+//                        myTime = Calendar.getInstance();
+////                        myTime.set(0,0,0,t1hr,t1min);
+//                        myTime.set(Calendar.HOUR_OF_DAY, t1hr);
+//                        myTime.set(Calendar.MINUTE, t1min);
+//                        myTime.set(Calendar.SECOND, 0);
+//                        myTime.set(Calendar.MILLISECOND, 0);
+//                        binding.timeValue.setText(DateFormat.format("hh:mm aa", myTime));
+//                        //setAlarm();
+//                    }
+//                }, 12, 0, false
+//                );
+//                timePickerDialog.updateTime(t1hr, t1min);
+//                timePickerDialog.show();
+//
+//            }
+//
+//        });
 
 
     }
@@ -342,11 +342,13 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
             case R.id.submit_button:
             case R.id.ok:
                 String title = binding.titleText.getText().toString().trim();
-                String date = binding.fromValue.getText().toString().trim();
-                String location = binding.addLocationText.getText().toString().trim();
-                String host = binding.hostText.getText().toString().trim();
+                String dueDate = binding.dateValue.getText().toString().trim();
+                String typeSpinner = binding.typeSpinner.getSelectedItem().toString().trim();
+                String assignTo = binding.assignToSpinner.getSelectedItem().toString().trim();
+//                String location = binding.addLocationText.getText().toString().trim();
+//                String host = binding.hostText.getText().toString().trim();
                 String desc = binding.descriptionText.getText().toString().trim();
-                String time = binding.timeValue.getText().toString().trim();
+//                String time = binding.timeValue.getText().toString().trim();
 
 /*                newEvent.setTitle(title);
                 newEvent.setFrom(date);
@@ -355,7 +357,7 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
                 newEvent.setDescription(desc);
                 newEvent.setTime(time);*/
 
-                if (validation(title, date, location, host, time)) {
+                if (validation(title, dueDate, typeSpinner, assignTo)) {
 
                     ArrayList<String> partcipantList = new ArrayList<>();
                     partcipantList.add("");
@@ -364,8 +366,8 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
                     eventValue.setOpp_Id(newEvent.getOppId());
                     eventValue.setTitle(title);
                     eventValue.setDescription(desc);
-                    eventValue.setFrom(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(date));
-                    eventValue.setTo(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(date));
+                    eventValue.setFrom(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(dueDate));
+                    eventValue.setTo(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(dueDate));
                     eventValue.setEmp(newEvent.getEmp());
                     eventValue.setCreateTime(Globals.getTCurrentTime());
                     eventValue.setCreateDate(Globals.getTodaysDatervrsfrmt());
@@ -376,8 +378,8 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
                     eventValue.setTime(Globals.getTCurrentTime());
                     eventValue.setDocument("");
                     eventValue.setRelatedTo("hii");
-                    eventValue.setLocation(location);
-                    eventValue.setHost(host);
+//                    eventValue.setLocation(location);
+//                    eventValue.setHost(host);
                     eventValue.setAllday("false");
                     eventValue.setName(newEvent.getName());
                     eventValue.setProgressStatus("WIP");
@@ -385,6 +387,8 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
                     eventValue.setRepeated(repeated);
                     eventValue.setStatus("");
                     eventValue.setId(String.valueOf(newEvent.getId()));
+
+
 
 
                     if (Globals.checkInternet(getContext()))
@@ -435,30 +439,44 @@ public class UpdateActivityTaskDetailFragment extends Fragment implements View.O
         });
     }
 
-
-    private boolean validation(String title, String fromDate, String location,
-                               String host, String time) {
+    private boolean validation(String title, String dueDate, String typeSpinner,
+                               String assignTo) {
         if (title.isEmpty()) {
             binding.titleText.setError(getResources().getString(R.string.title_error));
             return false;
-        } else if (fromDate.isEmpty()) {
-            binding.fromValue.setError(getResources().getString(R.string.fromdate_error));
+        } else if (dueDate.isEmpty()) {
+            binding.dateValue.setError(getResources().getString(R.string.duedate_error));
             return false;
-        }else if (location.isEmpty()) {
-            binding.addLocationText.setError(getResources().getString(R.string.location_error));
-            return false;
-        } else if (host.isEmpty()) {
-            binding.hostText.setError(getResources().getString(R.string.host_error));
-            return false;
-        } else if (repeated.isEmpty()) {
-            Globals.showMessage(getContext(), "Repeat is Required !");
-            return false;
-        } else if (time.isEmpty()) {
-            binding.timeValue.setError(getResources().getString(R.string.time_error));
-            return false;
+        }
+        else if (typeSpinner.isEmpty()) {
+            Toast.makeText(requireContext(), "Select Type", Toast.LENGTH_SHORT).show();
         }
         return true;
     }
+
+//    private boolean validation(String title, String fromDate, String location,
+//                               String host, String time) {
+//        if (title.isEmpty()) {
+//            binding.titleText.setError(getResources().getString(R.string.title_error));
+//            return false;
+//        } else if (fromDate.isEmpty()) {
+//            binding.fromValue.setError(getResources().getString(R.string.fromdate_error));
+//            return false;
+//        }else if (location.isEmpty()) {
+//            binding.addLocationText.setError(getResources().getString(R.string.location_error));
+//            return false;
+//        } else if (host.isEmpty()) {
+//            binding.hostText.setError(getResources().getString(R.string.host_error));
+//            return false;
+//        } else if (repeated.isEmpty()) {
+//            Globals.showMessage(getContext(), "Repeat is Required !");
+//            return false;
+//        } else if (time.isEmpty()) {
+//            binding.timeValue.setError(getResources().getString(R.string.time_error));
+//            return false;
+//        }
+//        return true;
+//    }
 
 
     private void setAlarm() {

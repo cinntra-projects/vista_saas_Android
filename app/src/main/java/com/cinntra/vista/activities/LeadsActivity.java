@@ -44,7 +44,6 @@ import com.cinntra.vista.fragments.LeadDetail;
 import com.cinntra.vista.globals.Globals;
 import com.cinntra.vista.globals.MainBaseActivity;
 import com.cinntra.vista.model.EmployeeValue;
-import com.cinntra.vista.model.LeadFilter;
 import com.cinntra.vista.model.LeadTypeData;
 import com.cinntra.vista.model.LeadTypeResponse;
 import com.cinntra.vista.model.QuotationResponse;
@@ -75,7 +74,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LeadsActivity extends MainBaseActivity implements View.OnClickListener, com.borax12.materialdaterangepicker.date.DatePickerDialog.OnDateSetListener , LeadDetail.OnLeadUpdatedListener {
+public class LeadsActivity extends MainBaseActivity implements View.OnClickListener, com.borax12.materialdaterangepicker.date.DatePickerDialog.OnDateSetListener, LeadDetail.OnLeadUpdatedListener {
 
     public Context mContext;
     List<LeadValue> leadValueList = new ArrayList<>();
@@ -126,8 +125,10 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isAssignedToPresent=false;
-                isSourcePresent=false;
+                isAssignedToPresent = false;
+                isSourcePresent = false;
+                isStartDatePresent = false;
+                isToDatePresent = false;
 
                 searchTextValue = "";
                 SourceFilter = "";
@@ -141,8 +142,8 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
                 if (Globals.checkInternet(LeadsActivity.this)) {
                     pageno = 1;
                     apicall = true;
-                    isAssignedTo=false;
-                    isSourceTo=false;
+                    isAssignedTo = false;
+                    isSourceTo = false;
                     if (Prefs.getString(Globals.BussinessPageType, "AddBPLead").equalsIgnoreCase("AddBPLead") || Prefs.getString(Globals.BussinessPageType, "AddProposal").equalsIgnoreCase("AddProposal")) {
                         StatusFilter = "Qualified";
 
@@ -258,8 +259,10 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
     }
 
     private void refreshListingData() {
-        isAssignedToPresent=false;
-        isSourcePresent=false;
+        isAssignedToPresent = false;
+        isSourcePresent = false;
+        isStartDatePresent = false;
+        isToDatePresent = false;
 
         searchTextValue = "";
         SourceFilter = "";
@@ -273,8 +276,8 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         if (Globals.checkInternet(LeadsActivity.this)) {
             pageno = 1;
             apicall = true;
-            isAssignedTo=false;
-            isSourceTo=false;
+            isAssignedTo = false;
+            isSourceTo = false;
             if (Prefs.getString(Globals.BussinessPageType, "AddBPLead").equalsIgnoreCase("AddBPLead") || Prefs.getString(Globals.BussinessPageType, "AddProposal").equalsIgnoreCase("AddProposal")) {
                 StatusFilter = "Qualified";
 
@@ -302,7 +305,7 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        Log.d("checking","onResume");
+        Log.d("checking", "onResume");
         mContext = LeadsActivity.this;
         if (Globals.checkInternet(mContext)) {
             binding.loaderLayout.loader.setVisibility(View.VISIBLE);
@@ -340,7 +343,8 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         binding.swipeRefreshLayout.setVisibility(View.GONE);
 
 
-       // loader.setVisibility(View.VISIBLE);
+        // loader.setVisibility(View.VISIBLE);
+        // Set values for the lead object
         leadValue.setSalesPersonCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
         leadValue.setMaxItem(maxItem);
         leadValue.setPageNo(pageNo);
@@ -348,16 +352,32 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         leadValue.setLeadType(Globals.lead);
         leadValue.setOrder_by_value(Globals.orderbyvalueDesc);
         leadValue.setOrder_by_field(Globals.orderbyField_id);
+
         FieldFilter fieldFilter = new FieldFilter();
         if (isAssignedToPresent) {
             assignedToList.add(assignToCode);
             fieldFilter.setAssignedTo_id__in(assignedToList);
         }
+        Log.d("knjkbckj",fromDate.toString());
+        if (isStartDatePresent){
+            fieldFilter.setFrom_date(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(fromDate));
+        }
+
+        if(isToDatePresent){
+            fieldFilter.setTo_date(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(toDate));
+        }
+
+
+//        fieldFilter.setFrom_date(fromDate);
+//
+//        fieldFilter.setTo_date(toDate);
 
         if (isSourcePresent) {
             sourceList.add(SourceFilter);
             fieldFilter.setSource__in(sourceList);
         }
+
+// Set the field filter to the lead value
         leadValue.setField(fieldFilter);
 
         Call<LeadResponse> call = NewApiClient.getInstance().getApiService(this).getAllLead(leadValue);
@@ -456,6 +476,17 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
             sourceList.add(SourceFilter);
             fieldFilter.setSource__in(sourceList);
         }
+
+        Log.d("knjkbckj",fromDate.toString());
+        if(isStartDatePresent){
+            Log.d("knjkbckj",Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(fromDate));
+            fieldFilter.setFrom_date(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(fromDate));
+        }
+
+        if(isToDatePresent){
+            fieldFilter.setTo_date(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(toDate));
+        }
+
         leadValue.setField(fieldFilter);
         Call<LeadResponse> call = NewApiClient.getInstance().getApiService(this).getAllLead(leadValue);
         call.enqueue(new Callback<LeadResponse>() {
@@ -593,17 +624,55 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         item.setActionView(searchView);
         searchView.setQueryHint("Search Lead");
 
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                isAssignedToPresent = false;
+                isSourcePresent = false;
+                isStartDatePresent = false;
+                isToDatePresent = false;
+
+                searchTextValue = "";
+                SourceFilter = "";
+                StatusFilter = "";
+                assignToNameValue = "";
+                assignToCode = "";
+                priorityType = "";
+                fromDate = "";
+                toDate = "";
+                Globals.sourcechecklist.clear();
+                if (Globals.checkInternet(LeadsActivity.this)) {
+                    pageno = 1;
+                    apicall = true;
+                    isAssignedTo = false;
+                    isSourceTo = false;
+                    if (Prefs.getString(Globals.BussinessPageType, "AddBPLead").equalsIgnoreCase("AddBPLead") || Prefs.getString(Globals.BussinessPageType, "AddProposal").equalsIgnoreCase("AddProposal")) {
+                        StatusFilter = "Qualified";
+
+                        callApi(value, binding.loaderLayout.loader, maxItem, pageno);
+                    } else {
+                        callApi(value, binding.loaderLayout.loader, maxItem, pageno);
+                    }
+                    binding.dateText.setVisibility(View.GONE);
+                    binding.leadTypeSpinner.setSelection(0);
+                }
+
+                return true;
+            }
+        });
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
                 pageNo = 1;
                 searchTextValue = query;
-                if (!searchTextValue.isEmpty()) {
-                    isAssignedTo = false;
-                    isSourceTo = false;
-                    callApi(value, binding.loaderLayout.loader, maxItem, pageno);
-                }
+
+                isAssignedTo = false;
+                isSourceTo = false;
+                callApi(value, binding.loaderLayout.loader, maxItem, pageno);
+
 
                 return true;
             }
@@ -613,7 +682,14 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
                 if (adapter != null) {
                     adapter.filter(newText);
                 }
-                return false;
+
+                searchTextValue = newText;
+
+
+                pageno = 1;
+                callApi(value, binding.loaderLayout.loader, maxItem, pageno);
+
+                return true;
             }
         });
 
@@ -651,8 +727,10 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
     String assignToNameValue = "";
     String assignToCode = "";
 
-    boolean isSourcePresent=false;
-    boolean isAssignedToPresent=false;
+    boolean isSourcePresent = false;
+    boolean isAssignedToPresent = false;
+    boolean isStartDatePresent = false;
+    boolean isToDatePresent = false;
 
     private void showAllFilterDialog() {
         Dialog dialog = new Dialog(this);
@@ -676,6 +754,8 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         MaterialButton resetBtn = dialog.findViewById(R.id.resetBtn);
         MaterialButton applyBtn = dialog.findViewById(R.id.applyBtn);
         ImageView ivCrossIcon = dialog.findViewById(R.id.ivCrossIcon);
+
+
 
         AutoCompleteTextView spinnerSource = dialog.findViewById(R.id.spinnerSearchable);
         spinnerSource.setHint("Source Type");
@@ -701,7 +781,6 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         acAssignedTo.setText(assignToNameValue);
         edtFromDate.setText(fromDate);
         edtToDate.setText(toDate);
-
 
 
         ivCrossIcon.setOnClickListener(new View.OnClickListener() {
@@ -778,8 +857,10 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
         resetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isAssignedToPresent=false;
-                isSourcePresent=false;
+                isAssignedToPresent = false;
+                isSourcePresent = false;
+                isStartDatePresent = false;
+                isToDatePresent = false;
                 acSource.getText().clear();
                 acStatus.setText("");
                 acLeadPriority.setText("");
@@ -803,30 +884,42 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
                 fromDate = edtFromDate.getText().toString();
                 toDate = edtToDate.getText().toString();
 
-                if (SourceFilter.isEmpty()){
-                    isSourcePresent=false;
-                }else {
-                    isSourcePresent=true;
+                if (SourceFilter.isEmpty()) {
+                    isSourcePresent = false;
+                } else {
+                    isSourcePresent = true;
                 }
 
-                if (assignToCode.isEmpty()){
-                    isAssignedToPresent=false;
-                }else {
-                    isAssignedToPresent=true;
+                if (assignToCode.isEmpty()) {
+                    isAssignedToPresent = false;
+                } else {
+                    isAssignedToPresent = true;
                 }
 
-                if(acAssignedTo.getText().toString().isEmpty()){
-                    Toast.makeText(mContext, "Select Assigned To", Toast.LENGTH_SHORT).show();
-                }
-                else if(acSource.getText().toString().isEmpty()){
-                    Toast.makeText(mContext, "Select Source", Toast.LENGTH_SHORT).show();
+                if(edtFromDate.getText().toString().isEmpty()){
+                    isStartDatePresent = false;
                 }
                 else{
-                    callApi(value, binding.loaderLayout.loader, maxItem, pageNo);
-                    dialog.dismiss();
+                    isStartDatePresent = true;
                 }
 
+                if(edtToDate.getText().toString().isEmpty()){
+                    isToDatePresent = false;
+                }
+                else{
+                    isToDatePresent = true;
+                }
 
+//                if (acAssignedTo.getText().toString().isEmpty()) {
+//                    Toast.makeText(mContext, "Select Assigned To", Toast.LENGTH_SHORT).show();
+//                }
+//                else if(acSource.getText().toString().isEmpty()){
+//                    Toast.makeText(mContext, "Select Source", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+                callApi(value, binding.loaderLayout.loader, maxItem, pageNo);
+                dialog.dismiss();
+//                }
 
 
                 if (priorityType.equalsIgnoreCase("High")) {
@@ -856,6 +949,8 @@ public class LeadsActivity extends MainBaseActivity implements View.OnClickListe
     private void callAssignToApi(AutoCompleteTextView acAssignedTo, LinearLayout assignRecyclerViewLayout, RecyclerView rvCustomerSearchList) {
         EmployeeValue employeeValue = new EmployeeValue();
         employeeValue.setSalesEmployeeCode(Prefs.getString(Globals.SalesEmployeeCode, ""));
+
+
 
         Call<SaleEmployeeResponse> call = NewApiClient.getInstance().getApiService(this).getSalesEmplyeeList(employeeValue);
         call.enqueue(new Callback<SaleEmployeeResponse>() {

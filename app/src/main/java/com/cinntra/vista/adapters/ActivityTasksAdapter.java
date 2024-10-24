@@ -34,7 +34,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class ActivityTasksAdapter extends RecyclerView.Adapter<ActivityTasksAdapter.TaskViewHolder> {
     Context context;
     ArrayList<EventValue> allEventTaskList;
@@ -61,19 +60,54 @@ public class ActivityTasksAdapter extends RecyclerView.Adapter<ActivityTasksAdap
     public void onBindViewHolder(TaskViewHolder holder, int position) {
 
 
-        holder.title.setText(allEventTaskList.get(position).getTitle());
-        holder.location.setText(allEventTaskList.get(position).getDescription());
-        holder.timing.setText(allEventTaskList.get(position).getTime());
-        holder.tvLocation.setText("Location - " + allEventTaskList.get(position).getLocation());
+        if (allEventTaskList.get(position).getTitle() != null && !allEventTaskList.get(position).getTitle().isEmpty()) {
+            holder.title.setText("Task: "+allEventTaskList.get(position).getTitle());
+        } else {
+            holder.title.setText("Task: NA");
+        }
 
-        holder.tvDateTime.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(allEventTaskList.get(position).getFrom()));
+        if (allEventTaskList.get(position).getDescription() != null && !allEventTaskList.get(position).getDescription().isEmpty()) {
+            holder.location.setText(allEventTaskList.get(position).getDescription());
+        } else {
+            holder.location.setText("NA");
+        }
 
-        holder.threeDotsLayout.setOnClickListener(new View.OnClickListener() {
+        if (allEventTaskList.get(position).getTime() != null && !allEventTaskList.get(position).getTime().isEmpty()) {
+            holder.tvTime.setText(" at "+allEventTaskList.get(position).getTime());
+        } else {
+            holder.tvTime.setText(" at NA");
+        }
+
+        if (allEventTaskList.get(position).getFrom() != null && !allEventTaskList.get(position).getFrom().isEmpty()) {
+            holder.tvDateTime.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(allEventTaskList.get(position).getFrom()));
+        } else {
+            holder.tvDateTime.setText("NA");
+        }
+
+
+        if (allEventTaskList.get(position).getParticipants() != null && !allEventTaskList.get(position).getParticipants().isEmpty()) {
+            holder.tvLocation.setText(allEventTaskList.get(position).getParticipants());
+        } else {
+            holder.tvLocation.setText("NA");
+        }
+
+        holder.ivCardDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(holder.threeDotsLayout, allEventTaskList, position);
+                callDeletApi(allEventTaskList.get(position).getId());
+                allEventTaskList.remove(position);
+                notifyDataSetChanged();
             }
         });
+
+        //        holder.tvLocation.setText("Location - " + allEventTaskList.get(position).getLocation());
+
+//        holder.threeDotsLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showPopup(holder.threeDotsLayout, allEventTaskList, position);
+//            }
+//        });
 
     }
 
@@ -86,8 +120,8 @@ public class ActivityTasksAdapter extends RecyclerView.Adapter<ActivityTasksAdap
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
         LinearLayout taskView, threeDotsLayout;
-        TextView title, location, timing, tvLocation, tvDateTime;
-        ImageView priority_dot;
+        TextView title, location, timing, tvLocation, tvDateTime, tvTime;
+        ImageView priority_dot, ivCardDelete;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,41 +134,43 @@ public class ActivityTasksAdapter extends RecyclerView.Adapter<ActivityTasksAdap
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvDateTime = itemView.findViewById(R.id.tvDateTime);
             threeDotsLayout = itemView.findViewById(R.id.threeDotsLayout);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            ivCardDelete = itemView.findViewById(R.id.ivdeleteTask);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    PopupMenu popup = new PopupMenu(v.getContext(), itemView);
-                    popup.getMenuInflater().inflate(R.menu.longpress_menu, popup.getMenu());
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            if (item.getItemId() == R.id.edit) {
-
-                                Bundle b = new Bundle();
-                                b.putParcelable("View", allEventTaskList.get(getAdapterPosition()));
-                                b.putInt("Position", getAdapterPosition());
-                                UpdateActivityTaskDetailFragment fragment = new UpdateActivityTaskDetailFragment();
-                                fragment.setArguments(b);
-                                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-                                transaction.replace(R.id.frame, fragment);
-                                transaction.addToBackStack("");
-                                transaction.commit();
-
-                            } else {
-                                callDeletApi(allEventTaskList.get(getAdapterPosition()).getId());
-                                allEventTaskList.remove(getAdapterPosition());
-                                notifyDataSetChanged();
-
-                            }
-                            return true;
-                        }
-                    });
-                    popup.show();
-                    return true;
-                }
-            });
+//            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//
+//                    PopupMenu popup = new PopupMenu(v.getContext(), itemView);
+//                    popup.getMenuInflater().inflate(R.menu.longpress_menu, popup.getMenu());
+//                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                            if (item.getItemId() == R.id.edit) {
+//
+//                                Bundle b = new Bundle();
+//                                b.putParcelable("View", allEventTaskList.get(getAdapterPosition()));
+//                                b.putInt("Position", getAdapterPosition());
+//                                UpdateActivityTaskDetailFragment fragment = new UpdateActivityTaskDetailFragment();
+//                                fragment.setArguments(b);
+//                                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+//                                transaction.replace(R.id.frame, fragment);
+//                                transaction.addToBackStack("");
+//                                transaction.commit();
+//
+//                            } else {
+//                                callDeletApi(allEventTaskList.get(getAdapterPosition()).getId());
+//                                allEventTaskList.remove(getAdapterPosition());
+//                                notifyDataSetChanged();
+//
+//                            }
+//                            return true;
+//                        }
+//                    });
+//                    popup.show();
+//                    return true;
+//                }
+//            });
         }
     }
 
@@ -157,7 +193,6 @@ public class ActivityTasksAdapter extends RecyclerView.Adapter<ActivityTasksAdap
         notifyDataSetChanged();
 
     }
-
 
 
     //todo show popup or edit and delete items---

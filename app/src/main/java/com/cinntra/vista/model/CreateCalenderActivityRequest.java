@@ -48,6 +48,42 @@ public class CreateCalenderActivityRequest {
 
     public String CreateTime;
 
+    public String ToTime;
+    public String Status;
+    public String ParticipantsType;
+    public String taskAssignedTo;
+
+    public String getTaskAssignedTo() {
+        return taskAssignedTo;
+    }
+
+    public void setTaskAssignedTo(String taskAssignedTo) {
+        this.taskAssignedTo = taskAssignedTo;
+    }
+
+    public String getToTime() {
+        return ToTime;
+    }
+
+    public void setToTime(String toTime) {
+        ToTime = toTime;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String getParticipantsType() {
+        return ParticipantsType;
+    }
+
+    public void setParticipantsType(String participantsType) {
+        ParticipantsType = participantsType;
+    }
 
     public String getSourceID() {
         return SourceID;

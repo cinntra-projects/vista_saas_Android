@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.adapters.AssignToAdapter;
+import com.cinntra.vista.adapters.LeadDropDownAdapter;
 import com.cinntra.vista.adapters.LeadTypeAdapter;
 import com.cinntra.vista.adapters.StateAutoAdapter;
 import com.cinntra.vista.databinding.CreateLeadFromBinding;
@@ -170,8 +171,8 @@ public class AddLead extends MainBaseActivity {
                     leadTypeData.clear();
                     leadTypeData.addAll(response.body().getData());
                     Log.d("leadTypeData",leadTypeData.toString());
-                    binding.leadTypeSpinner.setAdapter(new LeadTypeAdapter(AddLead.this, leadTypeData));
-                    leadtype = leadTypeData.get(0).getName();
+                    binding.leadTypeSpinner.setAdapter(new LeadDropDownAdapter(AddLead.this, R.layout.drop_down_textview, leadTypeData));
+//                    leadtype = leadTypeData.get(0).getName();
                 } else {
                     //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
                     Gson gson = new GsonBuilder().create();
@@ -261,8 +262,8 @@ public class AddLead extends MainBaseActivity {
                     sourceData.clear();
 
                     sourceData.addAll(response.body().getData());
-                    binding.sourceSpinner.setAdapter(new LeadTypeAdapter(AddLead.this, sourceData));
-                    sourcetype = sourceData.get(0).getName();
+                    binding.sourceSpinner.setAdapter(new LeadDropDownAdapter(AddLead.this, R.layout.drop_down_textview, sourceData));
+//                    sourcetype = sourceData.get(0).getName();
 
                 } else {
                  /*   //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
@@ -393,30 +394,24 @@ public class AddLead extends MainBaseActivity {
             }
         });
 
-        binding.leadTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.leadTypeSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("leadPriorityData",leadTypeData.get(position).getName());
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("leadPriorityData", leadTypeData.get(position).getName());
                 leadtype = leadTypeData.get(position).getName();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                leadtype = leadTypeData.get(0).getName();
+                binding.leadTypeSpinner.setText(leadTypeData.get(position).getName());
             }
         });
 
-        binding.sourceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        binding.sourceSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 sourcetype = sourceData.get(position).getName();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                sourcetype = sourceData.get(0).getName();
+                binding.sourceSpinner.setText(sourceData.get(position).getName());
             }
         });
+
 
         // Retrieve items from strings.xml
         String[] itemList = getResources().getStringArray(R.array.category);
@@ -540,25 +535,36 @@ public class AddLead extends MainBaseActivity {
 
     private boolean validation(EditText personName, EditText companyName, EditText contact_no, String sourceTypeInner, String statusinner,EditText email) {
 
-        if (personName.getText().toString().isEmpty()) {
-            personName.requestFocus();
-            personName.setError("Enter Person Name");
-            Toasty.warning(this, "Enter Person Name", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (companyName.getText().toString().isEmpty()) {
+        if (companyName.getText().toString().isBlank()) {
             companyName.requestFocus();
             companyName.setError("Enter Company Name");
             Toasty.warning(this, "Select Customer Name", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (contact_no.getText().toString().isEmpty()) {
+        }
+        else if (personName.getText().toString().isBlank()) {
+            personName.requestFocus();
+            personName.setError("Enter Person Name");
+            Toasty.warning(this, "Enter Person Name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        else if (contact_no.getText().toString().isBlank()) {
             contact_no.requestFocus();
             contact_no.setError("Phone no. is Required");
             Toasty.warning(this, "Select Phone Number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (contact_no.getText().toString().isEmpty() || contact_no.length() != 10) {
+        }
+        else if (contact_no.getText().toString().isBlank() || contact_no.length() != 10) {
             contact_no.requestFocus();
             contact_no.setError("Enter Valid Contact No");
             Toasty.warning(this, "Enter Contact No", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (sourceTypeInner.isBlank()) {
+            Toasty.warning(this, "Select Source Type Name", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (statusinner.isBlank()) {
+            Toasty.warning(this, "Select status", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if (!email.getText().toString().isEmpty()) {
@@ -567,13 +573,8 @@ public class AddLead extends MainBaseActivity {
                 email.setError("This email address is not valid");
                 return false;
             }
-        }else if (sourceTypeInner.isEmpty()) {
-            Toasty.warning(this, "Select Source Type Name", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (statusinner.isEmpty()) {
-            Toasty.warning(this, "Select status", Toast.LENGTH_SHORT).show();
-            return false;
         }
+
 
 
         return true;

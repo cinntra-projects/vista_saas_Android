@@ -64,19 +64,62 @@ public class ActivityEventsAdapter extends RecyclerView.Adapter<ActivityEventsAd
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
 
 
-        holder.title.setText(allEventTaskList.get(position).getTitle());
-        holder.location.setText(allEventTaskList.get(position).getDescription());
-        holder.timing.setText(allEventTaskList.get(position).getTime());
-        holder.tvDateTime.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(allEventTaskList.get(position).getFrom()));
+        if (allEventTaskList.get(position).getTitle() != null && !allEventTaskList.get(position).getTitle().isEmpty()) {
+            holder.title.setText("Event: "+allEventTaskList.get(position).getTitle());
+        } else {
+            holder.title.setText("Event: NA");
+        }
 
-        holder.tvLocation.setText("Location - " + allEventTaskList.get(position).getLocation());
+        if (allEventTaskList.get(position).getDescription() != null && !allEventTaskList.get(position).getDescription().isEmpty()) {
+            holder.location.setText(allEventTaskList.get(position).getDescription());
+        } else {
+            holder.location.setText("NA");
+        }
 
-        holder.threeDotsLayout.setOnClickListener(new View.OnClickListener() {
+        if (allEventTaskList.get(position).getTime() != null && !allEventTaskList.get(position).getTime().isEmpty()) {
+            holder.timing.setText(allEventTaskList.get(position).getTime());
+        } else {
+            holder.timing.setText("NA");
+        }
+        if (allEventTaskList.get(position).getTo() != null && !allEventTaskList.get(position).getTo().isEmpty()) {
+            holder.tvDateTime.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(allEventTaskList.get(position).getTo()));
+        } else {
+            holder.tvDateTime.setText("NA");
+        }
+        if (allEventTaskList.get(position).getToTime() != null && !allEventTaskList.get(position).getToTime().isEmpty()) {
+            holder.tvToTime.setText(" at "+allEventTaskList.get(position).getToTime());
+        } else {
+            holder.tvToTime.setText(" at "+"NA");
+        }
+        if (allEventTaskList.get(position).getFrom() != null && !allEventTaskList.get(position).getFrom().isEmpty()) {
+            holder.tvStartTime.setText(allEventTaskList.get(position).getFrom());
+        } else {
+            holder.tvStartTime.setText("NA");
+        }
+        if (allEventTaskList.get(position).getTime() != null && !allEventTaskList.get(position).getTime().isEmpty()) {
+            holder.tvTime.setText(" at "+allEventTaskList.get(position).getTime());
+        } else {
+            holder.tvTime.setText(" at "+"NA");
+        }
+
+        holder.ivdeleteEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(holder.threeDotsLayout, allEventTaskList, position);
+                callDeletApi(allEventTaskList.get(position).getId());
+                allEventTaskList.remove(position);
+                notifyDataSetChanged();
             }
         });
+
+
+//        holder.tvLocation.setText("Location - " + allEventTaskList.get(position).getLocation());
+
+//        holder.threeDotsLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showPopup(holder.threeDotsLayout, allEventTaskList, position);
+//            }
+//        });
 
 
     }
@@ -111,8 +154,8 @@ public class ActivityEventsAdapter extends RecyclerView.Adapter<ActivityEventsAd
     class EventViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout eventView, threeDotsLayout;
-        TextView title, location, timing, tvLocation,tvDateTime;
-        ImageView priority_dot;
+        TextView title, location, timing, tvLocation,tvDateTime, tvToTime, tvStartTime, tvTime;
+        ImageView priority_dot, ivdeleteEvent;
 
         EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -124,40 +167,44 @@ public class ActivityEventsAdapter extends RecyclerView.Adapter<ActivityEventsAd
             threeDotsLayout = itemView.findViewById(R.id.threeDotsLayout);
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvDateTime = itemView.findViewById(R.id.tvDateTime);
+            tvToTime = itemView.findViewById(R.id.tvToTime);
+            ivdeleteEvent = itemView.findViewById(R.id.ivdeleteEvent);
+            tvStartTime = itemView.findViewById(R.id.tvStartTime);
+            tvTime = itemView.findViewById(R.id.tvTime);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    PopupMenu popup = new PopupMenu(v.getContext(), itemView);
-                    popup.getMenuInflater().inflate(R.menu.longpress_menu, popup.getMenu());
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            if (item.getItemId() == R.id.edit) {
-                                Bundle b = new Bundle();
-                                b.putParcelable("View", allEventTaskList.get(getAdapterPosition()));
-                                b.putInt("Position", getAdapterPosition());
-                                UpdateActivityEventDetailFragment fragment = new UpdateActivityEventDetailFragment();
-                                fragment.setArguments(b);
-                                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
-                                transaction.replace(R.id.frame, fragment);
-                                transaction.addToBackStack("");
-                                transaction.commit();
-                            } else {
-
-                                callDeletApi(allEventTaskList.get(getAdapterPosition()).getId());
-                                allEventTaskList.remove(getAdapterPosition());
-                                notifyDataSetChanged();
-
-                            }
-                            return true;
-                        }
-                    });
-                    popup.show();
-                    return true;
-                }
-            });
+//            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//
+//                    PopupMenu popup = new PopupMenu(v.getContext(), itemView);
+//                    popup.getMenuInflater().inflate(R.menu.longpress_menu, popup.getMenu());
+//                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                            if (item.getItemId() == R.id.edit) {
+//                                Bundle b = new Bundle();
+//                                b.putParcelable("View", allEventTaskList.get(getAdapterPosition()));
+//                                b.putInt("Position", getAdapterPosition());
+//                                UpdateActivityEventDetailFragment fragment = new UpdateActivityEventDetailFragment();
+//                                fragment.setArguments(b);
+//                                FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+//                                transaction.replace(R.id.frame, fragment);
+//                                transaction.addToBackStack("");
+//                                transaction.commit();
+//                            } else {
+//
+//                                callDeletApi(allEventTaskList.get(getAdapterPosition()).getId());
+//                                allEventTaskList.remove(getAdapterPosition());
+//                                notifyDataSetChanged();
+//
+//                            }
+//                            return true;
+//                        }
+//                    });
+//                    popup.show();
+//                    return true;
+//                }
+//            });
 
         }
     }

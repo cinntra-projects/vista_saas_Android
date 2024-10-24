@@ -36,6 +36,19 @@ public class NewOpportunityRespose implements Parcelable, Serializable
     @SerializedName("OpportunityType")
     @Expose
     private String opportunityType;
+
+    @SerializedName("DocTotal")
+    @Expose
+    private String DocTotal;
+
+    public String getDocTotal() {
+        return DocTotal;
+    }
+
+    public void setDocTotal(String docTotal) {
+        DocTotal = docTotal;
+    }
+
     @SerializedName("ClosingType")
     @Expose
     private String closingType;

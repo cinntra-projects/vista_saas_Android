@@ -28,13 +28,12 @@ import org.joda.time.DateTime;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-
-
-
 public class ActivityFragment extends Fragment implements DatePickerListener, View.OnClickListener {
     public static  int currentItem =0;
 
     NewOpportunityRespose opportunityItem;
+    String cardCode;
+    String source_id;
 
     ArrayList<EventValue> alleventlist = new ArrayList<>();
 
@@ -42,6 +41,7 @@ public class ActivityFragment extends Fragment implements DatePickerListener, Vi
     public void onResume() {
         super.onResume();
 
+        Log.d("bcksbhdc","resume");
         if(pagerAdapter!=null)
             pagerAdapter.notifyDataSetChanged();
     }
@@ -66,7 +66,10 @@ public class ActivityFragment extends Fragment implements DatePickerListener, Vi
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             Bundle b      = getArguments();
+
             opportunityItem =(NewOpportunityRespose) b.getParcelable(Globals.OpportunityItem);
+            cardCode = b.getString("opp_card_code");
+            source_id = b.getString("source_id");
         }
     }
 
@@ -79,7 +82,7 @@ public class ActivityFragment extends Fragment implements DatePickerListener, Vi
         //Inflate the layout for this fragment
         binding=ActivityfragmentNotificationsBinding.inflate(inflater,container,false);
         View v=inflater.inflate(R.layout.activityfragment_notifications, container, false);
-       // ButterKnife.bind(this,v);
+        // ButterKnife.bind(this,v);
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         binding.headerFrame.headTitle.setText(getString(R.string.activity));
         setDefaults();
@@ -98,11 +101,11 @@ public class ActivityFragment extends Fragment implements DatePickerListener, Vi
         fragmentList.clear();
         fragmentList.add(new ActivityEvent_Fragment(opportunityItem.getId()));
         fragmentList.add(new ActivityTasks_Fragment(opportunityItem.getId()));
-      //  fragmentList.add(new Log_Fragment());
+        //  fragmentList.add(new Log_Fragment());
 
         pagerAdapter = new OrderPagerAdapter(getChildFragmentManager(),fragmentList,tabs);
         binding.viewpager.setAdapter(pagerAdapter);
-        binding. tabLayout.setupWithViewPager(binding.viewpager);
+        binding.tabLayout.setupWithViewPager(binding.viewpager);
         binding.addNew.setOnClickListener(this);
         binding.headerFrame.backPress.setOnClickListener(this);
         binding.addNew.setVisibility(View.VISIBLE);
@@ -141,8 +144,6 @@ public class ActivityFragment extends Fragment implements DatePickerListener, Vi
 
 
 
-
-
     @Override
     public void onDateSelected(DateTime dateSelected) {
 
@@ -163,11 +164,13 @@ public class ActivityFragment extends Fragment implements DatePickerListener, Vi
     private void showTaskDialog() {
         Bundle b = new Bundle();
         b.putParcelable(Globals.OpportunityItem,opportunityItem);
+        b.putString("card_code",cardCode);
         FragmentManager fm = getChildFragmentManager();
         ActivityAddTaskDialogue editNameDialogFragment = ActivityAddTaskDialogue.newInstance("Some Title");
         editNameDialogFragment.setArguments(b);
         editNameDialogFragment.show(fm, "");
     }
+
     private void showEventDialog() {
         Bundle b = new Bundle();
         b.putParcelable(Globals.OpportunityItem,opportunityItem);

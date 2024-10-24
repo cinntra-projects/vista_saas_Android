@@ -1,16 +1,17 @@
 package com.cinntra.vista.fragments;
 
+
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.TimePicker;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,20 +20,26 @@ import androidx.fragment.app.DialogFragment;
 import com.cinntra.vista.EasyPrefs.Prefs;
 import com.cinntra.vista.R;
 import com.cinntra.vista.databinding.ActivityAddTaskDialogueLayoutBinding;
-import com.cinntra.vista.databinding.FragmentAddTaskBinding;
 import com.cinntra.vista.globals.Globals;
+import com.cinntra.vista.model.ContactPerson;
+import com.cinntra.vista.model.ContactPersonData;
 import com.cinntra.vista.model.CreateCalenderActivityRequest;
+import com.cinntra.vista.model.EmployeeAllFilterPageModel;
 import com.cinntra.vista.model.EventResponse;
 import com.cinntra.vista.model.QuotationResponse;
 import com.cinntra.vista.newapimodel.NewOpportunityRespose;
 import com.cinntra.vista.webservices.NewApiClient;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
@@ -46,6 +53,12 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
     String allday = "";
     String repeated = "";
     String progresstatus = "";
+
+    String cardCode;
+    String Participants;
+    ArrayList<String> salesEmpParticipants = new ArrayList<>();
+    final String[] selectedParticipantValue = new String[1];
+
     int t1hr, t1min;
     EventPrerioritySpinner eventPrerioritySpinner;
     EventTextSpinner eventTextSpinner;
@@ -75,12 +88,13 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
     ActivityAddTaskDialogueLayoutBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ActivityAddTaskDialogueLayoutBinding.inflate(inflater, container, false);
         View v = inflater.inflate(R.layout.fragment_add_task, container);
         //  ButterKnife.bind(this,v);
         setDefaults();
+
+
 //     loadData();
         return binding.getRoot();
     }
@@ -91,6 +105,7 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
         if (getArguments() != null) {
             Bundle b = getArguments();
             opportunityItem = (NewOpportunityRespose) b.getParcelable(Globals.OpportunityItem);
+            cardCode = b.getString("card_code");
         }
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
 
@@ -104,18 +119,18 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
 
         binding.headerLayout.backPress.setOnClickListener(this);
         binding.submitButton.setOnClickListener(this);
-        binding.simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    repeated = "";
-                    binding.spinnerview.setVisibility(View.INVISIBLE);
-                } else {
-                    binding.spinnerview.setVisibility(View.VISIBLE);
-//                    repeated = "Repeated";
-                }
-            }
-        });
+//        binding.simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    repeated = "";
+//                    binding.spinnerview.setVisibility(View.INVISIBLE);
+//                } else {
+//                    binding.spinnerview.setVisibility(View.VISIBLE);
+////                    repeated = "Repeated";
+//                }
+//            }
+//        });
 
     }
 
@@ -126,36 +141,41 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
         } else if (v.getId() == R.id.submit_button) {
 
             String title = binding.titleText.getText().toString().trim();
-            String date = binding.fromValue.getText().toString().trim();
-            String location = binding.addLocationText.getText().toString().trim();
-            String host = binding.hostText.getText().toString().trim();
+            String dueDate = binding.dateValue.getText() != null ? binding.dateValue.getText().toString().trim() : "";
+            String typeSpinner = binding.typeSpinner.getSelectedItem() != null ? binding.typeSpinner.getSelectedItem().toString().trim() : "";
+            String assignTo = binding.assignToSpinner.getSelectedItem() != null ? binding.assignToSpinner.getSelectedItem().toString().trim() : "";
+
+//            String date = binding.fromValue.getText().toString().trim();
+//            String location = binding.addLocationText.getText().toString().trim();
+//            String host = binding.hostText.getText().toString().trim();
             String desc = binding.descriptionText.getText().toString().trim();
-            String time = binding.timeValue.getText().toString().trim();
+//            String time = binding.timeValue.getText().toString().trim();
 
 
-            if (validation(title, date, location, host, time)) {
+            if (validation(title, dueDate, typeSpinner, assignTo)) {
+
                 CreateCalenderActivityRequest activityRequest = new CreateCalenderActivityRequest();
-
 
                 activityRequest.setSourceID(opportunityItem.getId());
                 activityRequest.setTitle(title);
-                activityRequest.setDescription(desc);
-                activityRequest.setFrom(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(date));
-                activityRequest.setTo(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(date));
+                activityRequest.setDescription(desc);  //
+                activityRequest.setFrom(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(dueDate));
+                activityRequest.setTo(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(dueDate));
                 activityRequest.setEmp(Prefs.getString(Globals.EmployeeID, ""));
-                activityRequest.setCreateTime(Globals.getTCurrentTime());
-                activityRequest.setCreateDate(Globals.getTodaysDatervrsfrmt());
+                activityRequest.setCreateTime(Globals.getTCurrentTime()); //
+                activityRequest.setCreateDate(Globals.getTodaysDatervrsfrmt());  //
                 activityRequest.setType("Task");
                 activityRequest.setSourceType("Opportunity");
-                activityRequest.setParticipants("");
-                activityRequest.setComment("");
+                activityRequest.setParticipants(selectedParticipantValue[0]);
+                activityRequest.setComment("");  //
                 activityRequest.setSubject("");
-                activityRequest.setTime(time);
-                activityRequest.setDocument("");
+                activityRequest.setTime(Globals.getTCurrentTime());
+                activityRequest.setDocument("");  //
                 activityRequest.setRelatedTo("hi");
-                activityRequest.setLocation(location);
-                activityRequest.setHost(host);
-                activityRequest.setAllday("false");
+                activityRequest.setLocation("");
+                activityRequest.setHost("");
+                activityRequest.setToTime(Globals.getTCurrentTime());
+                activityRequest.setAllday("false");  //
                 activityRequest.setName(opportunityItem.getCustomerName());
                 activityRequest.setProgressStatus("WIP");
                 activityRequest.setPriority("low");
@@ -182,6 +202,7 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
                     binding.loaderLayout.loader.setVisibility(View.GONE);
 
                     Toasty.success(getContext(), "Add Successfully", Toast.LENGTH_LONG).show();
+
                     getDialog().dismiss();
 
                 } else {
@@ -209,22 +230,16 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
     }
 
 
-    private boolean validation(String title, String fromDate, String location,
-                               String host, String time) {
+    private boolean validation(String title, String dueDate, String typeSpinner, String assignTo) {
         if (title.isEmpty()) {
             binding.titleText.setError(getResources().getString(R.string.title_error));
             return false;
-        } else if (fromDate.isEmpty()) {
-            binding.fromValue.setError(getResources().getString(R.string.fromdate_error));
+        } else if (dueDate.isEmpty()) {
+            binding.dateValue.setError(getResources().getString(R.string.duedate_error));
             return false;
-        }else if (location.isEmpty()) {
-            binding.addLocationText.setError(getResources().getString(R.string.location_error));
-            return false;
-        } else if (host.isEmpty()) {
-            binding.hostText.setError(getResources().getString(R.string.host_error));
-            return false;
-        } else if (time.isEmpty()) {
-            binding.timeValue.setError(getResources().getString(R.string.time_error));
+        }
+        else if (typeSpinner.isEmpty() || typeSpinner.equals("Select item")) {
+            Toast.makeText(requireContext(), "Select Type", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -236,14 +251,68 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
         circleimage.add(R.drawable.ic_green_dot);
         circleimage.add(R.drawable.yellow_dot);
 
-        categories.add("Repeat");
-        categories.add("Once");
-        categories.add("Daily");
-        categories.add("Weekly");
-        categories.add("Monthly");
+//        categories.add("Repeat");
+//        categories.add("Once");
+//        categories.add("Daily");
+//        categories.add("Weekly");
+//        categories.add("Monthly");
+//
+//        progress_status.add("In Progress");
+//        progress_status.add("Completed");
 
-        progress_status.add("In Progress");
-        progress_status.add("Completed");
+        // Find the views by ID
+        Spinner typeSpinner = binding.typeSpinner;
+        Spinner assignToSpinner = binding.assignToSpinner;
+        LinearLayout assignToLayout = binding.assignToLayout;
+
+        // Initialize the list of items for the type spinner
+        List<String> typeItems = new ArrayList<>();
+        typeItems.add("Select item"); // This is the hint
+        typeItems.add("Employee");
+        typeItems.add("Contact Person");
+
+
+        // Create an adapter for the typeSpinner
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, typeItems);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(typeAdapter);
+
+// Set up the listener for typeSpinner
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+
+                // Check if "Select item" is selected
+                if ("Select item".equals(selectedItem)) {
+                    // Hide the assignToLayout (and therefore assignToSpinner)
+                    assignToLayout.setVisibility(View.GONE);
+                } else {
+                    // Show the assignToLayout when any other item is selected
+                    assignToLayout.setVisibility(View.VISIBLE);
+
+                    // Call corresponding APIs based on the selected item
+                    if ("Employee".equals(selectedItem)) {
+                        if (Globals.checkInternet(getActivity())) {
+
+                            callApiEmployeeList();
+
+                        } else {
+                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } else if ("Contact Person".equals(selectedItem)) {
+                        callApiContactPersonList(cardCode);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Optional: Handle cases where no item is selected
+            }
+        });
 
 
         DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
@@ -252,96 +321,156 @@ public class ActivityAddTaskDialogue extends DialogFragment implements View.OnCl
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             String myFormat = "yyyy-MM-dd";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            binding.fromValue.setText(sdf.format(myCalendar.getTime()));
+            binding.dateValue.setText(sdf.format(myCalendar.getTime()));
         };
 
+        binding.dateValue.setOnClickListener(v -> {
+            Globals.enableAllCalenderDateSelect(getContext(), binding.dateValue);
+        });
 
-      /*  eventPrerioritySpinner = new EventPrerioritySpinner(getActivity(), circleimage);
-        colorspin.setAdapter(eventPrerioritySpinner);
-        colorspin.setDropDownVerticalOffset(120);
-        colorspin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    }
+
+    private ArrayList<String> ContactEmployeesList;
+
+    private void callApiContactPersonList(String cardCode) {
+
+        ContactPersonData contactPersonData = new ContactPersonData();
+        contactPersonData.setCardCode(cardCode);
+
+        Call<ContactPerson> call = NewApiClient.getInstance().getApiService(requireContext()).contactemplist(contactPersonData);
+        call.enqueue(new Callback<ContactPerson>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    priority = "high";
-                } else if (position == 1) {
-                    priority = "medium";
+            public void onResponse(Call<ContactPerson> call, Response<ContactPerson> response) {
+                if (response.code() == 200) {
+                    if (response.body().getData().size() > 0) {
+
+                        ContactEmployeesList = new ArrayList<>();
+
+                        int n = response.body().getData().size();
+
+
+                        for (int i=0; i<n; i++) {
+                            ContactEmployeesList.add(response.body().getData().get(i).getFirstName());
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, ContactEmployeesList);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        binding.assignToSpinner.setAdapter(adapter);
+
+
+                    } else {
+                        Toasty.error(getActivity(), response.body().getMessage());
+                    }
                 } else {
-                    priority = "low";
+                    //Globals.ErrorMessage(CreateContact.this,response.errorBody().toString());
+                    Gson gson = new GsonBuilder().create();
+                    QuotationResponse mError = new QuotationResponse();
+                    try {
+                        String s = response.errorBody().string();
+                        mError = gson.fromJson(s, QuotationResponse.class);
+                        Toast.makeText(getActivity(), mError.getError().getMessage().getValue(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        //handle failure to read error
+                    }
+                    //Toast.makeText(CreateContact.this, msz, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                priority = "high";
+            public void onFailure(Call<ContactPerson> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });*/
-
-
-        eventTextSpinner = new EventTextSpinner(getActivity(), categories);
-        binding.spinner.setAdapter(eventTextSpinner);
-        binding.spinner.setDropDownVerticalOffset(60);
-        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                repeated = binding.spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                repeated = categories.get(0);
-            }
-        });
-
-        taskProgressSpinner = new TaskProgressSpinner(getActivity(), progress_status);
-        binding.progressSpinner.setAdapter(taskProgressSpinner);
-        binding.progressSpinner.setDropDownVerticalOffset(60);
-        binding.progressSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                progresstatus = binding.spinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                progresstatus = progress_status.get(0);
-            }
-        });
-
-
-        binding.fromValue.setOnClickListener(v -> {
-            Globals.enableAllCalenderDateSelect(getContext(), binding.fromValue);
-
-        });
-
-
-        binding.timeValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        t1hr = hourOfDay;
-                        t1min = minute;
-                        myTime = Calendar.getInstance();
-//                        myTime.set(0,0,0,t1hr,t1min);
-                        myTime.set(Calendar.HOUR_OF_DAY, t1hr);
-                        myTime.set(Calendar.MINUTE, t1min);
-                        myTime.set(Calendar.SECOND, 0);
-                        myTime.set(Calendar.MILLISECOND, 0);
-                        binding.timeValue.setText(DateFormat.format("hh:mm aa", myTime));
-                        //setAlarm();
-                    }
-                }, 12, 0, false
-                );
-                timePickerDialog.updateTime(t1hr, t1min);
-                timePickerDialog.show();
-
-            }
-
         });
 
 
     }
+
+    private void callApiEmployeeList() {
+        try {
+            // Create the main payload object
+            JsonObject payload = new JsonObject();
+            payload.addProperty("SalesPersonCode", Prefs.getString(Globals.SalesEmployeeCode, ""));
+            payload.addProperty("PageNo", 1);
+            payload.addProperty("maxItem", "All");
+            payload.addProperty("order_by_field", "id");
+            payload.addProperty("order_by_value", "desc");
+            payload.addProperty("SearchText", "");
+
+            // Create the nested 'field' object
+            JsonObject fieldObject = new JsonObject();
+            JsonArray departmentIds = new JsonArray();
+            departmentIds.add(1);
+            departmentIds.add(2);
+
+            // Set the department IDs correctly in the field object
+            fieldObject.add("departement_id__in", departmentIds);
+            payload.add("field", fieldObject); // Add the 'field' object to the main JSON object
+
+            // Call the API
+            Call<EmployeeAllFilterPageModel> call = NewApiClient.getInstance().getApiService(getActivity()).getEmployeeAllFilterPageList(payload);
+
+            call.enqueue(new Callback<EmployeeAllFilterPageModel>() {
+                @Override
+                public void onResponse(Call<EmployeeAllFilterPageModel> call, Response<EmployeeAllFilterPageModel> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+
+                        if (response.body().getStatus() == 200) {
+                            int n = response.body().getData().size();
+                            ArrayList<String> salesEmpName = new ArrayList<>();
+
+                            for (int i=0; i<n; i++) {
+                                salesEmpName.add(response.body().getData().get(i).getSalesEmployeeName());
+                                salesEmpParticipants.add(response.body().getData().get(i).getEmail());
+
+                            }
+
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, salesEmpName);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            binding.assignToSpinner.setAdapter(adapter);
+
+
+                            binding.assignToSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    if (!salesEmpParticipants.isEmpty()) {
+                                        // Store the selected participant value in the variable
+                                        selectedParticipantValue[0] = salesEmpParticipants.get(position);
+                                        Log.d("Selected Participant", selectedParticipantValue[0]);
+                                    }
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                    // Optional: handle if nothing is selected
+                                }
+                            });
+
+
+
+                        } else {
+                            Toast.makeText(requireContext(), "Api Failed", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<EmployeeAllFilterPageModel> call, Throwable t) {
+                    Log.e("API Error", t.getMessage());
+                    Toast.makeText(getActivity(), "An error occurred: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "An error occurred", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
 }

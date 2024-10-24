@@ -87,6 +87,18 @@ public class EventValue implements Parcelable, Serializable
     @Expose
     private String Status;
 
+    @SerializedName("ToTime")
+    @Expose
+    private String toTime;
+
+    public String getToTime() {
+        return toTime;
+    }
+
+    public void setToTime(String toTime) {
+        this.toTime = toTime;
+    }
+
     public final static Creator<EventValue> CREATOR = new Creator<EventValue>() {
 
 
@@ -129,6 +141,7 @@ public class EventValue implements Parcelable, Serializable
         this.createTime = ((String) in.readValue((String.class.getClassLoader())));
         this.Status = ((String) in.readValue((String.class.getClassLoader())));
         this.sourceType = ((String) in.readValue((String.class.getClassLoader())));
+        this.toTime = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     /**
@@ -164,7 +177,7 @@ public class EventValue implements Parcelable, Serializable
      * @param participants
      * @param createDate
      */
-    public EventValue(Integer id, Integer oppId, String subject, String comment, String name, String relatedTo, Integer emp, String title, String description, String from, String to, String time, String allday, String location, String host, String participants, String document, String repeated, String priority, String progressStatus, String type, String createDate, String createTime, String sourceType) {
+    public EventValue(Integer id, Integer oppId, String subject, String comment, String name, String relatedTo, Integer emp, String title, String description, String from, String to, String time, String allday, String location, String host, String participants, String document, String repeated, String priority, String progressStatus, String type, String createDate, String createTime, String sourceType, String toTime) {
         super();
         this.id = id;
         this.oppId = oppId;
@@ -190,6 +203,7 @@ public class EventValue implements Parcelable, Serializable
         this.createDate = createDate;
         this.createTime = createTime;
         this.sourceType = sourceType;
+        this.toTime = toTime;
     }
 
     public Integer getId() {

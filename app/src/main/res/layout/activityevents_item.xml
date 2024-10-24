@@ -16,7 +16,8 @@
             android:layout_height="match_parent"
             android:layout_weight="3.30"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                     android:fontFamily="@font/muli_semibold"
                     android:text=" 9:30 AM "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/text_size_10" />
 
                 <ImageView
                     android:id="@+id/status"
@@ -50,7 +51,8 @@
         <RelativeLayout
             android:layout_width="@dimen/size_15"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/size_10">
+            android:layout_marginRight="@dimen/size_10"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/size_15"
@@ -79,9 +81,8 @@
                 android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/size_5"
-                android:layout_marginTop="@dimen/size_15"
-                android:layout_marginRight="@dimen/size_15"
+                android:layout_marginHorizontal="15sp"
+                android:layout_marginTop="15dp"
                 android:background="@color/card_sky_blue_back"
                 android:elevation="@dimen/size_5"
                 app:cardBackgroundColor="@color/card_sky_blue_back"
@@ -107,32 +108,39 @@
                             <TextView
                                 android:id="@+id/title"
                                 android:layout_width="0dp"
-                                android:layout_weight="80"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/text_size_5"
+                                android:layout_marginLeft="5dp"
                                 android:layout_marginTop="@dimen/text_size_5"
+                                android:layout_weight="80"
                                 android:fontFamily="@font/muli_semibold"
                                 android:gravity="start"
                                 android:maxLines="1"
                                 android:text=" GTM- Cinntra Training for s3 teaching "
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_16" />
+                                android:textSize="@dimen/text_size_14" />
+
+                            <ImageView
+                                android:id="@+id/ivdeleteEvent"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_baseline_delete_24" />
 
 
                             <LinearLayout
                                 android:id="@+id/threeDotsLayout"
                                 android:layout_width="0dp"
-                                android:layout_weight="20"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
+                                android:layout_weight="20"
                                 android:gravity="end"
-                                android:paddingEnd="10dp">
+                                android:paddingEnd="10dp"
+                                android:visibility="gone">
 
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/threedots"
-                                    android:backgroundTint="@color/black"/>
+                                    android:backgroundTint="@color/black" />
 
                             </LinearLayout>
 
@@ -142,7 +150,6 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/text_size_10"
                             android:layout_marginTop="@dimen/text_size_3"
                             android:orientation="vertical">
 
@@ -154,52 +161,130 @@
                                 android:src="@drawable/pro_pic"
                                 android:visibility="gone" />
 
-                            <TextView
-                                android:id="@+id/location"
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="@font/muli_semibold"
-                                android:text="Uttam Nagar , New Delhi "
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_14" />
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:maxLines="2"
+                                    android:text="Description:"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_size_12" />
+
+                                <TextView
+                                    android:id="@+id/location"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:text="Uttam Nagar , New Delhi "
+                                    android:textColor="@color/common_grey"
+                                    android:textSize="@dimen/text_size_12" />
+
+                            </LinearLayout>
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
+                                android:layout_marginTop="5dp"
                                 android:orientation="horizontal">
 
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:maxLines="2"
+                                    android:text="Start Date: "
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_size_12" />
+
+
+                                <TextView
+                                    android:id="@+id/tvStartTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:maxLines="2"
+                                    android:textColor="@color/common_grey"
+                                    android:textSize="@dimen/text_size_12" />
+
+                                <TextView
+                                    android:id="@+id/tvTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:maxLines="2"
+                                    android:textColor="@color/common_grey"
+                                    android:textSize="@dimen/text_size_12" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="5dp"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:text="End Date: "
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_size_12" />
 
                                 <TextView
                                     android:id="@+id/tvLocation"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="50"
                                     android:fontFamily="@font/muli_semibold"
                                     android:gravity="start"
                                     android:maxLines="2"
                                     android:text="Location "
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_size_14" />
+                                    android:textSize="@dimen/text_size_12"
+                                    android:visibility="gone" />
 
 
                                 <TextView
                                     android:id="@+id/tvDateTime"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="50"
                                     android:fontFamily="@font/muli_semibold"
-                                    android:gravity="end"
                                     android:maxLines="2"
-                                    android:text="date "
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_size_14" />
+                                    android:textColor="@color/common_grey"
+                                    android:textSize="@dimen/text_size_12" />
+
+                                <TextView
+                                    android:id="@+id/tvToTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/muli_semibold"
+                                    android:maxLines="2"
+                                    android:textColor="@color/common_grey"
+                                    android:textSize="@dimen/text_size_12" />
 
                             </LinearLayout>
 

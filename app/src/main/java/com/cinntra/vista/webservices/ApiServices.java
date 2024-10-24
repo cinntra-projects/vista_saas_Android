@@ -46,6 +46,7 @@ import com.cinntra.vista.model.DemoResponse;
 import com.cinntra.vista.model.DemoValue;
 import com.cinntra.vista.model.DepartMentDetail;
 import com.cinntra.vista.model.EmpDetails;
+import com.cinntra.vista.model.EmployeeAllFilterPageModel;
 import com.cinntra.vista.model.EmployeeProfile;
 import com.cinntra.vista.model.EmployeeValue;
 import com.cinntra.vista.model.EventResponse;
@@ -155,8 +156,8 @@ public interface ApiServices {
 
 
 
-
-
+    @POST("employee/all_filter_page")
+    Call<EmployeeAllFilterPageModel> getEmployeeAllFilterPageList(@Body JsonObject jsonObject);
 
 
     @POST("login/")

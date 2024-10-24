@@ -30,11 +30,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/size_15"
                     android:layout_marginRight="@dimen/size_15"
                     android:background="@color/white"
@@ -48,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/muli_regular"
                         android:gravity="start"
-                        android:text="@string/title_mand"
+                        android:text="@string/name_of_event_mand"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_14" />
 
@@ -59,13 +60,13 @@
                         android:layout_marginTop="@dimen/size_10"
                         android:background="@drawable/rounded_border"
                         android:gravity="center_vertical"
-                        android:hint="@string/title"
+                        android:hint="Name of Event"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:maxLength="100"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/size_8"
-                        android:textColorHint="@color/light_grey_box"
+                        android:textColorHint="@color/common_grey"
                         android:textSize="@dimen/text_size_14" />
 
                     <LinearLayout
@@ -77,7 +78,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/size_7"
+                            android:layout_marginEnd="@dimen/size_7"
                             android:layout_weight="0.5"
                             android:orientation="vertical">
 
@@ -87,7 +88,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/muli_regular"
                                 android:gravity="start"
-                                android:text="@string/date_mand"
+                                android:text="@string/start_date_mand"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_size_14" />
 
@@ -144,7 +145,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/muli_regular"
                                 android:gravity="start"
-                                android:text="@string/time_mand"
+                                android:text="@string/start_time_mand"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_size_14" />
 
@@ -189,6 +190,126 @@
                     </LinearLayout>
 
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/size_15"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/size_7"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/muli_regular"
+                                android:gravity="start"
+                                android:text="@string/end_date_mand"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_14" />
+
+                            <RelativeLayout
+                                android:id="@+id/end_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/text_45"
+                                android:layout_marginTop="@dimen/size_10"
+                                android:background="@drawable/rounded_border"
+                                android:orientation="horizontal">
+
+                                <EditText
+                                    android:id="@+id/end_value"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/text_45"
+                                    android:layout_toLeftOf="@id/img2"
+                                    android:background="@null"
+                                    android:clickable="true"
+                                    android:focusable="false"
+                                    android:gravity="center_vertical"
+                                    android:hint="DD/MM/YYYY"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="date"
+                                    android:paddingLeft="@dimen/size_8"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_size_14" />
+
+                                <ImageView
+                                    android:id="@+id/img2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginRight="@dimen/size_5"
+                                    android:background="@drawable/ic_calendar_icon" />
+
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/size_7"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/end_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/muli_regular"
+                                android:gravity="start"
+                                android:text="@string/end_time_mand"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_size_14" />
+
+                            <RelativeLayout
+                                android:id="@+id/end_time_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/text_45"
+                                android:layout_marginTop="@dimen/size_10"
+                                android:background="@drawable/rounded_border">
+
+                                <TextView
+                                    android:id="@+id/tvEnd_time_value"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/text_45"
+                                    android:layout_marginLeft="@dimen/size_5"
+                                    android:layout_toLeftOf="@id/img15"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:gravity="center_vertical"
+                                    android:hint="@string/time"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="time"
+                                    android:paddingLeft="@dimen/size_8"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_size_14" />
+
+                                <ImageView
+                                    android:id="@+id/img15"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerInParent="true"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginRight="@dimen/size_5"
+                                    android:background="@drawable/time" />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/all_day"
                         android:layout_width="match_parent"
@@ -196,6 +317,7 @@
                         android:layout_marginTop="@dimen/size_15"
                         android:fontFamily="@font/muli_regular"
                         android:gravity="start"
+                        android:visibility="gone"
                         android:text="@string/repeat"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_12" />
@@ -204,6 +326,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/text_45"
                         android:layout_marginTop="@dimen/size_10"
+                        android:visibility="gone"
                         android:background="@drawable/rounded_border"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -258,6 +381,7 @@
                         android:fontFamily="@font/muli_regular"
                         android:gravity="start"
                         android:text="@string/location_mand"
+                        android:visibility="gone"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_14" />
 
@@ -271,6 +395,7 @@
                         android:hint="@string/add_location"
                         android:imeOptions="actionNext"
                         android:inputType="text"
+                        android:visibility="gone"
                         android:maxLength="100"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/size_8"
@@ -285,6 +410,7 @@
                         android:fontFamily="@font/muli_regular"
                         android:gravity="start"
                         android:text="@string/host_mand"
+                        android:visibility="gone"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_12" />
 
@@ -293,6 +419,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/text_45"
                         android:layout_marginTop="@dimen/size_10"
+                        android:visibility="gone"
                         android:background="@drawable/rounded_border"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
@@ -323,7 +450,8 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/participants"
@@ -344,6 +472,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/text_45"
                         android:layout_marginTop="@dimen/size_10"
+                        android:visibility="gone"
                         android:background="@drawable/rounded_border"
                         android:gravity="center_vertical"
                         android:hint="@string/participant_name"
@@ -354,7 +483,7 @@
                         android:paddingLeft="@dimen/size_8"
                         android:textColorHint="@color/light_grey_box"
                         android:textSize="@dimen/text_size_14"
-                        android:visibility="visible" />
+                        />
 
 
                     <TextView
@@ -375,12 +504,12 @@
                         android:layout_marginTop="@dimen/size_10"
                         android:background="@drawable/rounded_border"
                         android:gravity="start"
-                        android:hint="@string/description"
+                        android:hint="Describe the Event ....."
                         android:imeOptions="actionNext"
                         android:inputType="textMultiLine"
                         android:maxLines="4"
                         android:padding="@dimen/size_8"
-                        android:textColorHint="@color/light_grey_box"
+                        android:textColorHint="@color/common_grey"
                         android:textSize="@dimen/text_size_14" />
 
 
@@ -431,27 +560,33 @@
                         android:textSize="@dimen/text_size_14"
                         android:visibility="gone" />
 
-                    <Button
-                        android:id="@+id/submit_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_50"
-                        android:layout_marginTop="@dimen/size_40"
-                        android:layout_marginBottom="@dimen/size_15"
-                        android:background="@drawable/button_rounded_corner"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:fontFamily="@font/muli_regular"
-                        android:gravity="center"
-                        android:text="@string/submit"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_18" />
+
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_50"
+                    android:layout_marginTop="@dimen/size_40"
+                    android:layout_marginBottom="@dimen/size_15"
+                    android:layout_marginLeft="@dimen/size_15"
+                    android:layout_marginRight="@dimen/size_15"
+                    android:background="@drawable/button_rounded_corner"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/muli_regular"
+                    android:gravity="center"
+                    android:text="@string/save"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_18" />
 
             </LinearLayout>
 
         </ScrollView>
+
+
 
     </RelativeLayout>
 

@@ -62,6 +62,10 @@ public class Opportunity_Detail_NewFragment extends Fragment implements View.OnC
     List<NewOpportunityRespose> particularoppdata = new ArrayList<>();
     String pos;
 
+
+    String CardCode;
+    String id;
+
     OpportunityDetailNewscreenBinding binding;
 
     public Opportunity_Detail_NewFragment() {
@@ -74,6 +78,8 @@ public class Opportunity_Detail_NewFragment extends Fragment implements View.OnC
         if (getArguments() != null) {
             Bundle b = getArguments();
             opportunityItem = (NewOpportunityRespose) b.getParcelable(Globals.OpportunityItem);
+            CardCode = b.getString("opportunity_card_Code");
+            id = b.getString("opportunity_sourceId");
             Globals.opp = opportunityItem;
         }
     }
@@ -185,21 +191,77 @@ public class Opportunity_Detail_NewFragment extends Fragment implements View.OnC
 
 
     private void setData(NewOpportunityRespose particularoppdata) {
-//        binding.updateProjectStatus.setText(particularoppdata.getProject_Status());
-        binding.headerFrame.headTitle.setText(particularoppdata.getOpportunityName());
-        binding.opportunityNameValue.setText(particularoppdata.getCurrentStageName());
-        binding.tvContactPerson.setText(particularoppdata.getContactPersonName());
-        binding.tvClientBudget.setText("Rs 90000/-");
-//        binding.tvStageTitle.setText(particularoppdata.getCurrentStageName());
-        binding.mainName.setText(particularoppdata.getOpportunityName());
-        if (!particularoppdata.getUType().isEmpty())
-            binding.typeValue.setText(particularoppdata.getUType().get(0).getType());
 
-        binding.tvProbability.setText(particularoppdata.getUProblty());
-        binding.closeDateValue.setText(particularoppdata.getClosingDate());
-        binding.leadSourceValue.setText(particularoppdata.getULsource());
-        binding.stageValue.setText(particularoppdata.getCurrentStageName());
-        binding.opportunityOwnerValue.setText(particularoppdata.getSalesPersonName());
+// if (particularoppdata.getProject_Status() != null && !particularoppdata.getProject_Status().isEmpty()) {
+//     binding.updateProjectStatus.setText(particularoppdata.getProject_Status());
+// } else {
+//     binding.updateProjectStatus.setText("NA");
+// }
+
+        if (particularoppdata.getOpportunityName() != null && !particularoppdata.getOpportunityName().isEmpty()) {
+            binding.headerFrame.headTitle.setText(particularoppdata.getOpportunityName());
+        } else {
+            binding.headerFrame.headTitle.setText("NA");
+        }
+
+        if (particularoppdata.getCurrentStageName() != null && !particularoppdata.getCurrentStageName().isEmpty()) {
+            binding.opportunityNameValue.setText(particularoppdata.getCurrentStageName());
+        } else {
+            binding.opportunityNameValue.setText("NA");
+        }
+
+        if (particularoppdata.getContactPersonName() != null && !particularoppdata.getContactPersonName().isEmpty()) {
+            binding.tvContactPerson.setText(particularoppdata.getContactPersonName());
+        } else {
+            binding.tvContactPerson.setText("NA");
+        }
+
+        binding.tvClientBudget.setText("Rs 90000/-");
+
+        if (particularoppdata.getOpportunityName() != null && !particularoppdata.getOpportunityName().isEmpty()) {
+            binding.mainName.setText(particularoppdata.getOpportunityName());
+        } else {
+            binding.mainName.setText("NA");
+        }
+
+        if (particularoppdata.getUType() != null && !particularoppdata.getUType().isEmpty() && particularoppdata.getUType().get(0).getType() != null) {
+            binding.typeValue.setText(particularoppdata.getUType().get(0).getType());
+        } else {
+            binding.typeValue.setText("NA");
+        }
+
+
+        if (particularoppdata.getUProblty() != null && !particularoppdata.getUProblty().isEmpty()) {
+            binding.tvProbability.setText(particularoppdata.getUProblty());
+        } else {
+            binding.tvProbability.setText("NA");
+        }
+
+        if (particularoppdata.getClosingDate() != null && !particularoppdata.getClosingDate().isEmpty()) {
+            binding.closeDateValue.setText(particularoppdata.getClosingDate());
+        } else {
+            binding.closeDateValue.setText("NA");
+        }
+
+        if (particularoppdata.getULsource() != null && !particularoppdata.getULsource().isEmpty()) {
+            binding.leadSourceValue.setText(particularoppdata.getULsource());
+        } else {
+            binding.leadSourceValue.setText("NA");
+        }
+
+
+        if (particularoppdata.getCurrentStageName() != null && !particularoppdata.getCurrentStageName().isEmpty()) {
+            binding.stageValue.setText(particularoppdata.getCurrentStageName());
+        } else {
+            binding.stageValue.setText("NA");
+        }
+
+        if (particularoppdata.getSalesPersonName() != null && !particularoppdata.getSalesPersonName().isEmpty()) {
+            binding.opportunityOwnerValue.setText(particularoppdata.getSalesPersonName());
+        } else {
+            binding.opportunityOwnerValue.setText("NA");
+        }
+
 
 
         if (particularoppdata.getU_LEADNM().isEmpty()) {
@@ -207,12 +269,35 @@ public class Opportunity_Detail_NewFragment extends Fragment implements View.OnC
         } else {
             binding.tvLead.setText(particularoppdata.getU_LEADNM());
         }
-        binding.tvBusinessPartner.setText(particularoppdata.getCustomerName());
+        if (particularoppdata.getCustomerName() != null && !particularoppdata.getCustomerName().isEmpty()) {
+            binding.tvBusinessPartner.setText(particularoppdata.getCustomerName());
+        } else {
+            binding.tvBusinessPartner.setText("NA");
+        }
 
-        binding.tvRemarks.setText(particularoppdata.getRemarks());
+        if (particularoppdata.getRemarks() != null && !particularoppdata.getRemarks().isEmpty()) {
+            binding.tvRemarks.setText(particularoppdata.getRemarks());
+        } else {
+            binding.tvRemarks.setText("NA");
+        }
 
-        binding.modifiedOn.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(particularoppdata.getUpdateDate()));
-        binding.createdbyDate.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(particularoppdata.getStartDate()));
+        if (particularoppdata.getTotalAmounSystem() != null && !particularoppdata.getTotalAmounSystem().isEmpty()) {
+            binding.tvTotalAmount.setText("INR "+particularoppdata.getDocTotal());
+        } else {
+            binding.tvTotalAmount.setText("INR 0");
+        }
+
+        if (particularoppdata.getUpdateDate() != null && !particularoppdata.getUpdateDate().isEmpty()) {
+            binding.modifiedOn.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(particularoppdata.getUpdateDate()));
+        } else {
+            binding.modifiedOn.setText("NA");
+        }
+
+        if (particularoppdata.getStartDate() != null && !particularoppdata.getStartDate().isEmpty()) {
+            binding.createdbyDate.setText(Globals.convert_yyyy_mm_dd_to_dd_mm_yyyy(particularoppdata.getStartDate()));
+        } else {
+            binding.createdbyDate.setText("NA");
+        }
 
         callStagesApi(opportunityItem.getId());
 
@@ -244,6 +329,8 @@ public class Opportunity_Detail_NewFragment extends Fragment implements View.OnC
                 b.putParcelable(Globals.OpportunityItem, opportunityItem);
                 ActivityFragment fragment = new ActivityFragment();
 //    Opportunity_Detail_NewFragment fragment = new Opportunity_Detail_NewFragment();
+                b.putString("opp_card_code",CardCode);
+                b.putString("source_id",id);
                 fragment.setArguments(b);
                 FragmentTransaction transaction = ((FragmentActivity) getContext()).getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.quatoes_main_container, fragment);

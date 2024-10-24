@@ -65,6 +65,12 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
     private Calendar myTime;
     NewOpportunityRespose opportunityItem;
 
+    private ActivityEvent_Fragment fragment;
+
+    public ActivityAddEventDialogue(ActivityEvent_Fragment fragment) {
+        this.fragment = fragment; // Save the fragment reference
+    }
+
     ActivityAddEventDialogueLayoutBinding binding;
 
     public ActivityAddEventDialogue() {
@@ -176,6 +182,11 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
 
         });
 
+        binding.endValue.setOnClickListener(v -> {
+            Globals.enableAllCalenderDateSelect(getContext(), binding.endValue);
+            pass_date = binding.endValue;
+        });
+
 
         binding.timeValue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,21 +197,51 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
                         t1hr = hourOfDay;
                         t1min = minute;
                         myTime = Calendar.getInstance();
-//                        myTime.set(0,0,0,t1hr,t1min);
                         myTime.set(Calendar.HOUR_OF_DAY, t1hr);
                         myTime.set(Calendar.MINUTE, t1min);
                         myTime.set(Calendar.SECOND, 0);
                         myTime.set(Calendar.MILLISECOND, 0);
-                        binding.timeValue.setText(DateFormat.format("hh:mm aa", myTime));
+
+                        // Set the time in 24-hour format
+                        binding.timeValue.setText(DateFormat.format("HH:mm", myTime));
+
+                        // Call the setAlarm() method if necessary
                         setAlarm();
                     }
-                }, 12, 0, false
-                );
+                }, t1hr, t1min, true); // Use true for 24-hour format
+
+                // Update the time picker dialog with the selected hour and minute
                 timePickerDialog.updateTime(t1hr, t1min);
                 timePickerDialog.show();
-
             }
+        });
 
+        binding.tvEndTimeValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        t1hr = hourOfDay;
+                        t1min = minute;
+                        myTime = Calendar.getInstance();
+                        myTime.set(Calendar.HOUR_OF_DAY, t1hr);
+                        myTime.set(Calendar.MINUTE, t1min);
+                        myTime.set(Calendar.SECOND, 0);
+                        myTime.set(Calendar.MILLISECOND, 0);
+
+                        // Set the time in 24-hour format
+                        binding.tvEndTimeValue.setText(DateFormat.format("HH:mm", myTime));
+
+                        // Call the setAlarm() method if necessary
+                        setAlarm();
+                    }
+                }, t1hr, t1min, true); // Use true for 24-hour format
+
+                // Update the time picker dialog with the selected hour and minute
+                timePickerDialog.updateTime(t1hr, t1min);
+                timePickerDialog.show();
+            }
         });
 
 
@@ -215,31 +256,34 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
 
             String title = binding.titleText.getText().toString().trim();
             String fromDate = binding.fromValue.getText().toString().trim();
+            String toDate = binding.endValue.getText().toString().trim();
             String location = binding.addLocationText.getText().toString().trim();
             String host = binding.hostText.getText().toString().trim();
             String partcipant = binding.participantValue.getText().toString().trim();
             String desc = binding.descriptionText.getText().toString().trim();
             String related = binding.relatedDocumentValue.getText().toString().trim();
             String time = binding.timeValue.getText().toString().trim();
+            String toTime = binding.tvEndTimeValue.getText().toString().trim();
 
-            if (validation(title, fromDate, location, host, time)) {
+            if (validation(title, fromDate, time, toDate, toTime)) {
+
                 CreateCalenderActivityRequest activityRequest = new CreateCalenderActivityRequest();
 
 
                 activityRequest.setSourceID(opportunityItem.getId());
                 activityRequest.setTitle(title);
                 activityRequest.setDescription(desc);
-                activityRequest.setFrom(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(fromDate));
-                activityRequest.setTo(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(fromDate));
+                activityRequest.setFrom(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(toDate));
+                activityRequest.setTo(Globals.convert_dd_MM_yyyy_to_yyyy_MM_dd(toDate));
                 activityRequest.setEmp(Prefs.getString(Globals.EmployeeID, ""));
-                activityRequest.setCreateTime(Globals.getTCurrentTime());
+                activityRequest.setCreateTime(time);
                 activityRequest.setCreateDate(Globals.getTodaysDatervrsfrmt());
                 activityRequest.setType("Event");
                 activityRequest.setSourceType("Opportunity");
                 activityRequest.setParticipants(partcipant);
                 activityRequest.setComment("");
                 activityRequest.setSubject("");
-                activityRequest.setTime(Globals.getTCurrentTime());
+                activityRequest.setTime(time);
                 activityRequest.setDocument("");
                 activityRequest.setRelatedTo("hi");
                 activityRequest.setLocation(location);
@@ -249,7 +293,11 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
                 activityRequest.setProgressStatus("WIP");
                 activityRequest.setPriority("low");
                 activityRequest.setRepeated(repeated);
-                activityRequest.setLeadType("");
+                activityRequest.setToTime(toTime);
+                activityRequest.setStatus("1");
+                activityRequest.setTaskAssignedTo("1");
+                activityRequest.setParticipantsType("");
+//                activityRequest.setLeadType("");
 
 
                 if (Globals.checkInternet(getContext())) {
@@ -269,14 +317,6 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
                 if (response.body().getStatus() == 200) {
                     binding.loaderLayout.loader.setVisibility(View.GONE);
                     Toasty.success(getContext(), "Add Successfully", Toast.LENGTH_LONG).show();
-
-//                    fragment.onRefresh();
-
-                    ActivityEvent_Fragment yourFragment = (ActivityEvent_Fragment) getActivity().getSupportFragmentManager().findFragmentByTag("");
-
-                    if (yourFragment != null) {
-                        yourFragment.onRefresh();
-                    }
 
                     getDialog().dismiss();
 
@@ -305,24 +345,46 @@ public class ActivityAddEventDialogue extends DialogFragment implements View.OnC
     }
 
 
-    private boolean validation(String title, String fromDate, String location,
-                               String host, String time) {
+    private boolean validation(String title, String fromDate, String fromTime,
+                               String endDate, String endTime) {
         if (title.isEmpty()) {
             binding.titleText.setError(getResources().getString(R.string.title_error));
             return false;
-        } else if (fromDate.isEmpty()) {
-            binding.fromValue.setError(getResources().getString(R.string.fromdate_error));
-            return false;
-        }else if (location.isEmpty()) {
-            binding.addLocationText.setError(getResources().getString(R.string.location_error));
-            return false;
-        } else if (host.isEmpty()) {
-            binding.hostText.setError(getResources().getString(R.string.host_error));
-            return false;
-        }  else if (time.isEmpty()) {
-            binding.timeValue.setError(getResources().getString(R.string.time_error));
+        }
+
+        else if (fromDate.isEmpty()) {
+            Toast.makeText(requireContext(), "Enter Start Date", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        else if (fromTime.isEmpty()) {
+            Toast.makeText(requireContext(), "Enter Start Time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        else if (endDate.isEmpty()) {
+            Toast.makeText(requireContext(), "Enter End Date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        else if (endTime.isEmpty()) {
+            Toast.makeText(requireContext(), "Enter End Time", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+//        else if (fromDate.isEmpty()) {
+//            binding.fromValue.setError(getResources().getString(R.string.fromdate_error));
+//            return false;
+//        }else if (location.isEmpty()) {
+//            binding.addLocationText.setError(getResources().getString(R.string.location_error));
+//            return false;
+//        } else if (host.isEmpty()) {
+//            binding.hostText.setError(getResources().getString(R.string.host_error));
+//            return false;
+//        }  else if (time.isEmpty()) {
+//            binding.timeValue.setError(getResources().getString(R.string.time_error));
+//            return false;
+//        }
         return true;
     }
 

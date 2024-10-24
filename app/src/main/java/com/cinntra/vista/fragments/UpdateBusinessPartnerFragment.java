@@ -1416,7 +1416,8 @@ public class UpdateBusinessPartnerFragment extends Fragment implements View.OnCl
         } else if (parentAccount.equalsIgnoreCase("Select Parent")) {
             Globals.showMessage(dbClick, "Select Parent");
             return false;
-        } else if (zoneSelected.equalsIgnoreCase("Select Zone")) {
+        }
+        else if (zoneSelected.equalsIgnoreCase("Select Zone")) {
             Globals.showMessage(dbClick, "Select Zone");
             return false;
         }
